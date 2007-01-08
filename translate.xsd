@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema targetNamespace="http://janett.mayaf.org/schema/0.6/translate.xsd" xmlns="http://janett.mayaf.org/schema/0.6/translate.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="Translate" type="TranslateType" />
+	<xs:complexType name="TranslateType">
+		<xs:sequence>
+			<xs:element name="OutputFolder" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="Mode" type="xs:string" use="optional" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Solution" minOccurs="0" />
+			<xs:element name="Package" minOccurs="0" />
+			<xs:element name="Namespace" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="ReferenceFolder" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Projects" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Project" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="FilesType">
+										<xs:attribute name="Name" type="xs:string" use="required" />
+										<xs:attribute name="Folder" type="xs:string" use="required" />
+										<xs:attribute name="OutputFolder" type="xs:string" use="optional" />
+										<xs:attribute name="AssemblyName" type="xs:string" use="optional" />
+										<xs:attribute name="Reference" type="xs:string" use="optional" />
+										<xs:attribute name="Guid" type="xs:string" use="optional" />
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Files" type="FilesType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IncludeExcludeType">
+		<xs:attribute name="Path" type="xs:string" use="required" />
+		<xs:attribute name="Mode" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="FilesType">
+		<xs:sequence>
+			<xs:element name="Include" type="IncludeExcludeType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Exclude" type="IncludeExcludeType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

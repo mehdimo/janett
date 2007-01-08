@@ -1,0 +1,11 @@
+Janett released under the LGPL license version 2.1 available in distributions in lgpl.txt file.
+
+Janett uses Modified version (See http://mayaf.org/janett/wiki/NRefactory) of NRefactory library from SharpDevelop (http://www.icsharpcode.net/OpenSource/SD/) project. 
+NRefactory licensed under LGPL license so we:
+-Contributed back these changes to include in original version.
+-Also NRefactory translated from .Net 2.0 to .Net 1.X using an automated tool.
+
+Small part of IKVM project (http://www.ikvm.net) included in source-form (because of technical difficulties of using in binary form):
+-Because we only require class structures from byte-code some parts of them are excluded for performance reasons
+-These files are pretty-printed using ReSharper tool
+

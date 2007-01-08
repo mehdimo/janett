@@ -1,0 +1,14 @@
+PascalStyle: compareTo(a)-endsWith(a)-equals(a)-indexOf(a)-lastIndexOf(a)-startsWith(a)-substring(a)-toCharArray()-toString()-trim()
+charAt(a)-#id[#a]
+equalsIgnoreCase(a)-ToUpper().Equals(#a.ToUpper())
+hashCode()-GetHashCode()
+length()-#id.Length
+startsWith(a,b)-Substring(#b).StartsWith(#a)
+substring(a,b)-Substring(#a,#b-#a)
+toLowerCase()-ToLower()
+toLowerCase(a)-ToLower()
+split(a)-Helpers.Regex.Split(#id, #a)
+split(a,b)-Helpers.Regex.Split(#id, #a)
+replaceAll(a,b)-System.Text.RegularExpressions.Regex.Replace(#id, #a, #b)
+getBytes()- System.Text.Encoding.UTF8.GetBytes(#id)
+getBytes(a)- System.Text.Encoding.UTF8.GetBytes(#id, #a)

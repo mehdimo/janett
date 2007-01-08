@@ -1,0 +1,153 @@
+<project>
+	<property name="nunit.path" value="" overwrite="false"/>
+	<property name="unxutils.path" value="D:/Tools/UnxUtils" overwrite="false"/>
+	<property name="version" value="0.6"/>
+	<property name="release" value="false" overwrite="false"/>
+	
+	<include buildfile="Test.include" if="${file::exists('Test.include')}"/>
+	
+	<target name="clean">
+		<delete>
+			<fileset>
+				<include name="Bin/**"/>
+				<include name="Source/*/bin/**"/>
+				<include name="Source/*/obj/**"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="asminfo">
+		<property name="revision" value="*"/>
+		<property name="revision" value="0" if="${release}"/>
+		<asminfo output="Source/CommonAssemblyInfo.cs" language="CSharp">
+			<imports>
+				<import namespace="System.Reflection"/>
+			</imports>
+			<attributes>
+				<attribute type="AssemblyTitleAttribute" value="Janett"/>
+				<attribute type="AssemblyDescriptionAttribute" value="Automated Java to .Net translation tool."/>
+				<attribute type="AssemblyProductAttribute" value="Janett"/>
+				<attribute type="AssemblyCopyrightAttribute" value="Licensed under LGPL."/>
+				<attribute type="AssemblyVersionAttribute" value="${version}.0.${revision}"/>
+			</attributes>
+		</asminfo>
+	</target>
+	
+	<target name="build">
+		<call target="asminfo"/>
+		<solution solutionfile="Source/Janett.sln" configuration="debug"/>
+		<call target="cmdline"/>
+	</target>
+	
+	<target name="cmdline">
+		<property name="cmdline" value="Source/Commons/bin/Debug/cmdline.exe"/>
+		<csc target="exe" output="${cmdline}" debug="true">
+			<sources>
+				<include name="Source/Commons/MainClass.cs"/>
+				<include name="Source/CommonAssemblyInfo.cs"/>
+			</sources>
+			<references>
+				<include name="Source/Commons/bin/Debug/Janett.Commons.dll"/>
+			</references>
+		</csc>
+		<copy file="${cmdline}" tofile="Source/Translator/bin/Debug/janett.exe" overwrite="true"/>
+		<copy file="${cmdline}" tofile="Source/Tools/bin/Debug/jar2code.exe" overwrite="true"/>
+	</target>
+	
+	<target name="libraries">
+		<property name="jdk.path" value="${environment::get-variable('JAVA_HOME')}" if="${environment::variable-exists('JAVA_HOME')}"/>
+		<property name="libraries.path" value="Source/Translator"/>
+		<if test="${not(property::exists('jdk.path'))}">
+			<readregistry property="java.version" key="SOFTWARE/JavaSoft/Java Runtime Environment/CurrentVersion" hive="LocalMachine"/>
+			<readregistry property="jdk.path" key="SOFTWARE/JavaSoft/Java Runtime Environment/${java.version}/JavaHome" hive="LocalMachine"/>
+		</if>
+		<property name="jdk.path" value="&quot;${jdk.path}&quot;"/>
+		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries java java.awt,java.nio,java.applet"/>
+		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries javax javax.swing javax.print javax.imageio javax.sound"/>
+		<if test="${environment::variable-exists('CLASSPATH')}">
+			<property name="class.path" value="${environment::get-variable('CLASSPATH')}"/>
+			<foreach item="String" in="${class.path}" delim=";" property="jarfile">
+				<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jarfile} Libraries junit.framework" if="${path::get-file-name(jarfile) == 'junit.jar'}"/>
+				<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jarfile} Libraries org.apache.commons.logging" if="${path::get-file-name(jarfile) == 'commons-logging.jar'}"/>
+			</foreach>
+		</if>
+	</target>
+	
+	<target name="test">
+		<exec program="${nunit.path}nunit-console.exe" workingdir="Source/UnitTests/bin/Debug" commandline="UnitTest.dll"/>
+	</target>
+	
+	<target name="release">
+		<call target="clean"/>
+		<call target="build"/>
+		<call target="test"/>
+		<call target="copy-bin"/>
+		<call target="classifier" if="${directory::exists('Classifier')}"/>
+	</target>
+	
+	<target name="classifier">
+		<delete dir="Classifier/IKVM" if="${directory::exists('Classifier/IKVM')}"/>
+		<exec program="Bin/janett.exe" commandline="Classifier/Java ../IKVM /m IKVM"/>
+		<solution solutionfile="Classifier/IKVM/NClassifier.sln" configuration="debug"/>
+		<exec program="${nunit.path}nunit-console.exe" workingdir="Classifier/IKVM/UnitTests/bin/Debug" commandline="UnitTests.dll"/>
+		
+		<delete dir="Classifier/DotNet" if="${directory::exists('Classifier/DotNet')}"/>
+		<exec program="Bin/janett.exe" commandline="Classifier/Java ../DotNet /m DotNet"/>
+		<solution solutionfile="Classifier/DotNet/NClassifier.sln" configuration="debug"/>
+		<exec program="${nunit.path}nunit-console.exe" workingdir="Classifier/DotNet/UnitTests/bin/Debug" commandline="UnitTests.dll"/>
+	</target>
+	
+	<target name="copy-bin">
+		<property name="project" value="Translator"/>
+		<call target="copy-project-bin"/>
+		<property name="project" value="Emulator"/>
+		<call target="copy-project-bin"/>
+		<property name="project" value="Tools"/>
+		<call target="copy-project-bin"/>
+		<if test="${directory::exists(unxutils.path)}">
+			<copy todir="Bin">
+				<fileset basedir="${unxutils.path}/usr/local/wbin">
+					<include name="diff.exe"/>
+					<include name="patch.exe"/>
+				</fileset>
+			</copy>
+		</if>
+		<copy todir="Bin" overwrite="true">
+			<fileset basedir="Source/Translator">
+				<include name="Libraries/**"/>
+				<include name="Mappings/**"/>
+				<include name="Helpers/**"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copy-project-bin">
+		<copy todir="Bin" overwrite="true">
+			<fileset basedir="Source/${project}/bin/Debug">
+				<include name="*.exe"/>
+				<include name="*.options"/>
+				<include name="*.dll"/>
+				<include name="*.pdb"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="package">
+		<zip zipfile="../Janett-${version}.zip">
+			<fileset prefix="Janett-${version}">
+				<include name="*.*"/>
+				<exclude name="Test.include"/>
+				<include name="Source/**/*"/>
+				<exclude name="Source/Janett.suo"/>
+				<exclude name="Source/**/*.user"/>
+				<exclude name="Source/_ReSharper.*/**"/>
+				<exclude name="Source/*/bin/**"/>
+				<exclude name="Source/*/obj/**"/>
+				<include name="Lib/**"/>
+				<exclude name="Lib/NRefactory.pdb"/>
+				<include name="Bin/**"/>
+				<exclude name="Bin/Translated/**"/>
+			</fileset>
+		</zip>
+	</target>
+</project>

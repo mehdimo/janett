@@ -1,0 +1,440 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{DDD43721-3193-4581-981D-6CEF65E10A3F}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "Janett.Translator"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = "copy $(ProjectDir)\janett.options $(TargetDir)"
+                PostBuildEvent = ""
+                RootNamespace = "Janett.Translator"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "Core"
+                    Project = "{2D067D62-57B1-41F7-A457-23790A7EE5C7}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Commons"
+                    Project = "{73DA1909-A592-4654-8E47-FD8982E851F9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "ICSharpCode.NRefactory"
+                    AssemblyName = "ICSharpCode.NRefactory"
+                    HintPath = "..\..\Lib\ICSharpCode.NRefactory.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\CommonAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "janett.options"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "JavaDotNetTranslator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\Collections.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\ReflectionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\Regex.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\Array-Array.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\BufferedReader-System.IO.TextReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\FileInputStream-System.IO.FileStream.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\FileReader-System.IO.StreamReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\InputStreamReader-System.IO.StreamReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\InputStream-System.IO.Stream.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\PrintStream-System.IO.TextWriter.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\Reader-System.IO.TextReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Boolean-bool.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Character-System.Char.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Class-System.Type.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Comparable-System.IComparable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Double-double.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Float-float.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Integer-int.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Long-long.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Math-System.Math.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Object-object.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\StringBuffer-System.Text.StringBuilder.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\String-string.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\System-System.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Throwable-System.Exception.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\AccessibleObject-java.lang.reflect.AccessibleObject.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\Field-System.Reflection.FieldInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\Modifier-java.lang.reflect.Modifier.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\ArrayList-System.Collections.ArrayList.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Arrays-System.Array.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Collections-Helpers.Collections.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Collection-System.Collections.ICollection.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Comparator-System.Collections.IComparer.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\HashSet-System.Collections.ArrayList.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Hashtable-System.Collections.Hashtable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Iterator-System.Collections.IEnumerator.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\List-System.Collections.IList.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Map-System.Collections.IDictionary.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Set-System.Collections.IList.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Stack-System.Collections.Stack.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\junit.framework\TestCase-NUnit.Framework.TestCase.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.apache.commons\logging\LogFactory-log4net.LogManager.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.apache.commons\logging\Log-log4net.ILog.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\Array-Array.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\java.lang.Boolean-bool.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\java.lang.Cloneable-System.ICloneable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\java.lang.Comparable-System.IComparable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\java.lang.Object-object.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\IKVM\java.lang.String-string.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Transformation\AbstractClassTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\AccessibilityTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\AnonymousClassTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\ClassModifierTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\DefaultImportTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\DotClassTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\FieldInitializerTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\IKVMDifferencesTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\ImportTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\InterfaceTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\InternalMethodInvocationTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\JavaModifiersTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\KeywordsRenameTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\MethodRelatedTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\NullableValueTypeTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\OverridedMethodTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\SerializableTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\StaticConstructorTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\SystemFieldsTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\TestCaseTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\ToArrayTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

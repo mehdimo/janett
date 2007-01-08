@@ -1,0 +1,9 @@
+Error-System.Exception
+Exception-System.Exception
+IllegalAccessException-System.FieldAccessException
+IllegalArgumentException-System.ArgumentException
+IllegalStateException-System.NotSupportedException
+ClassCastException-System.InvalidCastException
+InternalError-System.ExecutionEngineException
+UnsupportedOperationException-System.NotSupportedException
+NullPointerException-System.NullReferenceException

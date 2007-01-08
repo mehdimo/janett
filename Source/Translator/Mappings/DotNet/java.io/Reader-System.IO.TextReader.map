@@ -1,0 +1,2 @@
+PascalStyle: close()
+read(a)-Read(#a,0,#a.Length)

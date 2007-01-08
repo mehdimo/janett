@@ -1,0 +1,2 @@
+isTransient(a)-!#a.IsNotSerialized
+isStatic(a)-!#a.IsStatic

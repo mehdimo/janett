@@ -1,0 +1,2 @@
+PascalStyle:sort(a) - binarySearch(a,b)
+asList(a)-!new ArrayList(#a)

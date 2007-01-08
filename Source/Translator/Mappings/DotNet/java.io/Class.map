@@ -1,0 +1,4 @@
+ByteArrayInputStream-System.IO.MemoryStream
+IOException-System.IO.IOException
+StringReader-System.IO.StringReader
+File-System.IO.FileInfo

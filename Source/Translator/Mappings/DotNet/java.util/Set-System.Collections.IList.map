@@ -1,0 +1,7 @@
+add(a)-Add(#a)
+contains(a)-Contains(#a)
+addAll(a)-((ArrayList)#id).AddRange(#a)
+get(a)-#id[#a]
+iterator()-GetEnumerator()
+size()-#id.Count
+toArray(a)-((System.Collections.ArrayList)#id).ToArray(#a)

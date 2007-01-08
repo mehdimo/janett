@@ -1,0 +1,3 @@
+PascalStyle: append(a)-append(a,b,c)-toString()
+append(bool a)-Append(#a.ToString().ToLower())
+

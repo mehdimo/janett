@@ -1,0 +1,17 @@
+[Projects]
+IncludeHelpersInDirectory=helpers
+
+[Preservation]
+DiffParameters=-r -U3 -N -P -x *.user -x *.suo -x bin -x obj -x *.rej -x *.orig -x _ReSharper.*
+PatchParameters=-p0
+
+[Files]
+DefaultExcludes=CVS,.svn,build,lib,doc,docs,xdocs,bin,obj,classes,*.class,*AllTests.java
+
+[References]
+log4net=log4net
+NUnit.Framework=nunit.framework
+junit.framework=Janett.Emulator,nunit.framework
+org.apache.commons.logging=Janett.Emulator,log4net
+
+

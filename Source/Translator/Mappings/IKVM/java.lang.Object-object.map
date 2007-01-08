@@ -1,0 +1,4 @@
+equals(a)-java.lang.Object.instancehelper_equals(#id,#a)
+getClass()-java.lang.Object.instancehelper_getClass(#id)
+hashCode()-java.lang.Object.instancehelper_hashCode(#id)
+toString()-java.lang.Object.instancehelper_toString(#id)

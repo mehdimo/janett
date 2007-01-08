@@ -1,0 +1,4 @@
+PascalStyle: equals(a)
+new Integer(a)-#a
+new int(a)-#a
+intValue()-#id

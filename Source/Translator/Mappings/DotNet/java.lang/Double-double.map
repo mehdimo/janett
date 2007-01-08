@@ -1,0 +1,2 @@
+compare(a,b)-!#a.CompareTo(#b)
+doubleToLongBits(a)-!(long)#a

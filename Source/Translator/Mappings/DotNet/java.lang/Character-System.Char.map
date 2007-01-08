@@ -1,0 +1,3 @@
+PascalStyle: isLetter(a)
+toLowerCase(a)-ToLower(#a)
+isWhitespace(a)-IsWhiteSpace(#a)

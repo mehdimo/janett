@@ -1,0 +1,5 @@
+getDeclaredFields()-GetFields()
+getName()-#id.Name
+getSuperclass()-#id.BaseType
+isArray()-#id.IsArray
+isInstance(a)-IsInstanceOfType(#a)
