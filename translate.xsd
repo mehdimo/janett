@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema targetNamespace="http://janett.mayaf.org/schema/0.6/translate.xsd" xmlns="http://janett.mayaf.org/schema/0.6/translate.xsd"
+<xs:schema targetNamespace="http://mayaf.org/janett/schema/0.6/translate.xsd" xmlns="http://mayaf.org/janett/schema/0.6/translate.xsd"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<xs:element name="Translate" type="TranslateType" />
 	<xs:complexType name="TranslateType">

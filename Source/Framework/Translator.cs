@@ -330,13 +330,13 @@ namespace Janett.Framework
 
 			Version assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
 			string version = assemblyVersion.Major + "." + assemblyVersion.Minor;
-			string expectedNamespace = "http://janett.mayaf.org/" + version;
+			string expectedNamespace = "http://mayaf.org/janett/schema/" + version + "/translate.xsd";
 
 			if (manifestDocument.DocumentElement.Attributes["xmlns"] != null)
 			{
 				string xmlNamespace = manifestDocument.DocumentElement.Attributes["xmlns"].Value;
 				if (xmlNamespace != expectedNamespace)
-					throw new ApplicationException("Incompatible version of Manifest.xml. Xml namespace should be '{0}'" + xmlNamespace);
+					throw new ApplicationException(string.Format("Incompatible version of Manifest.xml. Xml namespace should be '{0}'", expectedNamespace));
 			}
 			else
 			{
