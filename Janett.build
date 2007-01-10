@@ -1,6 +1,6 @@
 <project>
 	<property name="nunit.path" value="" overwrite="false"/>
-	<property name="unxutils.path" value="D:/Tools/UnxUtils" overwrite="false"/>
+	<property name="tools.path" value="Tools" overwrite="false"/>
 	<property name="version" value="0.6"/>
 	<property name="release" value="false" overwrite="false"/>
 	
@@ -104,14 +104,12 @@
 		<call target="copy-project-bin"/>
 		<property name="project" value="Tools"/>
 		<call target="copy-project-bin"/>
-		<if test="${directory::exists(unxutils.path)}">
-			<copy todir="Bin">
-				<fileset basedir="${unxutils.path}/usr/local/wbin">
-					<include name="diff.exe"/>
-					<include name="patch.exe"/>
-				</fileset>
-			</copy>
-		</if>
+		<copy todir="Bin">
+			<fileset basedir="${tools.path}">
+				<include name="diff.exe"/>
+				<include name="patch.exe"/>
+			</fileset>
+		</copy>
 		<copy todir="Bin" overwrite="true">
 			<fileset basedir="Source/Translator">
 				<include name="Libraries/**"/>
