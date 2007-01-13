@@ -54,7 +54,7 @@ namespace Janett.Framework
 			else if (node is TypeDeclaration)
 				Diagnostics.Set("Type", ((TypeDeclaration) node).Name);
 			else if (node is NamespaceDeclaration)
-				Diagnostics.Set("Namesapce", ((NamespaceDeclaration) node).Name);
+				Diagnostics.Set("Namespace", ((NamespaceDeclaration) node).Name);
 			else if (node is CompilationUnit)
 				Diagnostics.Set("Transformer", GetType().Name);
 			base.BeginVisit(node);

@@ -15,11 +15,12 @@ namespace Janett.Commons
 			if (propertiesString == "")
 				return;
 			int endOfLine = propertiesString.IndexOf('\r');
-			if (endOfLine <= 0)
+			if (endOfLine == 0)
 				return;
 
 			Break = new ListDictionary();
-			propertiesString = propertiesString.Substring(0, endOfLine);
+			if (endOfLine != -1)
+				propertiesString = propertiesString.Substring(0, endOfLine);
 			string[] keyValues = propertiesString.Split(',');
 			foreach (string keyValue in keyValues)
 			{
