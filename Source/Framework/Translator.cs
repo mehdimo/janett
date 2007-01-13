@@ -166,9 +166,9 @@ namespace Janett.Framework
 				Mappings = Path.Combine(ExecutableDirectory, Mappings);
 				HelperDirectory = Path.Combine(ExecutableDirectory, HelperDirectory);
 				Libraries = Path.Combine(ExecutableDirectory, Libraries);
-				LoadTranslateXml();
 				if (Solution == null)
 					Solution = Path.GetFileName(InputFolder);
+				LoadTranslateXml();
 				if (ReferenceFolder == null)
 					ReferenceFolder = "Lib";
 			}
@@ -690,7 +690,7 @@ namespace Janett.Framework
 			{
 				FieldInfo field = type.GetField(node.Name);
 				object fieldValue = field.GetValue(obj);
-				if (fieldValue == null)
+				if (fieldValue == null || node.Name == "Solution")
 					field.SetValue(obj, node.InnerText);
 			}
 		}
@@ -737,14 +737,13 @@ namespace Janett.Framework
 			AddDefaultExcludes(fs);
 			fs.Load();
 
-			if (!Directory.Exists(destinationPath))
-				Directory.CreateDirectory(destinationPath);
+			if (Directory.Exists(destinationPath))
+				Directory.Delete(destinationPath, true);
 
 			foreach (string directory in fs.Directories)
 			{
 				string destDirectory = destinationPath + directory.Replace(sourcePath, "");
-				if (!Directory.Exists(destDirectory))
-					Directory.CreateDirectory(destDirectory);
+				Directory.CreateDirectory(destDirectory);
 			}
 			foreach (string file in fs.Files)
 			{
