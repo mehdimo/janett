@@ -84,7 +84,7 @@ namespace Test.Integration
 		public override string InterfaceMethod1(string _string)
 		{
 			string text = Test.Integration.Interface_Fields.Default + java.lang.Object.instancehelper_toString(Test.Integration.Interface_Fields._params);
-			text = java.lang.String.instancehelper_trim(java.lang.String.instancehelper_substring(text, 1)) + java.lang.Object.instancehelper_getClass(typeof(Test.Integration.Interface[]).FullName) + java.lang.Object.instancehelper_getClass(typeof(Class1).FullName) + java.lang.Object.instancehelper_getClass(this);
+			text = java.lang.String.instancehelper_trim(java.lang.String.instancehelper_substring(text, 1)) + java.lang.Class.forName(typeof(Test.Integration.Interface[]).AssemblyQualifiedName) + java.lang.Class.forName(typeof(Class1).AssemblyQualifiedName) + java.lang.Object.instancehelper_getClass(this);
 			string _lock = "";
 			Test.Integration.InterfaceInnerClass anonymousClass = new AnonymousClassInterface_InterfaceInnerClass1(text, this, _lock);
 			Map map = new HashMap();

@@ -22,12 +22,12 @@ namespace Janett.Translator
 
 		private InvocationExpression CreateGetClassMethodInvocation(TypeOfExpression typeOfExpression)
 		{
-			FieldReferenceExpression argument = new FieldReferenceExpression(typeOfExpression, "FullName");
+			FieldReferenceExpression argument = new FieldReferenceExpression(typeOfExpression, "AssemblyQualifiedName");
 			typeOfExpression.Parent = argument;
 			ArrayList arguments = new ArrayList();
 			arguments.Add(argument);
-			IdentifierExpression methodIdentifier = new IdentifierExpression("java.lang.Object");
-			FieldReferenceExpression methodReference = new FieldReferenceExpression(methodIdentifier, "instancehelper_getClass");
+			IdentifierExpression methodIdentifier = new IdentifierExpression("java.lang.Class");
+			FieldReferenceExpression methodReference = new FieldReferenceExpression(methodIdentifier, "forName");
 			InvocationExpression invocationExpression = new InvocationExpression(methodReference, arguments);
 			argument.Parent = invocationExpression;
 			methodReference.Parent = invocationExpression;
