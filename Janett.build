@@ -1,7 +1,9 @@
 <project>
 	<property name="nunit.path" value="" overwrite="false"/>
 	<property name="tools.path" value="Tools" overwrite="false"/>
-	<property name="version" value="0.6"/>
+	<property name="major.minor" value="0.6"/>
+	<property name="build" value="0"/>
+	<property name="version" value="${major.minor}.${build}"/>
 	<property name="release" value="false" overwrite="false"/>
 	
 	<include buildfile="Test.include" if="${file::exists('Test.include')}"/>
@@ -28,7 +30,7 @@
 				<attribute type="AssemblyDescriptionAttribute" value="Automated Java to .Net translation tool."/>
 				<attribute type="AssemblyProductAttribute" value="Janett"/>
 				<attribute type="AssemblyCopyrightAttribute" value="Licensed under LGPL."/>
-				<attribute type="AssemblyVersionAttribute" value="${version}.0.${revision}"/>
+				<attribute type="AssemblyVersionAttribute" value="${version}.${revision}"/>
 			</attributes>
 		</asminfo>
 	</target>
