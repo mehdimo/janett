@@ -35,44 +35,43 @@ namespace Janett.Framework
 		{
 			foreach (string mappingFile in Directory.GetFiles(directory, "*.map"))
 			{
-				if (mappingFile.IndexOf("-") == -1)
-					continue;
+				string fileName = Path.GetFileName(mappingFile);
 
-				string mappingFileName = GetMappedType(mappingFile, baseFolder);
-				TypeMapping typeMapping = AddClassMapping(mappingFileName);
-				KeyValuePairReader mappingReader = new KeyValuePairReader(mappingFile);
-				if (typeMapping.Members == null)
-					typeMapping.Members = new MembersMapping();
-				foreach (DictionaryEntry entry in mappingReader.GetKeys())
+				if (fileName == "Class.map")
 				{
-					string key = (string) entry.Key;
-					string value = (string) entry.Value;
+					KeyValuePairReader classMapReader = new KeyValuePairReader(mappingFile);
 
-					if (key == "PascalStyle")
-						AddPascalStyleMembers(typeMapping, value);
-					else
-						typeMapping.Members.Add(key, value);
+					string package = mappingFile.Substring(baseFolder.Length + 1);
+					package = Path.GetDirectoryName(package);
+					package = package.Replace('\\', '.');
+
+					foreach (DictionaryEntry entry in classMapReader.GetKeys())
+					{
+						string key = (string) entry.Key;
+						if (!key.StartsWith(package + "."))
+							key = package + "." + key;
+						TypeMapping typeMapping = new TypeMapping();
+						typeMapping.Target = entry.Value.ToString();
+						Add(key, typeMapping);
+					}
 				}
-			}
-
-			string classFile = "Class.map";
-			string classMap = Path.Combine(directory, classFile);
-			if (File.Exists(classMap))
-			{
-				KeyValuePairReader classMapReader = new KeyValuePairReader(classMap);
-
-				string prefix = classMap.Substring(baseFolder.Length + 1);
-				prefix = prefix.Substring(0, prefix.IndexOf(classFile));
-				prefix = prefix.Replace('\\', '.');
-
-				foreach (DictionaryEntry entry in classMapReader.GetKeys())
+				else
 				{
-					string key = (string) entry.Key;
-					if (!key.StartsWith(prefix))
-						key = prefix + key;
-					TypeMapping typeMapping = new TypeMapping();
-					typeMapping.Target = entry.Value.ToString();
-					Add(key, typeMapping);
+					string mappingFileName = GetMappedType(mappingFile, baseFolder);
+					TypeMapping typeMapping = AddClassMapping(mappingFileName);
+					KeyValuePairReader mappingReader = new KeyValuePairReader(mappingFile);
+					if (typeMapping.Members == null)
+						typeMapping.Members = new MembersMapping();
+					foreach (DictionaryEntry entry in mappingReader.GetKeys())
+					{
+						string key = (string) entry.Key;
+						string value = (string) entry.Value;
+
+						if (key == "PascalStyle")
+							AddPascalStyleMembers(typeMapping, value);
+						else
+							typeMapping.Members.Add(key, value);
+					}
 				}
 			}
 		}
