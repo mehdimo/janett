@@ -1,3 +1,3 @@
-getName()-#id.Name
-get(a)-GetValue(#a)
-getModifiers()-#id
+getName()-id.Name
+get(a)-GetValue(a)
+getModifiers()-id

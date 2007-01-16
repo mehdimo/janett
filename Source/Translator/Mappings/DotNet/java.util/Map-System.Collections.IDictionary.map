@@ -1,6 +1,6 @@
-containsKey(a)-Contains(#a)
-keySet()-#id.Keys
-put(a,b)-#id[#a] = #b
-get(a)-#id[#a]
-size()-#id.Count
-values()-#id.Values
+containsKey(a)-Contains(a)
+keySet()-id.Keys
+put(a,b)-id[a] = b
+get(a)-id[a]
+size()-id.Count
+values()-id.Values

@@ -41,8 +41,8 @@ namespace Janett.Translator
 			FieldReferenceExpression fieldReferenceExpression = (FieldReferenceExpression) invocationExpression.TargetObject;
 			Expression invoker = fieldReferenceExpression.TargetObject;
 
-			IdentifierExpression helper = new IdentifierExpression("Helpers");
-			FieldReferenceExpression call = AstUtil.CreateFiledReferenceExpression(helper, "ReflectionHelper.CallInternalMethod");
+			TypeReferenceExpression helper = new TypeReferenceExpression("Helpers.ReflectionHelper");
+			FieldReferenceExpression call = new FieldReferenceExpression(helper, "CallInternalMethod");
 
 			string name = fieldReferenceExpression.FieldName;
 			PrimitiveExpression methodName = new PrimitiveExpression(name, '"' + name + '"');

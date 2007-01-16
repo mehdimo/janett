@@ -1,1 +1,1 @@
-getLog(a)-GetLogger(#a)
+getLog(a)-GetLogger(a)

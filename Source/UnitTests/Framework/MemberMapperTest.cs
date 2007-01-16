@@ -381,7 +381,7 @@ namespace Janett.Framework
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			InvocationExpression javaInvocation = (InvocationExpression) TestUtil.GetStatementNodeOf(cu, 0);
 
-			string mapKey = "StartsWith(#a)";
+			string mapKey = "StartsWith(a)";
 			InvocationExpression csharpInvocation = (InvocationExpression) GetReplacedExpression(javaInvocation, mapKey);
 
 			Assert.IsNotNull(csharpInvocation);

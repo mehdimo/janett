@@ -200,84 +200,98 @@ namespace Janett.Framework
 
 		protected Expression GetReplacedExpression(Expression expression, string mapKey)
 		{
-			string program = GetCode(expression, mapKey);
+			bool removeId = false;
+			if (mapKey.StartsWith("!"))
+			{
+				removeId = true;
+				mapKey = mapKey.Substring(1);
+			}
+			AssignmentExpression mappedExpression = (AssignmentExpression) GetMapExpression(mapKey);
 
+			Substitution substitution = new Substitution();
+			ArrayList parameters = GetParameters(expression);
+			Expression targetId = GetTargetObject(expression);
+			substitution.Identifier = targetId;
+			if (!removeId && expression is InvocationExpression)
+			{
+				InvocationExpression invocationExpression = (InvocationExpression) expression;
+				if (invocationExpression.TargetObject is FieldReferenceExpression)
+				{
+					FieldReferenceExpression invocationTarget = (FieldReferenceExpression) invocationExpression.TargetObject;
+					if (mappedExpression.Right is InvocationExpression)
+					{
+						IdentifierExpression identifierExpression = GetIdentifierExpression((InvocationExpression) mappedExpression.Right);
+						if (identifierExpression != null)
+						{
+							FieldReferenceExpression referenceExpression = new FieldReferenceExpression(invocationTarget.TargetObject, identifierExpression.Identifier);
+							Expression identifierParent = (Expression) identifierExpression.Parent;
+							if (identifierParent is InvocationExpression)
+								((InvocationExpression) identifierParent).TargetObject = referenceExpression;
+						}
+					}
+				}
+			}
+
+			substitution.Substitute(mappedExpression, parameters);
+			mappedExpression.Right.Parent = expression.Parent;
+			return mappedExpression.Right;
+		}
+
+		private Expression GetTargetObject(Expression expression)
+		{
+			if (expression is FieldReferenceExpression)
+				return ((FieldReferenceExpression) expression).TargetObject;
+			else if (expression is InvocationExpression)
+				return GetTargetObject(((InvocationExpression) expression).TargetObject);
+			return null;
+		}
+
+		private ArrayList GetParameters(Expression expression)
+		{
+			if (expression is InvocationExpression)
+				return ((InvocationExpression) expression).Arguments;
+			else if (expression is ObjectCreateExpression)
+				return ((ObjectCreateExpression) expression).Parameters;
+			return null;
+		}
+
+		private IdentifierExpression GetIdentifierExpression(InvocationExpression invocationExpression)
+		{
+			Expression target = invocationExpression.TargetObject;
+			while (target is FieldReferenceExpression || target is InvocationExpression)
+			{
+				if (target is FieldReferenceExpression)
+					target = ((FieldReferenceExpression) target).TargetObject;
+				else
+					target = ((InvocationExpression) target).TargetObject;
+			}
+			if (target is IdentifierExpression)
+				return (IdentifierExpression) target;
+
+			return null;
+		}
+
+		private Expression GetMapExpression(string mapKey)
+		{
+			string program = "namespace Test { public class A { public void Method() { result = " + mapKey + "; } }}";
 			IParser parser = ParserFactory.CreateParser(SupportedLanguage.CSharp, new StringReader(program));
 			parser.ParseMethodBodies = true;
 			parser.Parse();
 
-			ParentVisitor parentVisitor = new ParentVisitor();
-			parentVisitor.VisitCompilationUnit(parser.CompilationUnit, null);
 			CompilationUnit cu = parser.CompilationUnit;
+
+			ParentVisitor parentVisitor = new ParentVisitor();
+			parentVisitor.VisitCompilationUnit(cu, null);
+
+			TypeReferenceCorrector typeReferenceCorrector = new TypeReferenceCorrector();
+			typeReferenceCorrector.VisitCompilationUnit(cu, null);
 
 			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
 			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
 			MethodDeclaration md = (MethodDeclaration) ty.Children[0];
 			ExpressionStatement st = (ExpressionStatement) md.Body.Children[0];
 			AssignmentExpression ase = (AssignmentExpression) st.Expression;
-			Expression exp = ase.Right;
-			exp.Parent = expression.Parent;
-
-			return exp;
-		}
-
-		private string GetCode(Expression expression, string mapKey)
-		{
-			string result = mapKey;
-
-			if (expression is InvocationExpression)
-			{
-				InvocationExpression ivExpression = (InvocationExpression) expression;
-				string invocationTargetString = null;
-				if (ivExpression.TargetObject is FieldReferenceExpression)
-				{
-					Expression invocationTarget = ((FieldReferenceExpression) ivExpression.TargetObject).TargetObject;
-					invocationTargetString = GetCode(invocationTarget);
-				}
-
-				result = ReplaceArguments(ivExpression.Arguments, result);
-
-				if (result.IndexOf("#id") != -1)
-				{
-					result = result.Replace("#id", invocationTargetString);
-				}
-				else if (result.StartsWith("!"))
-				{
-					result = result.Substring(1);
-				}
-				else if (invocationTargetString != null)
-					result = invocationTargetString + "." + result;
-			}
-
-			else if (expression is FieldReferenceExpression)
-			{
-				if (result.IndexOf("#id") != -1)
-				{
-					Expression target = ((FieldReferenceExpression) expression).TargetObject;
-					string targetString = GetCode(target);
-					result = result.Replace("#id", targetString);
-				}
-			}
-
-			else if (expression is ObjectCreateExpression)
-			{
-				ObjectCreateExpression obj = (ObjectCreateExpression) expression;
-				result = ReplaceArguments(obj.Parameters, result);
-			}
-
-			return @"namespace A { public class B { public void Method() { a = " + result + @";} }}";
-		}
-
-		private string ReplaceArguments(ArrayList arguments, string result)
-		{
-			char argChar = 'a';
-			foreach (Expression expr  in arguments)
-			{
-				string argStr = GetCode(expr);
-				result = result.Replace("#" + argChar, argStr);
-				argChar++;
-			}
-			return result;
+			return ase;
 		}
 
 		private TypeReference GetMethodType(string name, IList baseTypes)

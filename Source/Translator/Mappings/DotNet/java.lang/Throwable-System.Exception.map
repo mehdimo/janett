@@ -1,2 +1,2 @@
-printStackTrace()-System.Console.WriteLine(#id.StackTrace);
-getLocalizedMessage()-#id.Message
+printStackTrace()-System.Console.WriteLine(id.StackTrace);
+getLocalizedMessage()-id.Message

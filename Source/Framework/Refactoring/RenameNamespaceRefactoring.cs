@@ -1,7 +1,5 @@
 namespace Janett.Framework
 {
-	using System.Collections;
-
 	using ICSharpCode.NRefactory.Ast;
 
 	public class RenameNamespaceRefactoring : Transformer
@@ -13,19 +11,6 @@ namespace Janett.Framework
 		{
 			typeReference.Type = Replace(typeReference.Type);
 			return base.TrackedVisitTypeReference(typeReference, data);
-		}
-
-		public override object TrackedVisitFieldReferenceExpression(FieldReferenceExpression fieldReferenceExpression, object data)
-		{
-			FieldReferenceExpression replacedExp = fieldReferenceExpression;
-			string target = GetTargetString(fieldReferenceExpression.TargetObject);
-			string replaced = Replace(target);
-			if (target != replaced)
-			{
-				replacedExp.TargetObject = new IdentifierExpression(replaced);
-				ReplaceCurrentNode(replacedExp);
-			}
-			return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
 		}
 
 		public override object TrackedVisitNamespaceDeclaration(NamespaceDeclaration namespaceDeclaration, object data)
@@ -56,29 +41,6 @@ namespace Janett.Framework
 			if (@using.IsAlias)
 				@using.Alias.Type = Replace(@using.Alias.Type);
 			return base.TrackedVisitUsing(@using, data);
-		}
-
-		private string GetTargetString(Expression targetObject)
-		{
-			Stack stack = new Stack();
-			Expression target = targetObject;
-			while (target is FieldReferenceExpression)
-			{
-				string str = ((FieldReferenceExpression) target).FieldName;
-				stack.Push(str);
-				target = ((FieldReferenceExpression) target).TargetObject;
-			}
-			if (target is IdentifierExpression)
-				stack.Push(((IdentifierExpression) target).Identifier);
-			string item;
-			string result = "";
-			while (stack.Count != 0)
-			{
-				item = (string) stack.Pop();
-				result += item + ".";
-			}
-			result = result.TrimEnd('.');
-			return result;
 		}
 	}
 }

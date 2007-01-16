@@ -61,16 +61,5 @@ namespace Janett.Framework
 				AddModifierTo(node, newModifier);
 			}
 		}
-
-		public FieldReferenceExpression CreateFiledReferenceExpression(Expression target, string fieldExpressions)
-		{
-			string[] fields = fieldExpressions.Split('.');
-			Expression expression = target;
-			foreach (string field in fields)
-			{
-				expression = new FieldReferenceExpression(expression, field);
-			}
-			return (FieldReferenceExpression) expression;
-		}
 	}
 }

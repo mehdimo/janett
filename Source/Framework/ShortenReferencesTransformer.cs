@@ -59,24 +59,6 @@ namespace Janett.Framework
 			return base.TrackedVisitAttribute(attribute, data);
 		}
 
-		public override object TrackedVisitFieldReferenceExpression(FieldReferenceExpression fieldReferenceExpression, object data)
-		{
-			Expression targetObject = fieldReferenceExpression.TargetObject;
-			if (!(targetObject is IdentifierExpression))
-			{
-				string targetString = GetCode(targetObject);
-				if (targetString.StartsWith("System."))
-				{
-					if (targetObject is FieldReferenceExpression)
-					{
-						fieldReferenceExpression.TargetObject = new IdentifierExpression(((FieldReferenceExpression) targetObject).FieldName);
-					}
-					AddUsing(fieldReferenceExpression, data, targetString);
-				}
-			}
-			return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
-		}
-
 		private bool ContainsUsing(IList usingList, UsingDeclaration usingDec)
 		{
 			foreach (UsingDeclaration usi in usingList)

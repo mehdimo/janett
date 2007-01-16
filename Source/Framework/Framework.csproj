@@ -185,12 +185,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Mapping\Substitution.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Mapping\TypeMapper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Mapping\TypeMapping.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Mapping\TypeReferenceCorrector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

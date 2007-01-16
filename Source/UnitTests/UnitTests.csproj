@@ -233,6 +233,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\SubstitutionTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\TransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -244,6 +249,11 @@
                 />
                 <File
                     RelPath = "Framework\TypeMapperTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\TypeReferenceCorrectorTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

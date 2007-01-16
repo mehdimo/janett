@@ -1,2 +1,2 @@
-print(a)-Write(#a)
-println(a)-WriteLine(#a)
+print(a)-Write(a)
+println(a)-WriteLine(a)

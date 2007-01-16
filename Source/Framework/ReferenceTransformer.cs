@@ -33,7 +33,7 @@ namespace Janett.Framework
 							TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[referenceBaseType];
 							if (baseTypeDeclaration != null && DefinedInFieldsClass(baseTypeDeclaration, identifierExpression.Identifier))
 							{
-								IdentifierExpression id = new IdentifierExpression(referedBaseType);
+								TypeReferenceExpression id = new TypeReferenceExpression(referedBaseType);
 								FieldReferenceExpression replaced = new FieldReferenceExpression(id, identifierExpression.Identifier);
 								replaced.Parent = identifierExpression.Parent;
 								ReplaceCurrentNode(replaced);

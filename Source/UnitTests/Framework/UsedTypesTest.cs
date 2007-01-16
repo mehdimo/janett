@@ -62,8 +62,12 @@ namespace Janett.Framework
 		{
 			string program = "package Test; public class A {public void Method() {Helpers.StringHelper.replaceAll();} }";
 			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypeReferenceCorrector typeReferenceCorrector = new TypeReferenceCorrector();
+			typeReferenceCorrector.VisitCompilationUnit(cu, null);
+
 			VisitCompilationUnit(cu, null);
-			Assert.AreEqual(3, UsedTypes.Count);
+
+			Assert.AreEqual(4, UsedTypes.Count);
 			Assert.AreEqual("Helpers.StringHelper", UsedTypes[2]);
 		}
 

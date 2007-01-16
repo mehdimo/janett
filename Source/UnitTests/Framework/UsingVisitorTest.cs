@@ -34,16 +34,6 @@ namespace Janett.Framework
 		}
 
 		[Test]
-		public void FieldReference()
-		{
-			string program = TestUtil.StatementParse("NUnit.Framework.Assert.AreEqual(a,b);");
-			CompilationUnit cu = TestUtil.ParseProgram(program);
-			VisitCompilationUnit(cu, null);
-
-			Assert.AreEqual(2, Usings.Count);
-		}
-
-		[Test]
 		public void TypeReference()
 		{
 			string program = TestUtil.StatementParse("NUnit.Framework.Assert assert;");

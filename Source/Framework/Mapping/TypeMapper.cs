@@ -9,8 +9,10 @@ namespace Janett.Framework
 		public override object TrackedVisitTypeReference(TypeReference typeReference, object data)
 		{
 			string type = GetFullName(typeReference);
-			string ns = type.Substring(0, type.LastIndexOf('.'));
-			if (CodeBase.Mappings.Contains(type))
+			string ns = null;
+			if (type.LastIndexOf('.') != -1)
+				ns = type.Substring(0, type.LastIndexOf('.'));
+			if (CodeBase.Mappings.Contains(type) && !IsInvocationTarget(typeReference))
 			{
 				TypeReference dotNetType = typeReference;
 				dotNetType.Type = CodeBase.Mappings[type].Target;
@@ -36,25 +38,6 @@ namespace Janett.Framework
 			return null;
 		}
 
-		public override object TrackedVisitFieldReferenceExpression(FieldReferenceExpression fieldReferenceExpression, object data)
-		{
-			if (fieldReferenceExpression.TargetObject is FieldReferenceExpression)
-			{
-				FieldReferenceExpression targetObject = (FieldReferenceExpression) fieldReferenceExpression.TargetObject;
-				if (targetObject.TargetObject is IdentifierExpression)
-				{
-					IdentifierExpression id = (IdentifierExpression) targetObject.TargetObject;
-					if (id.Identifier == "Helpers")
-					{
-						string helper = id.Identifier + "." + targetObject.FieldName;
-						if (!UsedTypes.Contains(helper))
-							UsedTypes.Add(helper);
-					}
-				}
-			}
-			return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
-		}
-
 		public override object TrackedVisitIdentifierExpression(IdentifierExpression identifierExpression, object data)
 		{
 			IList staticTypes = new ArrayList();
@@ -67,7 +50,9 @@ namespace Janett.Framework
 			{
 				if (!staticTypes.Contains(type) && CodeBase.Mappings.Contains(type))
 				{
-					Expression rpe = GetExpression(CodeBase.Mappings[type].Target);
+					string mappedType = CodeBase.Mappings[type].Target;
+					TypeReferenceExpression rpe = new TypeReferenceExpression(mappedType);
+					rpe.Parent = identifierExpression.Parent;
 					ReplaceCurrentNode(rpe);
 				}
 				else if (CodeBase.Types.Contains(type))
@@ -77,16 +62,6 @@ namespace Janett.Framework
 				}
 			}
 			return null;
-		}
-
-		private Expression GetExpression(string expressionString)
-		{
-			if (expressionString.IndexOf('.') != -1)
-			{
-				IdentifierExpression ide = new IdentifierExpression(expressionString.Substring(0, expressionString.IndexOf('.')));
-				return AstUtil.CreateFiledReferenceExpression(ide, expressionString.Substring(expressionString.IndexOf('.') + 1));
-			}
-			return new IdentifierExpression(expressionString);
 		}
 
 		public override object TrackedVisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)
@@ -103,6 +78,14 @@ namespace Janett.Framework
 				}
 			}
 			return base.TrackedVisitTypeDeclaration(typeDeclaration, data);
+		}
+
+		private bool IsInvocationTarget(TypeReference typeReference)
+		{
+			if (typeReference.Parent is TypeReferenceExpression)
+				return (typeReference.Parent.Parent is FieldReferenceExpression);
+			else 
+				return false;
 		}
 	}
 }

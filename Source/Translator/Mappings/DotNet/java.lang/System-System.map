@@ -1,2 +1,2 @@
-currentTimeMillis()-DateTime.Now.Millisecond
+currentTimeMillis()-System.DateTime.Now.Millisecond
 _out-System.Console.Out

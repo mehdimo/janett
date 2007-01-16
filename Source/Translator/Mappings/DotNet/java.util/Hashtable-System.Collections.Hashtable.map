@@ -1,5 +1,5 @@
 PascalStyle: remove(a)
-put(a,b)-Add(#a,#b)
-get(a)-#id[#a]
-size()-#id.Count
-keys()-#id.Keys
+put(a,b)-Add(a,b)
+get(a)-id[a]
+size()-id.Count
+keys()-id.Keys

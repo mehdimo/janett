@@ -23,8 +23,8 @@ namespace Janett.Translator
 			if (AstUtil.ContainsModifier(methodDeclaration, Modifiers.Synchronized))
 			{
 				ArrayList positionalArgs = new ArrayList();
-				TypeReferenceExpression system = new TypeReferenceExpression("System");
-				FieldReferenceExpression attributeArgument = AstUtil.CreateFiledReferenceExpression(system, "Runtime.CompilerServices.MethodImplOptions.Synchronized");
+				TypeReferenceExpression system = new TypeReferenceExpression("System.Runtime.CompilerServices.MethodImplOptions");
+				FieldReferenceExpression attributeArgument = new FieldReferenceExpression(system, "Synchronized");
 				positionalArgs.Add(attributeArgument);
 
 				AttributeSection attributeSection = CreateAttributeSection("System.Runtime.CompilerServices.MethodImplAttribute", positionalArgs);

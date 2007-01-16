@@ -33,17 +33,6 @@ namespace Janett.Framework
 			return base.TrackedVisitTypeReference(typeReference, data);
 		}
 
-		public override object TrackedVisitFieldReferenceExpression(FieldReferenceExpression fieldReferenceExpression, object data)
-		{
-			Expression expression = fieldReferenceExpression.TargetObject;
-			if (!(expression is IdentifierExpression))
-			{
-				string name = GetCode(expression);
-				Add(name);
-			}
-			return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
-		}
-
 		private void Add(string name)
 		{
 			if (!Usings.Contains(name))

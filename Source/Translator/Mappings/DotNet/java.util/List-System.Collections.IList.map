@@ -1,6 +1,6 @@
 PascalStyle: add(a)
-addAll(a)-((ArrayList)#id).AddRange(#a)
+addAll(a)-((ArrayList)id).AddRange(a)
 iterator()-GetEnumerator()
-size()-#id.Count
-get(a)-#id[#a]
-toArray(a)-((System.Collections.ArrayList)#id).ToArray(#a)
+size()-id.Count
+get(a)-id[a]
+toArray(a)-((System.Collections.ArrayList)id).ToArray(a)

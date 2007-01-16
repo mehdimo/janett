@@ -1,2 +1,2 @@
 PascalStyle:pop()-peek()-push(a)
-size()-#id.Count
+size()-id.Count

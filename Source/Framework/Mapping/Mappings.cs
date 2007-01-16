@@ -88,7 +88,7 @@ namespace Janett.Framework
 					string[] argArr = args.Split(',');
 					foreach (string argChr in argArr)
 					{
-						target += "#" + argChr + ",";
+						target += argChr + ",";
 					}
 					if (argArr.Length > 0)
 						target = target.Substring(0, target.Length - 1);

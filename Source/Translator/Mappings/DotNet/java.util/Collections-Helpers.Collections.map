@@ -1,2 +1,2 @@
-Collections.sort(a)-Helpers.Collections.sort(#a)
-Collections.sort(a, b)-Helpers.Collections.sort(#a, #b)
+Collections.sort(a)-Helpers.Collections.sort(a)
+Collections.sort(a, b)-Helpers.Collections.sort(a, b)

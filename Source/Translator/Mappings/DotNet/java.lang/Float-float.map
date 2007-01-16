@@ -1,1 +1,1 @@
-floatToIntBits(a)-!(int)#a
+floatToIntBits(a)-!(int)a
