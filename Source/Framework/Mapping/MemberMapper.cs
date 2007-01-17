@@ -110,9 +110,9 @@ namespace Janett.Framework
 				{
 					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
 					if (baseTypeDeclaration.Type == ClassType.Class)
-					{
 						VerifyDerivedMethod(baseTypeDeclaration, invocationExpression, data);
-					}
+					else if (baseTypeDeclaration.Type == ClassType.Interface)
+						CheckAtDefaultType(invocationExpression, data);
 				}
 			}
 			else
