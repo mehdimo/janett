@@ -84,7 +84,7 @@ namespace Janett.Framework
 		{
 			if (typeReference.Parent is TypeReferenceExpression)
 				return (typeReference.Parent.Parent is FieldReferenceExpression);
-			else 
+			else
 				return false;
 		}
 	}
