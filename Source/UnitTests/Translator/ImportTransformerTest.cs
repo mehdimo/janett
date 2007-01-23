@@ -7,6 +7,14 @@ namespace Janett.Translator
 	[TestFixture]
 	public class ImportTransformerTest
 	{
+		private ImportTransformer importTransformer;
+
+		[TestFixtureSetUp]
+		public void SetUp()
+		{
+			importTransformer = new ImportTransformer();
+		}
+
 		[Test]
 		public void Test()
 		{
@@ -14,7 +22,17 @@ namespace Janett.Translator
 			string expected = "namespace Test {using junit.framework; using StringBuffer = java.lang.StringBuffer;}";
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
-			ImportTransformer importTransformer = new ImportTransformer();
+			importTransformer.VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void DotNetKeywordInUsing()
+		{
+			string program = "package Test; import java.lang.ref.SoftReference; import javax.print.event.*; public class A {}";
+			string expected = "namespace Test { using SoftReference = java.lang.@ref.SoftReference; using javax.print.@event; public class A {} }";
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
 			importTransformer.VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
