@@ -19,6 +19,7 @@ namespace Janett.Translator
 		public void TearDown()
 		{
 			CodeBase.Types.Clear();
+			CodeBase.References.Clear();
 		}
 
 		[Test]
@@ -63,6 +64,44 @@ namespace Janett.Translator
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			CodeBase.References.Add("Interface.InterfaceInnerClass", "InterfaceInnerClass");
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void CallingInnerClass()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
+			TypeDeclaration tyin = (TypeDeclaration) ty.Children[1];
+
+			CodeBase.References.Add("Cons:Test.A.InnerA", null);
+			CodeBase.Types.Add("Test.A", ty);
+			CodeBase.Types.Add("Test.A.InnerA", tyin);
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void CallingInnerClassWithConstructor()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
+			TypeDeclaration tyin = (TypeDeclaration) ty.Children[1];
+
+			CodeBase.References.Add("Cons:Test.A.InnerA", null);
+			CodeBase.Types.Add("Test.A", ty);
+			CodeBase.Types.Add("Test.A.InnerA", tyin);
 
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));

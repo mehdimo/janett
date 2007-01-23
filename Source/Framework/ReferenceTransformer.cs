@@ -121,6 +121,16 @@ namespace Janett.Framework
 			return base.TrackedVisitTypeReference(typeReference, data);
 		}
 
+		public override object TrackedVisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression, object data)
+		{
+			string fullName = GetFullName(objectCreateExpression.CreateType);
+			if (CodeBase.References.Contains("Cons:" + fullName))
+			{
+				objectCreateExpression.Parameters.Add(new ThisReferenceExpression());
+			}
+			return base.TrackedVisitObjectCreateExpression(objectCreateExpression, data);
+		}
+
 		public override object TrackedVisitNamespaceDeclaration(NamespaceDeclaration namespaceDeclaration, object data)
 		{
 			IList usings = AstUtil.GetChildrenWithType(namespaceDeclaration, typeof(UsingDeclaration));

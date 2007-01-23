@@ -374,6 +374,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Transformation\InnerClassTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Transformation\InterfaceTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

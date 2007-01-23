@@ -34,13 +34,15 @@ namespace Test.Integration
 		}
 		private sealed class InnerClass1 : System.IComparable
 		{
-			private InnerClass1(int arg) : this()
+			internal InnerClass1(int arg, Class1 Class1) : this(Class1)
 			{
+				this.Class1 = Class1;
 			}
-			protected internal InnerClass1(int arg1, int arg2) : this()
+			protected internal InnerClass1(int arg1, int arg2, Class1 Class1) : this(Class1)
 			{
+				this.Class1 = Class1;
 			}
-			private int ID;
+			internal int ID;
 			protected internal int MethodForTestConstArgs(bool b, char c)
 			{
 				return 0;
@@ -49,14 +51,16 @@ namespace Test.Integration
 			{
 				if (true) return 0; 				else return -1; 
 			}
-			private void InnerMembers()
+			internal void InnerMembers()
 			{
-				bool b = Method2(ID + Number);
+				bool b = Class1.Method2(ID + Class1.Number);
 			}
-			public InnerClass1()
+			public InnerClass1(Class1 Class1)
 			{
+				this.Class1 = Class1;
 				ID = MethodForTestConstArgs(true, 'a');
 			}
+			Class1 Class1;
 		}
 
 		[System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
@@ -107,8 +111,8 @@ namespace Test.Integration
 				bool res = enclosingInstance.BoolMethod();
 				return _string.Trim() + _lock.Length + res;
 			}
-			private Class1 enclosingInstance;
-			private string _lock;
+			internal Class1 enclosingInstance;
+			internal string _lock;
 			public Class1 Enclosing_Instance {
 				get { return enclosingInstance; }
 			}

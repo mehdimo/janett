@@ -39,7 +39,7 @@ namespace Test.Integration
 			public override void InnerAbstractClassMethod(int num)
 			{
 			}
-			private TestClass enclosingInstance;
+			internal TestClass enclosingInstance;
 			public TestClass Enclosing_Instance {
 				get { return enclosingInstance; }
 			}

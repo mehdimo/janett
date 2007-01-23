@@ -543,6 +543,42 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\InnerClassTransformerTest\FieldUsegeAtInnerClass.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\FieldUsegeAtInnerClass.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InheritedMethodUsingAtInnerClass.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InheritedMethodUsingAtInnerClass.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InnerClassCallsNonStaticMethod.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InnerClassCallsNonStaticMethod.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InnerClassWithConstructor.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InnerClassWithConstructor.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\InterfaceTransformerTest\InterfaceFields.java"
                     BuildAction = "None"
                 />
@@ -763,6 +799,24 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\ReferenceTransformerTest\CallingInnerClass.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\CallingInnerClass.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\CallingInnerClassWithConstructor.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\CallingInnerClassWithConstructor.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\ReferenceTransformerTest\InterfaceFieldsUsageViaInheritance.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -882,6 +936,11 @@
                 />
                 <File
                     RelPath = "Translator\ImportTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Translator\InnerClassTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
