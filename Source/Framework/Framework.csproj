@@ -135,6 +135,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NodeTypeExistenceVisitor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ParentVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

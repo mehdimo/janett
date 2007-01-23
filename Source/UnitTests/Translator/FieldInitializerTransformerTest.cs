@@ -74,5 +74,16 @@ namespace Janett.Translator
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
+
+		[Test]
+		public void InitioalizerWithThis()
+		{
+			string program = TestUtil.TypeMemberParse("MyDefinedClass mdc = new MyDefinedClass(this);");
+			string expected = TestUtil.CSharpTypeMemberParse("MyDefinedClass mdc; public Test(){ mdc = new MyDefinedClass(this);}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
 	}
 }

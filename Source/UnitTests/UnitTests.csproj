@@ -228,6 +228,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\NodeTypeExistenceVisitorTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\RefactorRenameMethodDeclarationTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

@@ -13,7 +13,9 @@ namespace Janett.Translator
 			VariableDeclaration field = (VariableDeclaration) fieldDeclaration.Fields[0];
 			TypeDeclaration typeDeclaration = (TypeDeclaration) fieldDeclaration.Parent;
 
-			if (field.Initializer != null && (field.Initializer is InvocationExpression || IsArrayCreation(fieldDeclaration))
+			NodeTypeExistenceVisitor nodeTypeExistenceVisitor = new NodeTypeExistenceVisitor(typeof(ThisReferenceExpression));
+			field.Initializer.AcceptVisitor(nodeTypeExistenceVisitor, null);
+			if (field.Initializer != null && (field.Initializer is InvocationExpression || IsArrayCreation(fieldDeclaration) || nodeTypeExistenceVisitor.Contains)
 			    && !AstUtil.ContainsModifier(fieldDeclaration, Modifiers.Static))
 			{
 				IList constructors = AstUtil.GetChildrenWithType(typeDeclaration, typeof(ConstructorDeclaration));

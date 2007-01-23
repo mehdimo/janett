@@ -9,6 +9,7 @@ namespace Test.Integration
 		[System.NonSerializedAttribute()]
 		private int ID;
 		protected internal int Number;
+		protected internal System.Type type;
 		private bool _bool;
 
 		static Class1()
@@ -24,6 +25,7 @@ namespace Test.Integration
 		}
 		protected internal Class1()
 		{
+			type = this.GetType();
 			_bool = BoolMethod();
 		}
 		private bool BoolMethod()

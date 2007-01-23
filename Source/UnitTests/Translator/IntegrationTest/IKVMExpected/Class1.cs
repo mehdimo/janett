@@ -20,6 +20,7 @@ namespace Test.Integration
 		[NonSerializedAttribute()]
 		private int ID;
 		protected internal int Number;
+		protected internal Class type;
 		private bool _bool;
 
 		static Class1()
@@ -35,6 +36,7 @@ namespace Test.Integration
 		}
 		protected internal Class1()
 		{
+			type = java.lang.Object.instancehelper_getClass(this);
 			_bool = BoolMethod();
 		}
 		private bool BoolMethod()

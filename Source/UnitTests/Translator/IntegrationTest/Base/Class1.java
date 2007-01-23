@@ -12,6 +12,7 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
 {
     private transient int ID;
     int Number;
+	Class type = this.getClass();
     private boolean bool = boolMethod();
 
     static
