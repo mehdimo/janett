@@ -4,6 +4,8 @@ namespace Janett.Translator
 
 	using ICSharpCode.NRefactory.Ast;
 
+	using Janett.Framework;
+
 	public class AbstractClassTransformer : MethodRelatedTransformer
 	{
 		public override object TrackedVisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)

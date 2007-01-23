@@ -399,11 +399,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Transformation\MethodRelatedTransformer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Transformation\NullableValueTypeTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

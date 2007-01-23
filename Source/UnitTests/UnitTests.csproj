@@ -139,6 +139,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Commons\MultiValuedDictionaryTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Commons\TestData\Decision.ico"
                     BuildAction = "EmbeddedResource"
                 />
@@ -214,6 +219,11 @@
                 />
                 <File
                     RelPath = "Framework\MemberMapperTest_IKVM.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\MethodRelatedTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -323,12 +333,30 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\AccessorRefactoringTest\AccessorsWithoutField.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\AccessorsWithoutField.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\AccessorRefactoringTest\Getter.cs"
                     SubType = "Code"
                     BuildAction = "None"
                 />
                 <File
                     RelPath = "TestCode\AccessorRefactoringTest\Getter.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\InterfaceSetterGetter.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\InterfaceSetterGetter.java"
                     BuildAction = "None"
                 />
                 <File
@@ -369,6 +397,15 @@
                 />
                 <File
                     RelPath = "TestCode\AccessorRefactoringTest\SetterGetter.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\Siblings.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\Siblings.java"
                     BuildAction = "None"
                 />
                 <File
@@ -961,11 +998,6 @@
                 />
                 <File
                     RelPath = "Translator\KeywordsRenameTransformerTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Translator\MethodRelatedTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

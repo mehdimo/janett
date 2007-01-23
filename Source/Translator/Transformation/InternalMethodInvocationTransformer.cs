@@ -4,6 +4,8 @@ namespace Janett.Translator
 
 	using ICSharpCode.NRefactory.Ast;
 
+	using Janett.Framework;
+
 	public class InternalMethodInvocationTransformer : MethodRelatedTransformer
 	{
 		public override object TrackedVisitInvocationExpression(InvocationExpression invocationExpression, object data)

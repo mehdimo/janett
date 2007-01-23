@@ -1,4 +1,4 @@
-namespace Janett.Translator
+namespace Janett.Framework
 {
 	using System.Collections;
 

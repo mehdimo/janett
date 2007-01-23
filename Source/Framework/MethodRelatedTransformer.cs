@@ -1,10 +1,8 @@
-namespace Janett.Translator
+namespace Janett.Framework
 {
 	using System.Collections;
 
 	using ICSharpCode.NRefactory.Ast;
-
-	using Janett.Framework;
 
 	public abstract class MethodRelatedTransformer : Transformer
 	{

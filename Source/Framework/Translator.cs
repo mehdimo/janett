@@ -385,7 +385,7 @@ namespace Janett.Framework
 			CallVisitor(typeof(MemberMapper), "Mapping");
 			CallVisitor(typeof(TypeMapper), "Mapping");
 
-			int count = 4;
+			int count = 5;
 			if (Mode == "IKVM")
 				count++;
 			if (Namespace != null)
@@ -603,6 +603,7 @@ namespace Janett.Framework
 
 		private void Refactor()
 		{
+			CallVisitor(typeof(InheritorsVisitor), "Refactoring");
 			codeBase.References.Clear();
 			CallVisitor(typeof(AccessorRefactoring), "Refactoring");
 			CallVisitor(typeof(ReferenceTransformer), "Refactoring");
