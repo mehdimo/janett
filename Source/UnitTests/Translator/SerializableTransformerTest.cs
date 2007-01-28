@@ -28,5 +28,17 @@ namespace Janett.Translator
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
+
+		[Test]
+		public void Interface()
+		{
+			string program = TestUtil.PackageMemberParse("import java.io.Serializable; public interface A implements Serializable{}");
+			string expected = TestUtil.NamespaceMemberParse("public interface A{}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
 	}
 }

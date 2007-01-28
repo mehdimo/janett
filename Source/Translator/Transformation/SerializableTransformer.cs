@@ -16,14 +16,16 @@ namespace Janett.Translator
 			if (index != -1)
 			{
 				Removeables.Add(serializableType);
-				ArrayList attributes = new ArrayList();
-				Attribute attribute = new Attribute("System.SerializableAttribute", null, null);
-				attributes.Add(attribute);
-				AttributeSection attributeSection = new AttributeSection("", attributes);
+				if (typeDeclaration.Type == ClassType.Class)
+				{
+					ArrayList attributes = new ArrayList();
+					Attribute attribute = new Attribute("System.SerializableAttribute", null, null);
+					attributes.Add(attribute);
+					AttributeSection attributeSection = new AttributeSection("", attributes);
 
-				typeDeclaration.Attributes.Add(attributeSection);
-				attributeSection.Parent = typeDeclaration;
-
+					typeDeclaration.Attributes.Add(attributeSection);
+					attributeSection.Parent = typeDeclaration;
+				}
 				typeDeclaration = RemoveBaseTypeFrom(typeDeclaration, (TypeReference) typeDeclaration.BaseTypes[index]);
 			}
 			return base.TrackedVisitTypeDeclaration(typeDeclaration, data);
