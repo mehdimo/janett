@@ -58,7 +58,7 @@ namespace Janett.Framework
 		public Discovery Discovery = new Discovery();
 		private KeyValuePairReader options;
 
-		private CodeBase codeBase;
+		protected CodeBase codeBase;
 		private TypesVisitor typesVisitor;
 		private ParentVisitor parentVisitor;
 
@@ -125,6 +125,10 @@ namespace Janett.Framework
 				File.Delete(diagnosticsFile);
 			TimeSpan timespan = DateTime.Now - start;
 			Console.WriteLine("\n\nTranslation took {0} seconds.", (int) timespan.TotalSeconds);
+		}
+
+		protected virtual void BeforeParse()
+		{
 		}
 
 		protected virtual void ValidateParameters()
@@ -371,10 +375,15 @@ namespace Janett.Framework
 
 			LoadFiles();
 
+			codeBase.Types.Visitors.Add(parentVisitor);
+
+			BeforeParse();
 			progress.SetCount("Parsing", sourceFileCount);
 			ParseAndPreVisit();
 
+			BeforeTransformation();
 			IDictionary visitors = GetVisitors(typeof(AbstractAstVisitor));
+			visitors.Add(typeof(InheritorsVisitor).FullName, typeof(InheritorsVisitor));
 			IDictionary transformers = GetVisitors(typeof(AbstractAstTransformer));
 			progress.SetCount("Transformation", (visitors.Count + transformers.Count + 1) * sourceFileCount);
 			CallVisitors(visitors, "Transformation");
@@ -385,7 +394,9 @@ namespace Janett.Framework
 			CallVisitor(typeof(MemberMapper), "Mapping");
 			CallVisitor(typeof(TypeMapper), "Mapping");
 
-			int count = 5;
+			BeforeRefactoring();
+
+			int count = 4;
 			if (Mode == "IKVM")
 				count++;
 			if (Namespace != null)
@@ -398,6 +409,14 @@ namespace Janett.Framework
 			GenerateCode();
 
 			SaveFiles();
+		}
+
+		protected virtual void BeforeTransformation()
+		{
+		}
+
+		protected virtual void BeforeRefactoring()
+		{
 		}
 
 		private void SaveCurrentStatus(Exception ex)
@@ -543,34 +562,40 @@ namespace Janett.Framework
 
 		private IDictionary GetVisitors(Type baseType)
 		{
-			IDictionary transformers = new SortedList();
+			IDictionary visitors = new SortedList();
 			foreach (Type type in Discovery.GetClassInheritedFrom(baseType))
 			{
 				if (!type.IsAbstract && type.Name != "SemanticVisitor" && type.Assembly != Assembly.GetExecutingAssembly())
 				{
 					string transoferMode = GetMode(type);
-					if (transoferMode == null || transoferMode == Mode)
+					if ((transoferMode == null || transoferMode == Mode) && GetAttribute(type, typeof(ExplicitAttribute)) == null)
 					{
-						transformers.Add(type.FullName, type);
+						visitors.Add(type.FullName, type);
 					}
 				}
 			}
-			return transformers;
+			return visitors;
 		}
 
-		private string GetMode(Type type)
+		protected string GetMode(Type type)
 		{
 			string mode = null;
-			object[] attrs = type.GetCustomAttributes(typeof(ModeAttribute), true);
-			if (attrs.Length > 0)
-			{
-				ModeAttribute attr = (ModeAttribute) attrs[0];
+			ModeAttribute attr = GetAttribute(type, typeof(ModeAttribute)) as ModeAttribute;
+			if (attr != null)
 				mode = attr.Name;
-			}
 			return mode;
 		}
 
-		private void CallVisitor(Type type, string step)
+		private System.Attribute GetAttribute(Type type, Type attributeType)
+		{
+			object[] attrs = type.GetCustomAttributes(attributeType, true);
+			if (attrs.Length > 0)
+				return (System.Attribute) attrs[0];
+			else
+				return null;
+		}
+
+		protected void CallVisitor(Type type, string step)
 		{
 			IAstVisitor visitor = (IAstVisitor) Activator.CreateInstance(type);
 			CallVisitor(visitor, step);
@@ -589,7 +614,8 @@ namespace Janett.Framework
 			{
 				if (!entry.CodeFile)
 					continue;
-				progress.Increment(step);
+				if (step != null)
+					progress.Increment(step);
 				parentVisitor.VisitCompilationUnit(entry.CompilationUnit, null);
 				visitor.VisitCompilationUnit(entry.CompilationUnit, null);
 			}
@@ -603,7 +629,6 @@ namespace Janett.Framework
 
 		private void Refactor()
 		{
-			CallVisitor(typeof(InheritorsVisitor), "Refactoring");
 			codeBase.References.Clear();
 			CallVisitor(typeof(AccessorRefactoring), "Refactoring");
 			CallVisitor(typeof(ReferenceTransformer), "Refactoring");

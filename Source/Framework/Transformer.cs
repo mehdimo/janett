@@ -295,7 +295,7 @@ namespace Janett.Framework
 			return argumentsMap;
 		}
 
-		protected bool ContainsMapping(TypeMapping mapping, Expression expression, out string key)
+		protected bool ContainsMapping(TypeMapping mapping, INode expression, out string key)
 		{
 			string methodKey = CreateMapKey(expression, false);
 			string typedArgumentsMethodKey = CreateMapKey(expression, true);

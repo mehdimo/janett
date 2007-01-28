@@ -87,7 +87,8 @@ namespace Janett.Framework
 			IList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
 			foreach (MethodDeclaration method in methods)
 			{
-				if (method.Name == identifier && !IsMethodInExternalTypes(typeDeclaration, method))
+				string pascalName = identifier[0].ToString().ToUpper() + identifier.Substring(1);
+				if ((method.Name == identifier || method.Name == pascalName) && !IsMethodInExternalTypes(typeDeclaration, method))
 				{
 					return true;
 				}

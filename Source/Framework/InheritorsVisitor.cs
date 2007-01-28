@@ -10,6 +10,8 @@ namespace Janett.Framework
 			foreach (TypeReference baseType in typeDeclaration.BaseTypes)
 			{
 				string fullBaseType = GetFullName(baseType);
+				if (fullBaseType == "java.lang.Object" || fullBaseType == "System.Object")
+					continue;
 				CodeBase.Inheritors.Add(fullBaseType, fullName);
 			}
 			return base.TrackedVisitTypeDeclaration(typeDeclaration, data);

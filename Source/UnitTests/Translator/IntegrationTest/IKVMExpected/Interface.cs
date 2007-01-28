@@ -13,14 +13,14 @@ namespace Test.Integration
 		public static int[] Digits = new int[3];
 		public static IComparable _params = new AnonymousClassComparable1();
 	}
-	public abstract class InterfaceInnerClass
+	public abstract class InterfaceInnerClass : java.lang.Object
 	{
 		public InterfaceInnerClass(string name)
 		{
 		}
 		public abstract string InterfaceInnerClassMethod(string _string);
 	}
-	public class AnonymousClassComparable1 : IComparable
+	public class AnonymousClassComparable1 : java.lang.Object, IComparable
 	{
 		public AnonymousClassComparable1()
 		{

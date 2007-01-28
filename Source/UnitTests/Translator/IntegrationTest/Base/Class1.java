@@ -26,6 +26,7 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
 
     private boolean boolMethod()
     {
+		Class c = getClass();
 		String name = getName();
 		setName(name);
         return super.existSimilarFieldAndMethod();

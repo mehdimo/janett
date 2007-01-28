@@ -100,44 +100,13 @@ namespace Janett.Framework
 				{
 					TypeMapping mapping = CodeBase.Mappings[fullName];
 					if (mapping != null)
-					{
 						ReplaceMember(invocationExpression, data, baseType);
-					}
-					else
-						CheckAtDefaultType(invocationExpression, data);
 				}
 				else if (CodeBase.Types.Contains(fullName))
 				{
 					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
 					if (baseTypeDeclaration.Type == ClassType.Class)
 						VerifyDerivedMethod(baseTypeDeclaration, invocationExpression, data);
-					else if (baseTypeDeclaration.Type == ClassType.Interface)
-						CheckAtDefaultType(invocationExpression, data);
-				}
-			}
-			else
-			{
-				CheckAtDefaultType(invocationExpression, data);
-			}
-		}
-
-		private void CheckAtDefaultType(InvocationExpression invocationExpression, object data)
-		{
-			TypeReference defaultType = AstUtil.GetTypeReference("java.lang.Object", invocationExpression.Parent);
-			defaultType.Parent = invocationExpression.Parent;
-
-			if (CodeBase.Mappings.Contains(defaultType.Type))
-			{
-				TypeMapping defaultMapping = CodeBase.Mappings[defaultType.Type];
-				string methodKey;
-				if (ContainsMapping(defaultMapping, invocationExpression, out methodKey))
-				{
-					ThisReferenceExpression thisReference = new ThisReferenceExpression();
-					string methodName = ((IdentifierExpression) invocationExpression.TargetObject).Identifier;
-					FieldReferenceExpression fieldReference = new FieldReferenceExpression(thisReference, methodName);
-					InvocationExpression newInvocation = new InvocationExpression(fieldReference, invocationExpression.Arguments);
-					newInvocation.Parent = invocationExpression.Parent;
-					ReplaceMember(newInvocation, data, defaultType);
 				}
 			}
 		}
@@ -239,7 +208,13 @@ namespace Janett.Framework
 
 		private Expression GetTargetObject(Expression expression)
 		{
-			if (expression is FieldReferenceExpression)
+			if (expression is IdentifierExpression)
+			{
+				ThisReferenceExpression thisReference = new ThisReferenceExpression();
+				thisReference.Parent = expression.Parent;
+				return thisReference;
+			}
+			else if (expression is FieldReferenceExpression)
 				return ((FieldReferenceExpression) expression).TargetObject;
 			else if (expression is InvocationExpression)
 				return GetTargetObject(((InvocationExpression) expression).TargetObject);

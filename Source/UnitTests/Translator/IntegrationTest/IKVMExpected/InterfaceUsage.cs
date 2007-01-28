@@ -1,7 +1,7 @@
 namespace Test
 {
 	using java.lang;
-	public class InterfaceUsage
+	public class InterfaceUsage : java.lang.Object
 	{
 		public void Method()
 		{

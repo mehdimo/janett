@@ -30,6 +30,7 @@ namespace Test.Integration
 		}
 		private bool BoolMethod()
 		{
+			System.Type c = GetType();
 			string name = Name;
 			Name = name;
 			return base.ExistSimilarFieldAndMethod();
@@ -98,7 +99,6 @@ namespace Test.Integration
 			return 0;
 		}
 		public override abstract void AbstractClassMethod();
-		public abstract bool Equals(object parameter1);
 		private class AnonymousClassInterface_InterfaceInnerClass1 : Test.Integration.InterfaceInnerClass
 		{
 			public AnonymousClassInterface_InterfaceInnerClass1(string name, Class1 enclosingInstance, string _lock) : base(name)

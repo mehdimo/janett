@@ -41,11 +41,12 @@ namespace Test.Integration
 		}
 		private bool BoolMethod()
 		{
+			Class c = java.lang.Object.instancehelper_getClass(this);
 			string name = Name;
 			Name = name;
 			return base.ExistSimilarFieldAndMethod();
 		}
-		private sealed class InnerClass1 : IComparable
+		private sealed class InnerClass1 : java.lang.Object, IComparable
 		{
 			internal InnerClass1(int arg, Class1 Class1) : this(Class1)
 			{
@@ -109,10 +110,6 @@ namespace Test.Integration
 			return 0;
 		}
 		public override abstract void AbstractClassMethod();
-		public bool equals(object parameter1)
-		{
-			return java.lang.Object.instancehelper_equals(this, parameter1);
-		}
 		private class AnonymousClassInterface_InterfaceInnerClass1 : Test.Integration.InterfaceInnerClass
 		{
 			public AnonymousClassInterface_InterfaceInnerClass1(string name, Class1 enclosingInstance, string _lock) : base(name)
@@ -132,6 +129,10 @@ namespace Test.Integration
 			public Class1 Enclosing_Instance {
 				get { return enclosingInstance; }
 			}
+		}
+		public bool equals(object obj)
+		{
+			return java.lang.Object.instancehelper_equals(this, obj);
 		}
 	}
 }

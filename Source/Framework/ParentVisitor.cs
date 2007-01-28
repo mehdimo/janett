@@ -139,6 +139,8 @@ namespace Janett.Framework
 			{
 				ex.Parent = objectCreateExpression;
 			}
+			if (objectCreateExpression.AnonymousClass != TypeDeclaration.Null)
+				objectCreateExpression.AnonymousClass.Parent = objectCreateExpression;
 			return base.VisitObjectCreateExpression(objectCreateExpression, data);
 		}
 

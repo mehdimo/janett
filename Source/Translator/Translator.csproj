@@ -99,6 +99,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AddJavaLangObjectBaseType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CommonAssemblyInfo.cs"
                     Link = "..\CommonAssemblyInfo.cs"
                     SubType = "Code"
@@ -110,6 +115,11 @@
                 />
                 <File
                     RelPath = "JavaDotNetTranslator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RemoveJavaLangObjectBaseType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

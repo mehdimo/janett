@@ -12,6 +12,7 @@ namespace Janett.Framework
 
 	public class TypeDictionary : SortedList
 	{
+		public IList Visitors = new ArrayList();
 		public IList ExternalLibraries = new ArrayList();
 		public string LibrariesFolder = "Libraries";
 
@@ -23,6 +24,12 @@ namespace Janett.Framework
 		public TypeDictionary(SupportedLanguage language)
 		{
 			this.language = language;
+		}
+
+		private void Visit(CompilationUnit compilationUnit)
+		{
+			foreach (IAstVisitor visitor in Visitors)
+				visitor.VisitCompilationUnit(compilationUnit, null);
 		}
 
 		public override bool Contains(object key)
@@ -45,8 +52,7 @@ namespace Janett.Framework
 			parser.ParseMethodBodies = true;
 			parser.Parse();
 			CompilationUnit compilationUnit = parser.CompilationUnit;
-			ParentVisitor parentVisitor = new ParentVisitor();
-			parentVisitor.VisitCompilationUnit(compilationUnit, null);
+			Visit(compilationUnit);
 			NamespaceDeclaration ns = (NamespaceDeclaration) compilationUnit.Children[0];
 			TypeDeclaration typeDeclaration = (TypeDeclaration) ns.Children[0];
 			if (key.ToString().IndexOf('$') != -1)

@@ -63,7 +63,7 @@ namespace Janett.Framework
 		}
 
 		[Test]
-		public void MethiodInDefaultType()
+		public void MethodInDefaultType()
 		{
 			string program = TestUtil.StatementParse("getClass();");
 			string expected = TestUtil.CSharpStatementParse("java.lang.Object.instancehelper_getClass(this);");
@@ -71,11 +71,14 @@ namespace Janett.Framework
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
 			TypeDeclaration type = (TypeDeclaration) ns.Children[0];
+			TypeReference objectType = new TypeReference("java.lang.Object");
+			type.BaseTypes.Add(objectType);
 
 			CodeBase.Types.Clear();
 			CodeBase.Types.Add("Test.Test", type);
 
 			VisitCompilationUnit(cu, null);
+			RemoveBaseTypeFrom(type, objectType);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
 	}

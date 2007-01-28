@@ -121,6 +121,10 @@ namespace Janett.Framework
 			{
 				return GetType(((ConditionalExpression) ex).TrueExpression);
 			}
+			else if (ex is ParameterDeclarationExpression)
+			{
+				return ((ParameterDeclarationExpression) ex).TypeReference;
+			}
 			else if (ex is NullExpression)
 			{
 				return null;

@@ -1,7 +1,7 @@
 namespace Test.Integration
 {
 	using java.lang;
-	public abstract class AbstractClass : Interface
+	public abstract class AbstractClass : java.lang.Object, Interface
 	{
 		private string name;
 		public string Name {
@@ -20,7 +20,7 @@ namespace Test.Integration
 
 		public abstract void AbstractClassMethod();
 
-		public abstract class InnerAbstractClass
+		public abstract class InnerAbstractClass : java.lang.Object
 		{
 			public InnerAbstractClass(int num)
 			{
