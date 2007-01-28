@@ -392,5 +392,20 @@ namespace Janett.Framework
 			Assert.AreEqual(1, csharpInvocation.Arguments.Count);
 			Assert.IsTrue(csharpInvocation.Arguments[0] is InvocationExpression);
 		}
+
+		[Test]
+		public void InstanceMethodDeclaration()
+		{
+			string program = TestUtil.PackageMemberParse("public class A extends java.lang.Object {public int hashCode(){return 0;} }");
+			string expected = TestUtil.NamespaceMemberParse("public class A : java.lang.Object {public override int GetHashCode(){return 0;} }");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration type = (TypeDeclaration) ns.Children[0];
+			MethodDeclaration method = (MethodDeclaration) type.Children[0];
+			AstUtil.AddModifierTo(method, Modifiers.Override);
+			VisitCompilationUnit(cu, null);
+
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
 	}
 }

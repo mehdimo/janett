@@ -8,6 +8,30 @@ namespace Janett.Framework
 
 	public class MemberMapper : Transformer
 	{
+		public override object TrackedVisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
+		{
+			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
+			if (typeDeclaration.BaseTypes.Count > 0 && AstUtil.ContainsModifier(methodDeclaration, Modifiers.Override))
+			{
+				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+				{
+					string fullName = GetFullName(baseType);
+					TypeMapping mappings = CodeBase.Mappings[fullName];
+					string methodKey;
+					if (ContainsMapping(mappings, methodDeclaration, out methodKey))
+					{
+						string newName = mappings.Members[methodKey];
+						if (newName.IndexOf('.') == -1)
+						{
+							newName = newName.Substring(0, newName.IndexOf('('));
+							methodDeclaration.Name = newName;
+						}
+					}
+				}
+			}
+			return base.TrackedVisitMethodDeclaration(methodDeclaration, data);
+		}
+
 		public override object TrackedVisitExpressionStatement(ExpressionStatement ExpressionStatement, object data)
 		{
 			IList removeStatement = new ArrayList();
