@@ -8,15 +8,42 @@ namespace Janett.Framework
 	{
 		public override object TrackedVisitFieldReferenceExpression(FieldReferenceExpression fieldReferenceExpression, object data)
 		{
-			if (!IsMethodInvocation(fieldReferenceExpression) && fieldReferenceExpression.Parent.Parent is InvocationExpression)
+			if (!IsMethodInvocation(fieldReferenceExpression) && ReachToInvocation(fieldReferenceExpression))
 			{
 				string targetString = GetTargetString(fieldReferenceExpression);
+				string suffix = "__";
+				if (targetString.IndexOf(suffix) != -1)
+				{
+					if (targetString.EndsWith(suffix))
+						targetString = targetString.Substring(0, targetString.Length - suffix.Length);
+					else
+						return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
+				}
+
 				TypeReferenceExpression typeExpression = new TypeReferenceExpression(targetString);
 				typeExpression.Parent = fieldReferenceExpression.Parent;
-
 				ReplaceCurrentNode(typeExpression);
+				return null;
 			}
 			return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
+		}
+
+		private bool ReachToInvocation(Expression expression)
+		{
+			if (expression is FieldReferenceExpression)
+			{
+				FieldReferenceExpression fieldReferenceExpression = (FieldReferenceExpression) expression;
+				INode node = fieldReferenceExpression.Parent.Parent;
+				if (node is InvocationExpression)
+					return true;
+				else if (node is FieldReferenceExpression)
+				{
+					if (IsMethodInvocation((FieldReferenceExpression) node))
+						return true;
+					else return ReachToInvocation((Expression) node.Parent);
+				}
+			}
+			return false;
 		}
 
 		private bool IsMethodInvocation(FieldReferenceExpression fieldReference)
