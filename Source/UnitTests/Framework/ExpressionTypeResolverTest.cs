@@ -475,5 +475,29 @@ namespace Janett.Framework
 			Assert.IsNotNull(ivType);
 			Assert.AreEqual("int", ivType.Type);
 		}
+
+		[Test]
+		public void InnerInterfaceMember()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+				import java.util.Map; 
+				public class A 
+				{ 
+					public void Method() 
+					{ 
+						Map.Entry entry; 
+						entry.getValue();
+					}
+				}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration type = (TypeDeclaration) ns.Children[1];
+			MethodDeclaration method = (MethodDeclaration) type.Children[0];
+			ExpressionStatement stm = (ExpressionStatement) method.Body.Children[1];
+			InvocationExpression invocationExpression = (InvocationExpression) stm.Expression;
+			TypeReference typeRef = GetType(invocationExpression);
+			Assert.IsNotNull(typeRef);
+			Assert.AreEqual("java.lang.Object", typeRef.Type);
+		}
 	}
 }

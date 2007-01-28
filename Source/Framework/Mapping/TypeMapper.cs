@@ -8,7 +8,11 @@ namespace Janett.Framework
 	{
 		public override object TrackedVisitTypeReference(TypeReference typeReference, object data)
 		{
+			if (GetFullName(typeReference) == "java.lang.Object" && typeReference.Parent is TypeDeclaration)
+				return null;
 			string type = GetFullName(typeReference);
+			if (type.IndexOf('$') != -1)
+				type = type.Substring(0, type.IndexOf('$'));
 			string ns = null;
 			if (type.LastIndexOf('.') != -1)
 				ns = type.Substring(0, type.LastIndexOf('.'));

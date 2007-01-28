@@ -85,7 +85,7 @@ namespace Janett.Framework
 			TypeDeclaration ty1 = (TypeDeclaration) ns.Children[0];
 			TypeDeclaration ty2 = (TypeDeclaration) ty1.Children[0];
 			CodeBase.Types.Add("Test.A", ty1);
-			CodeBase.Types.Add("Test.A.InnerA", ty2);
+			CodeBase.Types.Add("Test.A$InnerA", ty2);
 
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));

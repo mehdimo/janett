@@ -80,9 +80,9 @@ namespace Janett.Translator
 			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
 			TypeDeclaration tyin = (TypeDeclaration) ty.Children[1];
 
-			CodeBase.References.Add("Cons:Test.A.InnerA", null);
+			CodeBase.References.Add("Cons:Test.A$InnerA", null);
 			CodeBase.Types.Add("Test.A", ty);
-			CodeBase.Types.Add("Test.A.InnerA", tyin);
+			CodeBase.Types.Add("Test.A$InnerA", tyin);
 
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
@@ -99,9 +99,9 @@ namespace Janett.Translator
 			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
 			TypeDeclaration tyin = (TypeDeclaration) ty.Children[1];
 
-			CodeBase.References.Add("Cons:Test.A.InnerA", null);
+			CodeBase.References.Add("Cons:Test.A$InnerA", null);
 			CodeBase.Types.Add("Test.A", ty);
-			CodeBase.Types.Add("Test.A.InnerA", tyin);
+			CodeBase.Types.Add("Test.A$InnerA", tyin);
 
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));

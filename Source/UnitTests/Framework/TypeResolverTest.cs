@@ -82,7 +82,60 @@ namespace Janett.Framework
 			Assert.IsNotNull(ty2Name);
 
 			Assert.AreEqual("Janett.Framework.Transformer", ty1Name);
-			Assert.AreEqual("Janett.Framework.Transformer.InnerClass", ty2Name);
+			Assert.AreEqual("Janett.Framework.Transformer$InnerClass", ty2Name);
+		}
+
+		[Test]
+		public void InnerInterface()
+		{
+			string program = TestUtil.PackageMemberParse("import java.util.HashMap; import java.util.Map; public class A { Map.Entry entry;}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration type = (TypeDeclaration) ns.Children[2];
+			FieldDeclaration field = (FieldDeclaration) type.Children[0];
+			string fullName = GetFullName(field.TypeReference);
+			Assert.AreEqual("java.util.Map$Entry", fullName);
+		}
+
+		[Test]
+		public void InnerClassCallsInnerInterface()
+		{
+			string program = TestUtil.PackageMemberParse("class A {class B { IC ic;} interface IC {} }");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration ty1 = (TypeDeclaration) ns.Children[0];
+			TypeDeclaration ty2 = (TypeDeclaration) ty1.Children[0];
+			FieldDeclaration fd = (FieldDeclaration) ty2.Children[0];
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+			string fullName = GetFullName(fd.TypeReference);
+			Assert.AreEqual("Test.A$IC", fullName);
+		}
+
+		[Test]
+		public void TripleInnerClassCallEnclosing()
+		{
+			string program = TestUtil.PackageMemberParse(@"class A
+															{
+																class B
+																{
+																	class C
+																	{
+																		B enclosing;
+																	}
+																}
+															}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			CodeBase.Types.Clear();
+			typesVisitor.VisitCompilationUnit(cu, null);
+			TypeDeclaration ty = (TypeDeclaration) CodeBase.Types["Test.A$B$C"];
+			FieldDeclaration field = (FieldDeclaration) ty.Children[0];
+			string fullName = GetFullName(field.TypeReference);
+			Assert.AreEqual("Test.A$B", fullName);
 		}
 	}
 }

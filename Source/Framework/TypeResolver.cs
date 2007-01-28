@@ -25,6 +25,9 @@ namespace Janett.Framework
 				if (firstDot == typeReference.Type.LastIndexOf('.'))
 				{
 					string enclosing = typeReference.Type.Substring(0, firstDot);
+					string subType = typeReference.Type.Substring(firstDot + 1);
+					if (CodeBase.Types.Contains(nsd.Name + "." + enclosing))
+						return nsd.Name + "." + enclosing + "$" + subType;
 					IList usingDeclarations = AstUtil.GetChildrenWithType(nsd, typeof(UsingDeclaration));
 					foreach (UsingDeclaration usingDeclaration in usingDeclarations)
 					{
@@ -32,16 +35,16 @@ namespace Janett.Framework
 						{
 							if (us.IsAlias)
 							{
-								if (us.Alias.Type.EndsWith(enclosing))
+								if (us.Alias.Type.EndsWith('.' + enclosing))
 								{
-									return us.Alias + "." + typeReference.Type.Substring(firstDot + 1);
+									return us.Alias + "$" + subType;
 								}
 							}
 							else
 							{
-								if (us.Name.EndsWith(enclosing))
+								if (us.Name.EndsWith('.' + enclosing))
 								{
-									return us.Name + "." + typeReference.Type.Substring(firstDot + 1);
+									return us.Name + "$" + subType;
 								}
 							}
 						}
@@ -58,7 +61,9 @@ namespace Janett.Framework
 					typeDec = (TypeDeclaration) AstUtil.GetParentOfType(typeDec, typeof(TypeDeclaration));
 				if (typeDec != null)
 				{
-					string typeName = nsd.Name + "." + typeDec.Name + "." + typeReference.Type;
+					while (typeDec.Parent is TypeDeclaration)
+						typeDec = (TypeDeclaration) typeDec.Parent;
+					string typeName = nsd.Name + "." + typeDec.Name + "$" + typeReference.Type;
 					if (CodeBase.Types.Contains(typeName))
 						return typeName;
 				}
@@ -111,7 +116,7 @@ namespace Janett.Framework
 			else if (typeDeclaration.Parent is TypeDeclaration)
 			{
 				TypeDeclaration parentType = (TypeDeclaration) typeDeclaration.Parent;
-				return GetFullName(parentType) + "." + typeDeclaration.Name;
+				return GetFullName(parentType) + '$' + typeDeclaration.Name;
 			}
 			else if (typeDeclaration.Parent is ClassDeclarationStatement)
 			{

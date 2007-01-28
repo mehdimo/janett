@@ -37,5 +37,12 @@ namespace Janett.Framework
 			string type = "org.foundation.project.util.FileManager";
 			Assert.IsTrue(Contains(type));
 		}
+
+		[Test]
+		public void InnerInterface()
+		{
+			string type = "net.host.Document$Page";
+			Assert.IsTrue(Contains(type));
+		}
 	}
 }

@@ -16,6 +16,7 @@ namespace Janett.Framework
 		public string LibrariesFolder = "Libraries";
 
 		private IDictionary zipCache = new Hashtable();
+		private AstUtil AstUtil = new AstUtil();
 
 		private SupportedLanguage language;
 
@@ -48,7 +49,11 @@ namespace Janett.Framework
 			parentVisitor.VisitCompilationUnit(compilationUnit, null);
 			NamespaceDeclaration ns = (NamespaceDeclaration) compilationUnit.Children[0];
 			TypeDeclaration typeDeclaration = (TypeDeclaration) ns.Children[0];
-
+			if (key.ToString().IndexOf('$') != -1)
+			{
+				string innerType = key.ToString().Substring(key.ToString().IndexOf('$') + 1);
+				typeDeclaration = GetInnerType(typeDeclaration, innerType);
+			}
 			string externalLib = ns.Name;
 			if (!ExternalLibraries.Contains(externalLib))
 				ExternalLibraries.Add(externalLib);
@@ -71,6 +76,8 @@ namespace Janett.Framework
 					if (key.StartsWith(zipFileName + "."))
 					{
 						ZipFile zf = GetZipFile(zipFile);
+						if (key.IndexOf('$') != -1)
+							key = key.Substring(0, key.IndexOf('$'));
 						string zipKey = key.Replace('.', '/') + "." + GetExtension(language);
 						ZipEntry ze = zf.GetEntry(zipKey);
 						if (ze != null)
@@ -93,6 +100,8 @@ namespace Janett.Framework
 				folder = Path.Combine(folder, subFolder);
 				typeName = typeName.Substring(typeName.LastIndexOf('.') + 1);
 			}
+			if (typeName.IndexOf('$') != -1)
+				typeName = typeName.Substring(0, typeName.IndexOf('$'));
 			folder = Path.GetFullPath(folder);
 			if (Directory.Exists(folder))
 			{
@@ -133,6 +142,17 @@ namespace Janett.Framework
 				return "java";
 			else
 				throw new NotSupportedException();
+		}
+
+		private TypeDeclaration GetInnerType(TypeDeclaration typeDeclaration, string innerTypeName)
+		{
+			IList children = AstUtil.GetChildrenWithType(typeDeclaration, typeof(TypeDeclaration));
+			foreach (TypeDeclaration type in children)
+			{
+				if (type.Name == innerTypeName)
+					return type;
+			}
+			return typeDeclaration;
 		}
 	}
 }
