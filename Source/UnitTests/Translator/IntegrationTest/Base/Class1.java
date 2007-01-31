@@ -103,4 +103,8 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
     {
         return 0;
     }
+
+	public void methodToExclude() 
+	{
+	}
 }

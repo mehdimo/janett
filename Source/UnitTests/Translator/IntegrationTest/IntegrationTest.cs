@@ -22,6 +22,9 @@ namespace Janett.Translator
 
 			javaTranslator.InputFolder = @"../../Translator/IntegrationTest/Base";
 			javaTranslator.Libraries = @"../../../Translator/Libraries";
+
+			string class1File = Path.Combine(Path.GetFullPath(javaTranslator.InputFolder), "Class1.java");
+			javaTranslator.MethodExcludes.Add(class1File, "methodToExclude");
 		}
 
 		[Test]

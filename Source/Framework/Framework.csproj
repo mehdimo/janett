@@ -130,6 +130,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MethodExcludeTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MethodRelatedTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -306,4 +311,5 @@
         </Files>
     </CSHARP>
 </VisualStudioProject>
+
 

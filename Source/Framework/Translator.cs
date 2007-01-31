@@ -66,6 +66,8 @@ namespace Janett.Framework
 		private int sourceFileCount;
 		private string diagnosticsFile;
 
+		public IDictionary MethodExcludes = new Hashtable();
+
 		public override void Execute()
 		{
 			DateTime start = DateTime.Now;
@@ -546,7 +548,14 @@ namespace Janett.Framework
 
 				parentVisitor.VisitCompilationUnit(compilationUnit, null);
 				typesVisitor.VisitCompilationUnit(compilationUnit, null);
-
+				if (MethodExcludes.Contains(entry.File))
+				{
+					string methods = MethodExcludes[entry.File].ToString();
+					MethodExcludeTransformer met = new MethodExcludeTransformer();
+					foreach (string method in methods.Split(','))
+						met.Methods.Add(method);
+					met.VisitCompilationUnit(compilationUnit, null);
+				}
 				entry.CompilationUnit = compilationUnit;
 				entry.Parser = parser;
 			}
@@ -736,10 +745,22 @@ namespace Janett.Framework
 		{
 			foreach (XmlNode subNode in FilterNodes(node.ChildNodes))
 			{
+				string path = subNode.Attributes["Path"].Value;
 				if (subNode.Name == "Include")
-					p.FileSet.Includes.Add(subNode.Attributes["Path"].Value);
+					p.FileSet.Includes.Add(path);
 				else
-					p.FileSet.Excludes.Add(subNode.Attributes["Path"].Value);
+				{
+					int index = path.IndexOf(":");
+					if (index != -1)
+					{
+						string folder = Path.Combine(InputFolder, p.Folder);
+						string fileName = path.Substring(0, index);
+						string methods = path.Substring(index + 1);
+						MethodExcludes.Add(Path.Combine(folder, fileName), methods);
+					}
+					else
+						p.FileSet.Excludes.Add(path);
+				}
 			}
 		}
 
