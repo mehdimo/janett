@@ -20,29 +20,40 @@ namespace Janett.Framework
 			else
 			{
 				TypeDeclaration typeDeclaration = (TypeDeclaration) AstUtil.GetParentOfType(identifierExpression, typeof(TypeDeclaration));
-				if (typeDeclaration != null && typeDeclaration.BaseTypes.Count > 0)
+				if (typeDeclaration != null)
+					CheckThroughParents(typeDeclaration, identifierExpression);
+			}
+			return null;
+		}
+
+		private void CheckThroughParents(TypeDeclaration typeDeclaration, IdentifierExpression identifierExpression)
+		{
+			if (typeDeclaration.BaseTypes.Count > 0)
+			{
+				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
 				{
-					foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+					string fullName = GetFullName(baseType);
+					if (CodeBase.References.Contains(fullName))
 					{
-						string fullName = GetFullName(baseType);
-						if (CodeBase.References.Contains(fullName))
+						string referedBaseType = (string) CodeBase.References[fullName];
+						TypeReference newBaseType = AstUtil.GetTypeReference(referedBaseType, baseType.Parent);
+						string referenceBaseType = GetFullName(newBaseType);
+						TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[referenceBaseType];
+						if (baseTypeDeclaration != null && DefinedInFieldsClass(baseTypeDeclaration, identifierExpression.Identifier))
 						{
-							string referedBaseType = (string) CodeBase.References[fullName];
-							TypeReference newBaseType = AstUtil.GetTypeReference(referedBaseType, baseType.Parent);
-							string referenceBaseType = GetFullName(newBaseType);
-							TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[referenceBaseType];
-							if (baseTypeDeclaration != null && DefinedInFieldsClass(baseTypeDeclaration, identifierExpression.Identifier))
-							{
-								TypeReferenceExpression id = new TypeReferenceExpression(referedBaseType);
-								FieldReferenceExpression replaced = new FieldReferenceExpression(id, identifierExpression.Identifier);
-								replaced.Parent = identifierExpression.Parent;
-								ReplaceCurrentNode(replaced);
-							}
+							TypeReferenceExpression id = new TypeReferenceExpression(referedBaseType);
+							FieldReferenceExpression replaced = new FieldReferenceExpression(id, identifierExpression.Identifier);
+							replaced.Parent = identifierExpression.Parent;
+							ReplaceCurrentNode(replaced);
 						}
+					}
+					else if (CodeBase.Types.Contains(fullName))
+					{
+						TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
+						CheckThroughParents(baseTypeDeclaration, identifierExpression);
 					}
 				}
 			}
-			return null;
 		}
 
 		public override object TrackedVisitInvocationExpression(InvocationExpression invocationExpression, object data)
@@ -225,6 +236,12 @@ namespace Janett.Framework
 			string key = ns.Name + "." + identifier.Identifier;
 			if (CodeBase.References.Contains(key))
 				return (string) CodeBase.References[key];
+			else if (CodeBase.Types.Contains(key))
+			{
+				string value = SearchForParents(key);
+				if (value != null)
+					return value;
+			}
 			else
 			{
 				IList usings = AstUtil.GetChildrenWithType(ns, typeof(UsingDeclaration));
@@ -236,6 +253,33 @@ namespace Janett.Framework
 						key = usi.Alias.Type;
 					if (CodeBase.References.Contains(key))
 						return (string) CodeBase.References[key];
+					else if (CodeBase.Types.Contains(key))
+					{
+						string value = SearchForParents(key);
+						if (value != null)
+							return value;
+					}
+				}
+			}
+
+			return null;
+		}
+
+		private string SearchForParents(string typeName)
+		{
+			if (CodeBase.Types.Contains(typeName))
+			{
+				TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[typeName];
+				if (typeDeclaration.BaseTypes.Count > 0)
+				{
+					foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+					{
+						string fullName = GetFullName(baseType);
+						if (CodeBase.References.Contains(fullName))
+							return (string) CodeBase.References[fullName];
+						else
+							SearchForParents(fullName);
+					}
 				}
 			}
 			return null;

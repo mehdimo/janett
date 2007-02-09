@@ -26,8 +26,8 @@ namespace Janett.Translator
 		public void InterfaceFieldsClass()
 		{
 			CodeBase.References.Add("Test.IClassifier", "Test.IClassifier_Fields");
-			string program = TestUtil.TypeMemberParse("public void Main(){IClassifier.Type = null;}");
-			string expected = TestUtil.CSharpTypeMemberParse("public void Main(){Test.IClassifier_Fields.Type = null;}");
+			string program = TestUtil.PackageMemberParse("import Test.IClassifier; public class Test { public void Main(){IClassifier.Type = null;} }");
+			string expected = TestUtil.NamespaceMemberParse("using Test.IClassifier; public class Test {public void Main(){Test.IClassifier_Fields.Type = null;} }");
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			VisitCompilationUnit(cu, null);
 
@@ -41,16 +41,48 @@ namespace Janett.Translator
 			string expected = TestUtil.GetExpected();
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
-			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
-			TypeDeclaration ty1 = (TypeDeclaration) ns.Children[0];
-			TypeDeclaration ty2 = (TypeDeclaration) ns.Children[1];
-			TypeDeclaration ty3 = (TypeDeclaration) ns.Children[2];
 
-			CodeBase.Types.Add("Test.A", ty1);
-			CodeBase.Types.Add("Test.IT", ty2);
-			CodeBase.Types.Add("Test.IT_Fields", ty3);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
 
 			CodeBase.References.Add("Test.IT", "Test.IT_Fields");
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void CallingInheritedInterfaceFromInterfaceFields()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			string program2 = @"
+					package Atom;
+					public interface IMaterial
+					{
+					}
+					public class IMaterial_Fields
+					{
+						public static int Atomic_Number;
+					}
+					public interface ISolid extends IMaterial
+					{
+					}";
+			CompilationUnit cv = TestUtil.ParseProgram(program2);
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+			typesVisitor.VisitCompilationUnit(cv, null);
+
+			ImportTransformer im = new ImportTransformer();
+			im.VisitCompilationUnit(cu, null);
+
+			CodeBase.References.Add("Atom.IMaterial", "Atom.IMaterial_Fields");
 
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));

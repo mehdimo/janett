@@ -1,6 +1,9 @@
 namespace Test
 {
-	public class A : IT
+	public class B : IT
+	{
+	}
+	public class A : B
 	{
 		public void Method()
 		{

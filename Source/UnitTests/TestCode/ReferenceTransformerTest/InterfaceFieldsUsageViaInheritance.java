@@ -1,5 +1,8 @@
 package Test;
-public class A extends IT
+public class B extends IT
+{
+}
+public class A extends B
 {
 	public void Method()
 	{
