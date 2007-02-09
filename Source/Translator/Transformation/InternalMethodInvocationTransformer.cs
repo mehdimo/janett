@@ -23,7 +23,9 @@ namespace Janett.Translator
 					if (ContainsInternalMethod(specialMethods))
 					{
 						Expression replacedExpression;
-						replacedExpression = CreateReflectionInvocation(invocationExpression);
+						MethodDeclaration method = (MethodDeclaration) specialMethods[0];
+						bool staticMethod = AstUtil.ContainsModifier(method, Modifiers.Static);
+						replacedExpression = CreateReflectionInvocation(invocationExpression, staticMethod);
 						if (invocationExpression.Parent is Expression || invocationExpression.Parent is VariableDeclaration)
 						{
 							TypeReference returnType = GetInternalMethodReturnType(specialMethods);
@@ -37,7 +39,7 @@ namespace Janett.Translator
 			return base.TrackedVisitInvocationExpression(invocationExpression, data);
 		}
 
-		private InvocationExpression CreateReflectionInvocation(InvocationExpression invocationExpression)
+		private InvocationExpression CreateReflectionInvocation(InvocationExpression invocationExpression, bool staticMethod)
 		{
 			ArrayList arguments = new ArrayList();
 			FieldReferenceExpression fieldReferenceExpression = (FieldReferenceExpression) invocationExpression.TargetObject;
@@ -49,7 +51,10 @@ namespace Janett.Translator
 			string name = fieldReferenceExpression.FieldName;
 			PrimitiveExpression methodName = new PrimitiveExpression(name, '"' + name + '"');
 			arguments.Add(methodName);
-			arguments.Add(invoker);
+			if (staticMethod)
+				arguments.Add(new PrimitiveExpression(null, "null"));
+			else
+				arguments.Add(invoker);
 
 			ArrayInitializerExpression arrayInitializer = new ArrayInitializerExpression(invocationExpression.Arguments);
 			TypeReference reference = AstUtil.GetTypeReference("object", invocationExpression);
