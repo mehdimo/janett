@@ -20,6 +20,7 @@ namespace Test.Integration
 		public void TestMethod()
 		{
 			AbstractClass abc = null;
+			System.Type clazz = GetType();
 			string testName = abc.Name;
 			abc.Name = testName;
 			int a = 0;

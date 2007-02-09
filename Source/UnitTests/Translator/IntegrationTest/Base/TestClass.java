@@ -19,6 +19,7 @@ public class TestClass extends TestCase
     public void testMethod()
     {
 		AbstractClass abc = null;
+		Class clazz = getClass();
 		String testName = abc.getName();
 		abc.setName(testName);
 		Integer a = new Integer(0);

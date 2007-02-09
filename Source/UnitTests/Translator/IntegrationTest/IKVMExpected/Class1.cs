@@ -99,7 +99,8 @@ namespace Test.Integration
 			{
 				lock (text) {
 					Iterator it = map.keySet().iterator();
-					object obj = it.next();
+					Map.Entry entry = (Map.Entry)it.next();
+					object key = entry.getKey();
 				}
 			}
 			return java.lang.String.instancehelper_charAt(text, 0) + java.lang.String.instancehelper_replaceAll(text, "\\s", "&nbsp");

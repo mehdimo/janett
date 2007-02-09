@@ -93,7 +93,8 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
 			synchronized (text)
 			{
 				Iterator it = map.keySet().iterator();
-				Object obj = it.next();
+				Map.Entry entry = (Map.Entry) it.next();
+				Object key = entry.getKey();
 			}
 		}
         return text.charAt(0) + text.replaceAll("\\s", "&nbsp");

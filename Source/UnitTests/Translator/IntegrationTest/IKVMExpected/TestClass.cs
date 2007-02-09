@@ -20,6 +20,7 @@ namespace Test.Integration
 		public void TestMethod()
 		{
 			AbstractClass abc = null;
+			Class clazz = java.lang.Object.instancehelper_getClass(this);
 			string testName = abc.Name;
 			abc.Name = testName;
 			Integer a = new Integer(0);

@@ -88,7 +88,8 @@ namespace Test.Integration
 			{
 				lock (text) {
 					System.Collections.IEnumerator it = map.Keys.GetEnumerator();
-					object obj = it.Current;
+					System.Collections.DictionaryEntry entry = (System.Collections.DictionaryEntry)it.Current;
+					object key = entry.Key;
 				}
 			}
 			return text[0] + System.Text.RegularExpressions.Regex.Replace(text, "\\s", "&nbsp");
