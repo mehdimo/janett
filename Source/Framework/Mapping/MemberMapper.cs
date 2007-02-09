@@ -11,20 +11,23 @@ namespace Janett.Framework
 		public override object TrackedVisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
 		{
 			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
-			if (typeDeclaration.BaseTypes.Count > 0 && AstUtil.ContainsModifier(methodDeclaration, Modifiers.Override))
+			if (AstUtil.ContainsModifier(methodDeclaration, Modifiers.Override))
 			{
-				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+				if (typeDeclaration.BaseTypes.Count > 0)
 				{
-					string fullName = GetFullName(baseType);
-					TypeMapping mappings = CodeBase.Mappings[fullName];
-					string methodKey;
-					if (ContainsMapping(mappings, methodDeclaration, out methodKey))
+					foreach (TypeReference baseType in typeDeclaration.BaseTypes)
 					{
-						string newName = mappings.Members[methodKey];
-						if (newName.IndexOf('.') == -1)
+						string methodKey;
+						TypeMapping mappings = GetProperMapping(baseType, methodDeclaration, methodDeclaration.Name, out methodKey);
+
+						if (mappings != null)
 						{
-							newName = newName.Substring(0, newName.IndexOf('('));
-							methodDeclaration.Name = newName;
+							string newName = mappings.Members[methodKey];
+							if (newName.IndexOf('.') == -1)
+							{
+								newName = newName.Substring(0, newName.IndexOf('('));
+								methodDeclaration.Name = newName;
+							}
 						}
 					}
 				}
@@ -66,7 +69,10 @@ namespace Janett.Framework
 			if (invocationExpression.TypeArguments.Count == 0)
 				return base.TrackedVisitInvocationExpression(invocationExpression, data);
 			else
+			{
+				invocationExpression.TypeArguments.Clear();
 				return null;
+			}
 		}
 
 		public override object TrackedVisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression, object data)
@@ -160,26 +166,53 @@ namespace Janett.Framework
 					replacedExpression.AcceptVisitor(this, data);
 				}
 			}
-			else if (invocationExpression.TargetObject is FieldReferenceExpression)
+			else if (invocationExpression.TargetObject is FieldReferenceExpression || invocationExpression.TargetObject is IdentifierExpression)
 			{
 				Expression invocationTarget = invocationExpression.TargetObject;
-				FieldReferenceExpression methodTargetObject = (FieldReferenceExpression) invocationTarget;
+				string methodName = null;
 
-				string fullName = GetFullName(invokerType);
-				TypeReference retType = GetInstanceType(fullName, methodTargetObject.FieldName);
-				if (retType != null)
-				{
-					string fullReturnType = GetFullName(retType);
-					mapping = CodeBase.Mappings[fullReturnType];
-				}
+				if (invocationTarget is FieldReferenceExpression)
+					methodName = ((FieldReferenceExpression) invocationTarget).FieldName;
+				else if (invocationTarget is IdentifierExpression)
+					methodName = ((IdentifierExpression) invocationTarget).Identifier;
 
-				if (ContainsMapping(mapping, invocationExpression, out methodKey))
+				mapping = GetProperMapping(invokerType, invocationExpression, methodName, out methodKey);
+
+				if (mapping != null)
 				{
 					replacedExpression = GetReplacedExpression(invocationExpression, methodKey, mapping.Members);
 					ReplaceCurrentNode(replacedExpression);
 					replacedExpression.AcceptVisitor(this, data);
 				}
 			}
+		}
+
+		private TypeMapping GetProperMapping(TypeReference invokerType, INode node, string methodName, out string methodKey)
+		{
+			TypeMapping mapping = null;
+			methodKey = null;
+
+			string fullName = GetFullName(invokerType);
+			TypeReference retType = GetInstanceType(fullName, methodName);
+			if (retType != null)
+			{
+				string fullReturnType = GetFullName(retType);
+				mapping = CodeBase.Mappings[fullReturnType];
+
+				if (ContainsMapping(mapping, node, out methodKey))
+					return mapping;
+				else if (CodeBase.Types.Contains(fullReturnType))
+				{
+					TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[fullReturnType];
+					foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+					{
+						mapping = GetProperMapping(baseType, node, methodName, out methodKey);
+						if (mapping != null)
+							return mapping;
+					}
+				}
+			}
+			return null;
 		}
 
 		private Expression GetReplacedExpression(Expression expression, string methodKey, IDictionary classMap)
@@ -199,6 +232,7 @@ namespace Janett.Framework
 				removeId = true;
 				mapKey = mapKey.Substring(1);
 			}
+
 			AssignmentExpression mappedExpression = (AssignmentExpression) GetMapExpression(mapKey);
 
 			Substitution substitution = new Substitution();

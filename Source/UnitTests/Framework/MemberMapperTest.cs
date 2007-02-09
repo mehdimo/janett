@@ -57,7 +57,7 @@ namespace Janett.Framework
 			cu = TestUtil.ParseProgram(program);
 			VisitCompilationUnit(cu, null);
 
-			expected = TestUtil.CSharpStatementParse("String chr; String str; str.Substring(10, str.IndexOf(chr) - 10);");
+			expected = TestUtil.CSharpStatementParse("String chr; String str; str.Substring(10, str.IndexOf(chr) - (10));");
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
 
@@ -405,6 +405,26 @@ namespace Janett.Framework
 			AstUtil.AddModifierTo(method, Modifiers.Override);
 			VisitCompilationUnit(cu, null);
 
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void LibrariyInheritedInstanceMethod()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration type = (TypeDeclaration) ns.Children[1];
+			MethodDeclaration method = (MethodDeclaration) type.Children[0];
+			AstUtil.AddModifierTo(method, Modifiers.Override);
+
+			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
 	}
