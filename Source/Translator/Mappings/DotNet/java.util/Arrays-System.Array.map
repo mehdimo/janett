@@ -1,2 +1,4 @@
-PascalStyle:sort(a) - binarySearch(a,b)
-asList(a)-!new ArrayList(a)
+PascalStyle:sort(a) - binarySearch(a,b) - sort(a,b)
+asList(a)-!new System.Collections.ArrayList(a)
+equals(a,b)-Helpers.Arrays.Equals(a,b)
+

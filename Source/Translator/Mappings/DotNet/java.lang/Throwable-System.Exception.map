@@ -1,2 +1,5 @@
 printStackTrace()-System.Console.WriteLine(id.StackTrace);
+printStackTrace(a)-a.Write(id.StackTrace);
 getLocalizedMessage()-id.Message
+getMessage()-id.Message
+getTargetException()-id.InnerException

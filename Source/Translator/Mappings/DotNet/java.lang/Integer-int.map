@@ -1,4 +1,7 @@
-PascalStyle: equals(a)
+PascalStyle: comapreTo(a)
 new Integer(a)-a
 new int(a)-a
 intValue()-id
+MAX_VALUE-int.MaxValue
+MIN_VALUE-int.MinValue
+parseInt(a)-Parse(a)

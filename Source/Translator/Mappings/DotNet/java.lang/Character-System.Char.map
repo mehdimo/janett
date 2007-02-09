@@ -1,3 +1,4 @@
 PascalStyle: isLetter(a)
+toUpperCase(a)-ToUpper(a)
 toLowerCase(a)-ToLower(a)
 isWhitespace(a)-IsWhiteSpace(a)

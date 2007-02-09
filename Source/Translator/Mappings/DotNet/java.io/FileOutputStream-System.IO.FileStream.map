@@ -1,0 +1,1 @@
+new FileOutputStream(File a)-new FileOutputStream(a.FullName, System.IO.FileMode.Open)

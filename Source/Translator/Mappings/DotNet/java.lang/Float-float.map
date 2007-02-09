@@ -1,1 +1,2 @@
 floatToIntBits(a)-!(int)a
+new Float(a)-a

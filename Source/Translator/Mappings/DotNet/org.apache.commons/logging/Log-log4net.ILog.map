@@ -1,2 +1,5 @@
-PascalStyle: debug(a)
+PascalStyle: debug(a) - debug(a,b) - info(a) - info(a,b) - warn(a) - warn(a,b) - error(a) - error(a,b)
 isDebugEnabled()-id.IsDebugEnabled
+isWarnEnabled()-id.IsWarnEnabled
+isInfoEnabled()-id.IsInfoEnabled
+

@@ -1,5 +1,18 @@
+PascalStyle: getConstructors() - getField(a) - getInterfaces() - getMethods() -  getMethod(a,b) - isAssignableFrom(a)
+forName(a)-GetType(a)
+forName(a,b,c)-GetType(a)
+getClassLoader()-id.Assembly
+getComponentType()-GetElementType()
+getDeclaredConstructor(a)-GetConstructor(a)
+getDeclaredConstructors()-GetConstructors()
 getDeclaredFields()-GetFields()
+getDeclaredMethods()-GetMethods()
+getDeclaredMethod(a,b)-GetMethod(a,b)
+getModifiers()-id
 getName()-id.Name
+getPackage()-id.Namespace
 getSuperclass()-id.BaseType
 isArray()-id.IsArray
 isInstance(a)-IsInstanceOfType(a)
+isInterface()-id.IsInterface
+isPrimitive()-id.IsPrimitive

@@ -1,0 +1,4 @@
+getAttribute(a)-id.Attributes[a].Value
+hasAttribute(a)-id.Attributes[a] != null
+getChildNodes()-id.ChildNodes
+getTagName()-id.Name

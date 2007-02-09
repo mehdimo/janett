@@ -1,0 +1,4 @@
+CaseInsensitiveMap-System.Collections.Hashtable
+IdentityMap-System.Collections.Hashtable
+LinkedMap-System.Collections.Hashtable
+ListOrderedMap-System.Collections.Hashtable

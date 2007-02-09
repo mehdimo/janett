@@ -1,0 +1,2 @@
+setUseCaches(a)-!
+getInputStream()-GetResponse().GetResponseStream()

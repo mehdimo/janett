@@ -7,3 +7,14 @@ ClassCastException-System.InvalidCastException
 InternalError-System.ExecutionEngineException
 UnsupportedOperationException-System.NotSupportedException
 NullPointerException-System.NullReferenceException
+NoClassDefFoundError-System.TypeLoadException
+Byte-System.Byte
+Short-System.Int16
+NoSuchMethodException-System.MissingMethodException
+IndexOutOfBoundsException-System.IndexOutOfRangeException
+NumberFormatException-System.FormatException
+RuntimeException-System.SystemException
+ClassLoader-System.Reflection.Assembly
+InstantiationException-System.MemberAccessException
+ClassNotFoundException-System.TypeLoadException
+Number-System.Int32

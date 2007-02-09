@@ -124,7 +124,47 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\Arrays.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Helpers\Collections.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\DocumentBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\DocumentBuilderFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\EntityResolver.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\ErrorHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\File.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\InputSource.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\PropertyChangeEvent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -139,11 +179,40 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\StringTokenizer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Mappings\DotNet\Array-Array.map"
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.beans\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.beans\FeatureDescriptor-System.Reflection.MemberInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.beans\PropertyChangeEvent-Helpers.PropertyChangeEvent.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.beans\PropertyDescriptor-System.Reflection.PropertyInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.io\BufferedReader-System.IO.TextReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\BufferedWriter-System.IO.TextWriter.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\ByteArrayOutputStream-System.IO.MemoryStream.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -155,7 +224,15 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.io\FileOutputStream-System.IO.FileStream.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.io\FileReader-System.IO.StreamReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\File-System.IO.FileInfo.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -167,11 +244,27 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.io\OutputStream-System.IO.Stream.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.io\PrintStream-System.IO.TextWriter.map"
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.io\PrintWriter-System.IO.StreamWriter.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.io\Reader-System.IO.TextReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\StringWriter-System.IO.StringWriter.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\Writer-System.IO.TextWriter.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -231,6 +324,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.lang\Thread-System.Threading.Thread.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.lang\Throwable-System.Exception.map"
                     BuildAction = "Content"
                 />
@@ -239,11 +336,43 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\Array-System.Array.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\Constructor-System.Reflection.ConstructorInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.lang\reflect\Field-System.Reflection.FieldInfo.map"
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\InvocationTargetException-System.Reflection.TargetInvocationException.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\reflect\Method-System.Reflection.MethodInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.lang\reflect\Modifier-java.lang.reflect.Modifier.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.net\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.net\URLConnection-System.Net.WebRequest.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.net\URLDecoder-System.Uri.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.net\URL-System.Uri.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -271,6 +400,18 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.util\Dictionary-System.Collections.Hashtable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Enumeration-System.Collections.IEnumerator.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\HashMap-System.Collections.Hashtable.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.util\HashSet-System.Collections.ArrayList.map"
                     BuildAction = "Content"
                 />
@@ -283,11 +424,31 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.util\LinkedList-System.Collections.ArrayList.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.util\List-System.Collections.IList.map"
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.util\Locale-System.Globalization.CultureInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Map$Entry-System.Collections.DictionaryEntry.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.util\Map-System.Collections.IDictionary.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Properties-System.Collections.Hashtable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\ResourceBundle-System.Resources.ResourceSet.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -299,7 +460,23 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\javax\xml\parsers\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\junit.framework\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\junit.framework\TestCase-NUnit.Framework.TestCase.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.apache.commons\collections\map\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.apache.commons\collections\set\Class.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -308,6 +485,38 @@
                 />
                 <File
                     RelPath = "Mappings\DotNet\org.apache.commons\logging\Log-log4net.ILog.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\CharacterData-System.Xml.XmlCharacterData.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\Comment-System.Xml.XmlComment.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\Document-System.Xml.XmlDocument.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\Element-System.Xml.XmlElement.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\EntityReference-System.Xml.XmlEntityReference.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\NodeList-System.Xml.XmlNodeList.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.w3c.dom\Node-System.Xml.XmlNode.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.xml\sax\Class.map"
                     BuildAction = "Content"
                 />
                 <File

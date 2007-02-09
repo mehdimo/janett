@@ -1,0 +1,4 @@
+newInstance(a,b)-CreateInstance(a,b)
+getLength(a)-!((System.Array)a).Length
+get(a,b)-!((System.Array)a).GetValue(b)
+set(a,b)-!((System.Array)a).SetValue(b)

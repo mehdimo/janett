@@ -1,3 +1,2 @@
-iterator()-GetEnumerator()
 hasNext()-MoveNext()
 next()-id.Current

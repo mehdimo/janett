@@ -1,0 +1,8 @@
+exists()-id.Exists
+getAbsolutePath()-id.FullName
+getPath()-id.FullName
+getName()-id.Name
+separator-!System.IO.Path.DirectorySeparatorChar.ToString()
+getAbsoluteFile()-id
+listFiles()-!Helpers.File.getFiles(id)
+isDirectory()-!Helpers.File.isDirectory(id)

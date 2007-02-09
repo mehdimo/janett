@@ -1,6 +1,14 @@
+PascalStyle: clear() - remove(a)
 containsKey(a)-Contains(a)
 keySet()-id.Keys
+entrySet()-id.Values
 put(a,b)-id[a] = b
 get(a)-id[a]
+hashCode()-GetHashCode()
 size()-id.Count
 values()-id.Values
+putAll(a)-!Helpers.Collections.putAll(id,a)
+containsValue(a)-((System.Collections.Hashtable)id).ContainsValue(a)
+removeAll(a)-!Helpers.Collections.removeAll(id,a)
+containsAll(a)-!Helpers.Collections.ContainsAll(id,a)
+isEmpty()-(id.Count == 0)

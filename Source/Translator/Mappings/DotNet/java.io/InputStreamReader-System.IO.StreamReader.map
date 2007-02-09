@@ -1,1 +1,2 @@
 PascalStyle: readLine()- close()
+new InputStreamReader(InputStream a,string b)-new InputStreamReader(a,System.Text.Encoding.GetEncoding(b))

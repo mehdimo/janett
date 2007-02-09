@@ -1,0 +1,7 @@
+getDeclaringClass()-id.DeclaringType
+getName()-id.Name
+setAccessible(a)-!
+invoke(a,b)-Invoke(a,b)
+getModifiers()-id
+getParameterTypes()-!Helpers.ReflectionHelper.GetParameterTypes(id)
+getReturnType()-id.ReturnType

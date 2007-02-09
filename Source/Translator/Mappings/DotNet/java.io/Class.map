@@ -1,4 +1,7 @@
 ByteArrayInputStream-System.IO.MemoryStream
 IOException-System.IO.IOException
 StringReader-System.IO.StringReader
-File-System.IO.FileInfo
+FileNotFoundException-System.IO.FileNotFoundException
+Serializable-System.Runtime.Serialization.ISerializable
+BufferedInputStream-System.IO.BufferedStream
+BufferedOutputStream-System.IO.BufferedStream

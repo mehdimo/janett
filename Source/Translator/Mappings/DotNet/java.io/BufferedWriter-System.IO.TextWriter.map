@@ -1,0 +1,4 @@
+PascalStyle: write(a) - flush()
+new BufferedWriter(a)-a
+newLine()-WriteLine()
+

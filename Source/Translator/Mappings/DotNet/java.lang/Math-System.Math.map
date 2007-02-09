@@ -1,1 +1,1 @@
-PascalStyle: sqrt(a)
+PascalStyle: sqrt(a) - max(a,b) - min(a,b) - round(a)

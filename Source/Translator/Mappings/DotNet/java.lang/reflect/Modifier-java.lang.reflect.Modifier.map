@@ -1,2 +1,3 @@
 isTransient(a)-!a.IsNotSerialized
 isStatic(a)-!a.IsStatic
+isPublic(a)-!a.IsPublic

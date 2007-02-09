@@ -1,3 +1,4 @@
 PascalStyle: close()
 read(a)-Read(a,0,a.Length)
-new FileInputStream(a)-new FileInputStream(a, System.IO.FileMode.Open)
+new FileInputStream(string a)-new FileInputStream(a, System.IO.FileMode.Open)
+new FileInputStream(File a)-new FileInputStream(a.FullName, System.IO.FileMode.Open)

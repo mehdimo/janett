@@ -1,0 +1,2 @@
+PascalStyle: write(a,b,c) - flush() - close()
+write(a)-Write(a,0,a.Length)

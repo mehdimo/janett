@@ -18,5 +18,16 @@ namespace Helpers
 				throw exception;
 			}
 		}
+
+		public static Type[] GetParameterTypes(MethodBase method)
+		{
+			ParameterInfo[] parameters = method.GetParameters();
+			Type[] types = new Type[parameters.Length];
+			for (int i = 0; i < parameters.Length; i++)
+			{
+				types[i] = parameters[i].ParameterType;
+			}
+			return types;
+		}
 	}
 }

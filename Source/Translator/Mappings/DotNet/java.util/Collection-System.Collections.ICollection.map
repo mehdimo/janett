@@ -1,1 +1,8 @@
+PascalStyle: add(a) - clear() - remove(a)
+addAll(a)-((System.Collections.ArrayList)id).AddRange(a)
 iterator()-GetEnumerator()
+toArray(a)-((System.Collections.ArrayList)id).ToArray(a)
+toArray()-((System.Collections.ArrayList)id).ToArray()
+contains(a)-((System.Collections.ArrayList)id).Contains(a)
+size()-id.Count
+isEmpty()-(id.Count == 0)

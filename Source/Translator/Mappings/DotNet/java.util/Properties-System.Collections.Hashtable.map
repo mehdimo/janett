@@ -1,0 +1,3 @@
+setProperty(a,b)-Add(a,b)
+getProperty(a)-id[a].ToString()
+propertyNames()-id.Keys.GetEnumerator()

@@ -1,6 +1,4 @@
-PascalStyle: add(a)
-addAll(a)-((ArrayList)id).AddRange(a)
-iterator()-GetEnumerator()
-size()-id.Count
 get(a)-id[a]
-toArray(a)-((System.Collections.ArrayList)id).ToArray(a)
+add(a,b)-Insert(a,b)
+set(a,b)-id[a] = b
+subList(a,b)-Helpers.Collections.subList(id,a,b)

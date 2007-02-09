@@ -1,0 +1,3 @@
+openConnection()-!System.Net.WebRequest.Create(id)
+getFile()-id.AbsolutePath
+getProtocol()-id.Scheme
