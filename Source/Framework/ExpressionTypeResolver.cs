@@ -109,7 +109,7 @@ namespace Janett.Framework
 			}
 			else if (ex is TypeOfExpression)
 			{
-				TypeReference typeReference = new TypeReference("System.Type");
+				TypeReference typeReference = new TypeReference("java.lang.Class");
 				typeReference.Parent = parent;
 				return typeReference;
 			}
