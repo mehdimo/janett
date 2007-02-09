@@ -228,11 +228,6 @@ namespace Janett.Framework
 			return typeDeclaration.Type == ClassType.Interface;
 		}
 
-		private bool IsAbstractClass(TypeDeclaration typeDeclaration)
-		{
-			return (typeDeclaration.Type == ClassType.Class && AstUtil.ContainsModifier(typeDeclaration, Modifiers.Abstract));
-		}
-
 		private TypeReference GetAccessorTypeReference(MethodDeclaration accessorMethod)
 		{
 			if (accessorMethod.Name.StartsWith("get"))

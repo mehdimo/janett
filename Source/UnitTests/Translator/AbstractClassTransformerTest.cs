@@ -2,6 +2,8 @@ namespace Janett.Translator
 {
 	using ICSharpCode.NRefactory.Ast;
 
+	using Janett.Framework;
+
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -28,10 +30,10 @@ namespace Janett.Translator
 
 			VisitCompilationUnit(cu, null);
 
-			Assert.AreEqual(2, type.Children.Count);
+			Assert.AreEqual(1, type.Children.Count);
 
-			Assert.IsTrue(type.Children[1] is MethodDeclaration);
-			Assert.AreEqual("M1", ((MethodDeclaration) type.Children[1]).Name);
+			Assert.IsTrue(type.Children[0] is MethodDeclaration);
+			Assert.AreEqual("M2", ((MethodDeclaration) type.Children[0]).Name);
 		}
 
 		[Test]
@@ -61,6 +63,22 @@ namespace Janett.Translator
 			string expected = TestUtil.GetExpected();
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void Polymorphism()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}

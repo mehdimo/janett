@@ -318,5 +318,10 @@ namespace Janett.Framework
 			node.AcceptVisitor(outputVisitor, null);
 			return outputVisitor.Text;
 		}
+
+		protected bool IsAbstractClass(TypeDeclaration typeDeclaration)
+		{
+			return (typeDeclaration.Type == ClassType.Class && AstUtil.ContainsModifier(typeDeclaration, Modifiers.Abstract));
+		}
 	}
 }

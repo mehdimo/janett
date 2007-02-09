@@ -1,7 +1,7 @@
 package Test;
 public abstract class A extends B
 {
-	public int M2(int arg){}
+	public int M2(int arg){return 0;}
 }
 public abstract class B
 {

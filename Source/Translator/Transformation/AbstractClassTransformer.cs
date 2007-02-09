@@ -13,8 +13,9 @@ namespace Janett.Translator
 			if (IsAbstractClass(typeDeclaration))
 			{
 				IList currentClassMethods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
+				currentClassMethods = GetMethodsInParents(typeDeclaration, currentClassMethods, true);
 				IList methodsInParents = new ArrayList();
-				methodsInParents = GetMethodsInParents(typeDeclaration, methodsInParents);
+				methodsInParents = GetMethodsInParents(typeDeclaration, methodsInParents, false);
 				methodsInParents = FilterImplementedMethods(methodsInParents);
 				IList abstractMethods = GetDiffList(currentClassMethods, methodsInParents);
 
@@ -38,8 +39,13 @@ namespace Janett.Translator
 			return base.TrackedVisitTypeDeclaration(typeDeclaration, data);
 		}
 
-		private IList GetMethodsInParents(TypeDeclaration typeDeclaration, IList pmList)
+		private IList GetMethodsInParents(TypeDeclaration typeDeclaration, IList pmList, bool implemented)
 		{
+			ClassType classType;
+			if (implemented)
+				classType = ClassType.Class;
+			else
+				classType = ClassType.Interface;
 			if (typeDeclaration.BaseTypes.Count > 0)
 			{
 				foreach (TypeReference parentType in typeDeclaration.BaseTypes)
@@ -48,8 +54,11 @@ namespace Janett.Translator
 					if (CodeBase.Types.Contains(baseType))
 					{
 						TypeDeclaration parentTypeDeclaration = (TypeDeclaration) CodeBase.Types[baseType];
-						pmList = GetMethods(parentTypeDeclaration, pmList);
-						pmList = GetMethodsInParents(parentTypeDeclaration, pmList);
+						if (parentTypeDeclaration.Type == classType)
+						{
+							pmList = GetMethods(parentTypeDeclaration, pmList);
+							pmList = GetMethodsInParents(parentTypeDeclaration, pmList, implemented);
+						}
 					}
 				}
 			}
@@ -91,20 +100,10 @@ namespace Janett.Translator
 			foreach (MethodDeclaration method in methods)
 			{
 				TypeDeclaration parentType = (TypeDeclaration) method.Parent;
-				if (IsAbstractClass(parentType))
-				{
-					if (AstUtil.ContainsModifier(method, Modifiers.Abstract))
-						list.Add(method);
-				}
-				else if (parentType.Type == ClassType.Interface)
+				if (parentType.Type == ClassType.Interface)
 					list.Add(method);
 			}
 			return list;
-		}
-
-		private bool IsAbstractClass(TypeDeclaration type)
-		{
-			return (type.Type == ClassType.Class && AstUtil.ContainsModifier(type, Modifiers.Abstract));
 		}
 	}
 }

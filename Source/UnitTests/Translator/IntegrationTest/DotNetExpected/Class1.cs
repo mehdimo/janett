@@ -98,7 +98,6 @@ namespace Test.Integration
 		{
 			return 0;
 		}
-		public override abstract void AbstractClassMethod();
 		private class AnonymousClassInterface_InterfaceInnerClass1 : Test.Integration.InterfaceInnerClass
 		{
 			public AnonymousClassInterface_InterfaceInnerClass1(string name, Class1 enclosingInstance, string _lock) : base(name)
@@ -119,5 +118,6 @@ namespace Test.Integration
 				get { return enclosingInstance; }
 			}
 		}
+
 	}
 }
