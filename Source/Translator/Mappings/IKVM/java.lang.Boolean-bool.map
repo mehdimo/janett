@@ -1,1 +1,4 @@
-TRUE-bool.TrueString
+TRUE-true
+FALSE-false
+new Boolean(a)-a
+booleanValue()-id
