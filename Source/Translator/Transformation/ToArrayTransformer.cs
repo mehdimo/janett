@@ -17,7 +17,7 @@ namespace Janett.Translator
 				{
 					Expression invoker = targetObject.TargetObject;
 					TypeReference invokerType = GetExpressionType(invoker);
-					if (invokerType != null && (invokerType.Type == "List" || invokerType.Type == "Set"))
+					if (invokerType != null && (invokerType.Type == "List" || invokerType.Type == "Set" || invokerType.Type == "Collection"))
 					{
 						if (invocationExpression.Arguments.Count == 1)
 						{
