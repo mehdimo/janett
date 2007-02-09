@@ -67,6 +67,7 @@ namespace Janett.Framework
 		private string diagnosticsFile;
 
 		public IDictionary MethodExcludes = new Hashtable();
+		public IDictionary Stubs = new Hashtable();
 
 		public override void Execute()
 		{
@@ -548,6 +549,12 @@ namespace Janett.Framework
 
 				parentVisitor.VisitCompilationUnit(compilationUnit, null);
 				typesVisitor.VisitCompilationUnit(compilationUnit, null);
+				if (Stubs.Contains(entry.File))
+				{
+					StubTransformer st = new StubTransformer();
+
+					st.VisitCompilationUnit(compilationUnit, null);
+				}
 				if (MethodExcludes.Contains(entry.File))
 				{
 					string methods = MethodExcludes[entry.File].ToString();
@@ -747,21 +754,33 @@ namespace Janett.Framework
 			{
 				string path = subNode.Attributes["Path"].Value;
 				if (subNode.Name == "Include")
+				{
 					p.FileSet.Includes.Add(path);
+					if (subNode.Attributes["Stub"] != null)
+					{
+						Stubs.Add(GetFullPath(subNode.Attributes["Path"].Value, p), subNode.Attributes["Stub"]);
+					}
+				}
 				else
 				{
 					int index = path.IndexOf(":");
 					if (index != -1)
 					{
-						string folder = Path.Combine(InputFolder, p.Folder);
 						string fileName = path.Substring(0, index);
 						string methods = path.Substring(index + 1);
-						MethodExcludes.Add(Path.Combine(folder, fileName), methods);
+						string file = GetFullPath(fileName, p);
+						MethodExcludes.Add(file, methods);
 					}
 					else
 						p.FileSet.Excludes.Add(path);
 				}
 			}
+		}
+
+		private string GetFullPath(string fileName, Project p)
+		{
+			string folder = Path.Combine(InputFolder, p.Folder);
+			return Path.Combine(folder, fileName);
 		}
 
 		private IEnumerable FilterNodes(XmlNodeList nodes)

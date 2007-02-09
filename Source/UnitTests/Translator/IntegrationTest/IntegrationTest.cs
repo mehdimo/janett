@@ -25,6 +25,8 @@ namespace Janett.Translator
 
 			string class1File = Path.Combine(Path.GetFullPath(javaTranslator.InputFolder), "Class1.java");
 			javaTranslator.MethodExcludes.Add(class1File, "methodToExclude");
+			string stubFile = Path.Combine(Path.GetFullPath(javaTranslator.InputFolder), "Stub.java");
+			javaTranslator.Stubs.Add(stubFile, "Methods");
 		}
 
 		[Test]

@@ -170,6 +170,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "StubTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Transformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

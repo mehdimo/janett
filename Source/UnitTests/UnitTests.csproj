@@ -329,6 +329,16 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\AbstractClassTransformerTest\Polymorphism.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AbstractClassTransformerTest\Polymorphism.java"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\AbstractClassTransformerTest\TestCaseDerived.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -414,10 +424,6 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "TestCode\AnonymousClassTransformerTest\AbstractMethod.java"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "TestCode\AnonymousClassTransformerTest\AnonumousClassHasField.cs"
                     BuildAction = "None"
                 />
@@ -478,27 +484,11 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "TestCode\AnonymousClassTransformerTest\MultiLevel.cs"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "TestCode\AnonymousClassTransformerTest\MultiLevel.java"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "TestCode\AnonymousClassTransformerTest\SingleAnonymousClass.cs"
                     BuildAction = "None"
                 />
                 <File
                     RelPath = "TestCode\AnonymousClassTransformerTest\SingleAnonymousClass.java"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "TestCode\AnonymousClassTransformerTest\TestCaseDerived.cs"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "TestCode\AnonymousClassTransformerTest\TestCaseDerived.java"
                     BuildAction = "None"
                 />
                 <File
@@ -728,6 +718,14 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\MemberMapperTest\LibrariyInheritedInstanceMethod.cs"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\MemberMapperTest\LibrariyInheritedInstanceMethod.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\MemberMapperTest\RemovingMethodFromChain.cs"
                     BuildAction = "None"
                 />
@@ -838,6 +836,15 @@
                 />
                 <File
                     RelPath = "TestCode\RefactorRenameMethodInvocationTest\TestN.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\CallingInheritedInterfaceFromInterfaceFields.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\CallingInheritedInterfaceFromInterfaceFields.java"
                     BuildAction = "None"
                 />
                 <File

@@ -20,6 +20,7 @@ namespace Janett.Framework
 		private XmlDocument projectDocument;
 
 		public FileSet FileSet;
+		public IList Stubs;
 
 		private IDictionary includes = new SortedList(new FileDirectoryComparer());
 
