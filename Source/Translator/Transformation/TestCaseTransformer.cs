@@ -34,7 +34,7 @@ namespace Janett.Translator
 			if (typeDeclaration != null && IsDerivedFrom(typeDeclaration, testcase) &&
 			    !(typeDeclaration.Name.StartsWith("Abstract")))
 			{
-				if (methodDeclaration.Name == "main")
+				if (methodDeclaration.Name == "main" || methodDeclaration.Name == "suite")
 					RemoveCurrentNode();
 
 				else if (methodDeclaration.Name.StartsWith("test"))
