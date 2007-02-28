@@ -149,5 +149,26 @@ namespace Janett.Framework
 
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
+
+		[Test]
+		public void InheritedTypesFromTypeHasAccessor()
+		{
+			string program = TestUtil.GetInput();
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+			InheritorsVisitor inheritorsVisitor = new InheritorsVisitor();
+			inheritorsVisitor.CodeBase = CodeBase;
+			inheritorsVisitor.VisitCompilationUnit(cu, null);
+
+			VisitCompilationUnit(cu, null);
+
+			Assert.AreEqual(4, CodeBase.References.Count);
+			Assert.IsTrue(CodeBase.References.Contains("Test.IGraph.getDegree"));
+			Assert.IsTrue(CodeBase.References.Contains("Test.ITree.getDegree"));
+			Assert.IsTrue(CodeBase.References.Contains("Test.GenericTree.getDegree"));
+			Assert.IsTrue(CodeBase.References.Contains("Test.BinaryTree.getDegree"));
+		}
 	}
 }

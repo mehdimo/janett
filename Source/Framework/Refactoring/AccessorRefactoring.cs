@@ -4,7 +4,7 @@ namespace Janett.Framework
 
 	using ICSharpCode.NRefactory.Ast;
 
-	public class AccessorRefactoring : MethodRelatedTransformer
+	public class AccessorRefactoring : HierarchicalTraverser
 	{
 		public override object TrackedVisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
 		{
@@ -99,57 +99,28 @@ namespace Janett.Framework
 		private void AddToReferences(TypeDeclaration typeDeclaration, string accessorName, string PropertyName)
 		{
 			string fullType = GetFullName(typeDeclaration);
-			CodeBase.References.Add(fullType + "." + accessorName, PropertyName);
-			if (IsInterface(typeDeclaration))
+			string key = fullType + "." + accessorName;
+			if (!CodeBase.References.Contains(key))
+				CodeBase.References.Add(key, PropertyName);
+			if (CodeBase.Inheritors.Contains(fullType))
 			{
 				foreach (string inheritor in CodeBase.Inheritors[fullType])
 				{
 					TypeDeclaration inheritorType = (TypeDeclaration) CodeBase.Types[inheritor];
-					if (IsInterface(inheritorType))
-						CodeBase.References.Add(inheritor + "." + accessorName, PropertyName);
+					AddToReferences(inheritorType, accessorName, PropertyName);
 				}
 			}
 		}
 
-		private bool ImplementInheritors(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration)
+		protected override bool VerifyTypeCondition(TypeDeclaration typeDeclaration, bool detailedCondition)
 		{
-			string fullName = GetFullName(typeDeclaration);
-			bool flag = false;
-			foreach (string inherited in CodeBase.Inheritors[fullName])
-			{
-				if (CodeBase.Types.Contains(inherited))
-				{
-					TypeDeclaration inheritedType = (TypeDeclaration) CodeBase.Types[inherited];
-					bool definedAccessor = IsAccessor(inheritedType, methodDeclaration);
-					bool abstractDefinedAccessor = IsAbstractClass(inheritedType) && definedAccessor;
-					if (!IsInterfaceOrAbstract(inheritedType) || abstractDefinedAccessor)
-						flag = definedAccessor;
-					else
-						flag = ImplementInheritors(inheritedType, methodDeclaration);
-				}
-				if (flag)
-					return flag;
-			}
-			return false;
+			return !IsInterfaceOrAbstract(typeDeclaration) ||
+			       (IsAbstractClass(typeDeclaration) && detailedCondition);
 		}
 
-		private bool ImplementSiblings(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration)
+		protected override bool VerifyMethodCondition(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration)
 		{
-			bool implemented = false;
-			foreach (TypeReference baseType in typeDeclaration.BaseTypes)
-			{
-				string fullBaseType = GetFullName(baseType);
-				TypeDeclaration superType = (TypeDeclaration) CodeBase.Types[fullBaseType];
-				if (superType != null)
-				{
-					implemented = ImplementInheritors(superType, methodDeclaration);
-					if (!implemented)
-						implemented = ImplementSiblings(superType, methodDeclaration);
-				}
-				if (implemented)
-					return true;
-			}
-			return implemented;
+			return IsAccessor(typeDeclaration, methodDeclaration);
 		}
 
 		private bool IsAccessor(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration)
