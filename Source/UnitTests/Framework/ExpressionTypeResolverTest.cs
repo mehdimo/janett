@@ -499,5 +499,17 @@ namespace Janett.Framework
 			Assert.IsNotNull(typeRef);
 			Assert.AreEqual("java.lang.Object", typeRef.Type);
 		}
+
+		[Test]
+		public void Null()
+		{
+			string program = TestUtil.StatementParse("Object obj; obj = null;");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			AssignmentExpression ass = (AssignmentExpression) TestUtil.GetStatementNodeOf(cu, 1);
+			PrimitiveExpression nl = (PrimitiveExpression) ass.Right;
+			TypeReference type = GetType(nl);
+			Assert.IsNotNull(type);
+			Assert.IsTrue(type is NullTypeReference);
+		}
 	}
 }

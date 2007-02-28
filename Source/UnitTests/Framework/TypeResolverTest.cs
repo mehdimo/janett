@@ -137,5 +137,17 @@ namespace Janett.Framework
 			string fullName = GetFullName(field.TypeReference);
 			Assert.AreEqual("Test.A$B", fullName);
 		}
+
+		[Test]
+		public void InnerTypeImportedViaPackage()
+		{
+			string program = TestUtil.PackageMemberParse("import import java.util.*; public class A { Map.Entry entry;}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration type = (TypeDeclaration) ns.Children[1];
+			FieldDeclaration field = (FieldDeclaration) type.Children[0];
+			string fullName = GetFullName(field.TypeReference);
+			Assert.AreEqual("java.util.Map$Entry", fullName);
+		}
 	}
 }

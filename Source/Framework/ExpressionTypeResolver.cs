@@ -257,7 +257,7 @@ namespace Janett.Framework
 			}
 			foreach (PropertyDeclaration propertyDeclaration in AstUtil.GetChildrenWithType(typeDeclaration, typeof(PropertyDeclaration)))
 			{
-				if (propertyDeclaration.Name == identifier)
+				if (propertyDeclaration.Name == identifier || "get" + propertyDeclaration.Name == identifier)
 					return propertyDeclaration.TypeReference;
 			}
 			foreach (MethodDeclaration methodDeclaration in AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration)))
@@ -271,8 +271,7 @@ namespace Janett.Framework
 				if (CodeBase.Types.Contains(baseType))
 				{
 					TypeDeclaration parentType = (TypeDeclaration) CodeBase.Types[baseType];
-					if (parentType.Type == ClassType.Class)
-						return GetTypeInMembers(parentType, identifier);
+					return GetTypeInMembers(parentType, identifier);
 				}
 			}
 			return null;
@@ -294,7 +293,11 @@ namespace Janett.Framework
 		protected TypeReference GetConstantType(PrimitiveExpression expression)
 		{
 			if (expression.Value == null)
-				return AstUtil.GetTypeReference("System.Object", expression.Parent);
+			{
+				NullTypeReference nullType = NullTypeReference.Instance;
+				nullType.Parent = expression.Parent;
+				return nullType;
+			}
 			else
 			{
 				string typeName = expression.Value.GetType().FullName;

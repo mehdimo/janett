@@ -46,6 +46,14 @@ namespace Janett.Framework
 								{
 									return us.Name + "$" + subType;
 								}
+								else
+								{
+									string nsName = us.Name;
+									if (nsName.EndsWith(".*"))
+										nsName = nsName.Substring(0, nsName.Length - 2);
+									if (CodeBase.Types.Contains(nsName + "." + enclosing))
+										return nsName + "." + enclosing + "$" + subType;
+								}
 							}
 						}
 					}

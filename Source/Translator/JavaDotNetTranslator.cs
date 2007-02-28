@@ -18,7 +18,12 @@ namespace Janett.Translator
 
 		protected override void BeforeParse()
 		{
-			codeBase.Types.Visitors.Add(new AddJavaLangObjectBaseType());
+			AddJavaLangObjectBaseType objectBaseTypeAdder = new AddJavaLangObjectBaseType();
+			ExternalInterfaceTransformer externalInterfaceTransformer = new ExternalInterfaceTransformer();
+			objectBaseTypeAdder.CodeBase = codeBase;
+			externalInterfaceTransformer.CodeBase = codeBase;
+			codeBase.Types.Visitors.Add(objectBaseTypeAdder);
+			codeBase.Types.Visitors.Add(externalInterfaceTransformer);
 		}
 
 		protected override void BeforeTransformation()
