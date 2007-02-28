@@ -14,8 +14,10 @@ namespace Janett.Translator
 			TypeDeclaration typeDeclaration = (TypeDeclaration) fieldDeclaration.Parent;
 
 			NodeTypeExistenceVisitor nodeTypeExistenceVisitor = new NodeTypeExistenceVisitor(typeof(ThisReferenceExpression));
+			NodeTypeExistenceVisitor indexerNodeExistenceVisitor = new NodeTypeExistenceVisitor(typeof(IndexerExpression));
 			field.Initializer.AcceptVisitor(nodeTypeExistenceVisitor, null);
-			if (field.Initializer != null && (field.Initializer is InvocationExpression || IsArrayCreation(fieldDeclaration) || nodeTypeExistenceVisitor.Contains)
+			field.Initializer.AcceptVisitor(indexerNodeExistenceVisitor, null);
+			if (field.Initializer != null && (field.Initializer is InvocationExpression || IsArrayCreation(fieldDeclaration) || nodeTypeExistenceVisitor.Contains || indexerNodeExistenceVisitor.Contains)
 			    && !AstUtil.ContainsModifier(fieldDeclaration, Modifiers.Static))
 			{
 				IList constructors = AstUtil.GetChildrenWithType(typeDeclaration, typeof(ConstructorDeclaration));

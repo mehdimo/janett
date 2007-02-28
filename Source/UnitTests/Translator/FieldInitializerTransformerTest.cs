@@ -76,10 +76,21 @@ namespace Janett.Translator
 		}
 
 		[Test]
-		public void InitioalizerWithThis()
+		public void InitializerWithThis()
 		{
 			string program = TestUtil.TypeMemberParse("MyDefinedClass mdc = new MyDefinedClass(this);");
 			string expected = TestUtil.CSharpTypeMemberParse("MyDefinedClass mdc; public Test(){ mdc = new MyDefinedClass(this);}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void InitializerWithArrayElement()
+		{
+			string program = TestUtil.TypeMemberParse("int[] arr = new int[10]; int first = arr[0];");
+			string expected = TestUtil.CSharpTypeMemberParse("int[] arr = new int[10]; int first; public Test() {first = arr[0];}");
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			VisitCompilationUnit(cu, null);
