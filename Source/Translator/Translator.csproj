@@ -553,6 +553,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Transformation\AccessibilityPropagatorTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Transformation\AccessibilityTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -574,6 +579,11 @@
                 />
                 <File
                     RelPath = "Transformation\DotClassTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\ExternalInterfaceTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -624,6 +634,11 @@
                 />
                 <File
                     RelPath = "Transformation\OverridedMethodTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\ProjectInterfaceTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

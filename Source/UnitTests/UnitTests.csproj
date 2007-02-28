@@ -348,6 +348,15 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\AccessibilityPropagatorTransformerTest\PublicMethodInheritedProtected.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessibilityPropagatorTransformerTest\PublicMethodInheritedProtected.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\AccessorRefactoringTest\AccessorsWithoutField.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -363,6 +372,10 @@
                 />
                 <File
                     RelPath = "TestCode\AccessorRefactoringTest\Getter.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\InheritedTypesFromTypeHasAccessor.java"
                     BuildAction = "None"
                 />
                 <File
@@ -633,12 +646,30 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\InternalMethodInvocationTest\InternalConstructor.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InternalMethodInvocationTest\InternalConstructor.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\InternalMethodInvocationTest\InvocationInTestCase.cs"
                     SubType = "Code"
                     BuildAction = "None"
                 />
                 <File
                     RelPath = "TestCode\InternalMethodInvocationTest\InvocationInTestCase.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InternalMethodInvocationTest\StaticInvocationInTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InternalMethodInvocationTest\StaticInvocationInTestCase.java"
                     BuildAction = "None"
                 />
                 <File
@@ -866,6 +897,15 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\ReferenceTransformerTest\InheritedFromMultiInterfaceWithFields.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\InheritedFromMultiInterfaceWithFields.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\ReferenceTransformerTest\InterfaceFieldsUsageViaInheritance.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -945,6 +985,11 @@
                 />
                 <File
                     RelPath = "Translator\AbstractClassTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Translator\AccessibilityPropagatorTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -1075,6 +1120,10 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "Translator\IntegrationTest\Base\Stub.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Translator\IntegrationTest\Base\TestClass.java"
                     BuildAction = "None"
                 />
@@ -1126,6 +1175,11 @@
                 />
                 <File
                     RelPath = "Translator\IntegrationTest\IKVMExpected\InterfaceUsage.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Translator\IntegrationTest\IKVMExpected\Stub.cs"
                     SubType = "Code"
                     BuildAction = "None"
                 />

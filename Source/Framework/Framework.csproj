@@ -125,6 +125,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HierarchicalTraverser.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "InheritorsVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -316,5 +321,4 @@
         </Files>
     </CSHARP>
 </VisualStudioProject>
-
 

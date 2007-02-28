@@ -105,6 +105,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "junit\framework\AssertionFailedError.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "junit\framework\TestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
