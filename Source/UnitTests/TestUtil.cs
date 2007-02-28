@@ -75,7 +75,6 @@ namespace Janett
 		public static string GenerateCode(CompilationUnit compilationUnit)
 		{
 			CSharpOutputVisitor outputVisitor = new CSharpOutputVisitor();
-			;
 			outputVisitor.VisitCompilationUnit(compilationUnit, null);
 			return outputVisitor.Text;
 		}
@@ -99,17 +98,8 @@ namespace Janett
 
 		public static string GetInput()
 		{
-			return GetInput(false);
-		}
-
-		public static string GetInput(bool writeFileName)
-		{
 			MethodBase method = GetCallingMethod();
-			string extension = ".java";
-			if (method.DeclaringType.Namespace.IndexOf("Downgrader") != -1)
-				extension = ".cs";
-
-			return GetFileOfMethod(method.DeclaringType.Name, method.Name, extension);
+			return GetFileOfMethod(method.DeclaringType.Name, method.Name, ".java");
 		}
 
 		private static MethodBase GetCallingMethod()
