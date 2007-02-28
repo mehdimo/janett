@@ -2,11 +2,20 @@ namespace Janett.Translator
 {
 	using ICSharpCode.NRefactory.Ast;
 
+	using Janett.Framework;
+
 	using NUnit.Framework;
 
 	[TestFixture]
 	public class InnerClassTransformerTest : InnerClassTransformer
 	{
+		[TearDown]
+		public void TearDown()
+		{
+			CodeBase.References.Clear();
+			CodeBase.Types.Clear();
+		}
+
 		[Test]
 		public void InnerMemberAccessibility()
 		{
@@ -95,6 +104,21 @@ namespace Janett.Translator
 
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void InnerClassConstructors()
+		{
+			string program = TestUtil.GetInput();
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			VisitCompilationUnit(cu, null);
+			Assert.AreEqual(1, CodeBase.References.Count);
+			Assert.IsTrue(CodeBase.References.Contains("Cons:Test.A$B"));
 		}
 	}
 }

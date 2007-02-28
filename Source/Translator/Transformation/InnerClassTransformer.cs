@@ -147,6 +147,7 @@ namespace Janett.Translator
 			IdentifierExpression right = new IdentifierExpression(instanceFieldName);
 			AssignmentExpression assignment = new AssignmentExpression(fieldReference, AssignmentOperatorType.Assign, right);
 			ExpressionStatement expressionStatement = new ExpressionStatement(assignment);
+			string fullName = GetFullName(typeDeclaration);
 
 			IList constructors = AstUtil.GetChildrenWithType(typeDeclaration, typeof(ConstructorDeclaration));
 			if (constructors.Count == 0)
@@ -159,7 +160,6 @@ namespace Janett.Translator
 				constructorDeclaration.Body = new BlockStatement();
 				constructorDeclaration.Body.AddChild(expressionStatement);
 				constructorDeclaration.Parent = typeDeclaration;
-				string fullName = GetFullName(typeDeclaration);
 				CodeBase.References.Add("Cons:" + fullName, null);
 
 				typeDeclaration.Children.Add(constructorDeclaration);
@@ -180,6 +180,8 @@ namespace Janett.Translator
 						constructor.Body.Children.Insert(0, expressionStatement);
 					}
 				}
+				if (!CodeBase.References.Contains("Cons:" + fullName))
+					CodeBase.References.Add("Cons:" + fullName, null);
 			}
 		}
 
