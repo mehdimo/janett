@@ -11,10 +11,20 @@ namespace Janett.Translator
 		public override object TrackedVisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
 		{
 			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
+			CheckForOverriding(typeDeclaration, methodDeclaration);
+
+			return null;
+		}
+
+		private void CheckForOverriding(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration)
+		{
 			if (IsClass(typeDeclaration) && typeDeclaration.BaseTypes.Count > 0)
 			{
 				string baseType = GetFullName(((TypeReference) typeDeclaration.BaseTypes[0]));
-				if (CodeBase.Types.Contains(baseType))
+				bool flag = true;
+				if (Mode == "DotNet")
+					flag = !ExistsInExternalExceptObject(baseType);
+				if (CodeBase.Types.Contains(baseType) && flag)
 				{
 					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[baseType];
 					if (IsClass(baseTypeDeclaration))
@@ -36,11 +46,26 @@ namespace Janett.Translator
 
 							ReplaceCurrentNode(overrideMethod);
 						}
+						else
+							CheckForOverriding(baseTypeDeclaration, methodDeclaration);
 					}
 				}
 			}
+		}
 
-			return null;
+		private bool ExistsInExternalExceptObject(string typeName)
+		{
+			string ns = typeName.Substring(0, typeName.LastIndexOf('.'));
+
+			if (CodeBase.Types.ExternalLibraries.Contains(ns))
+			{
+				if (typeName != "java.lang.Object")
+					return true;
+				else
+					return false;
+			}
+			else
+				return false;
 		}
 
 		private void VirtualizeParentMethod(IList methods, MethodDeclaration methodDeclaration)

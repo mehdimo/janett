@@ -130,7 +130,7 @@ namespace Test.Integration
 				get { return enclosingInstance; }
 			}
 		}
-		public bool equals(object obj)
+		public override bool equals(object obj)
 		{
 			return java.lang.Object.instancehelper_equals(this, obj);
 		}
