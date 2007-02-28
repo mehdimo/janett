@@ -39,12 +39,20 @@ namespace Janett.Framework
 						TypeReference newBaseType = AstUtil.GetTypeReference(referedBaseType, baseType.Parent);
 						string referenceBaseType = GetFullName(newBaseType);
 						TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[referenceBaseType];
-						if (baseTypeDeclaration != null && DefinedInFieldsClass(baseTypeDeclaration, identifierExpression.Identifier))
+						if (baseTypeDeclaration != null)
 						{
-							TypeReferenceExpression id = new TypeReferenceExpression(referedBaseType);
-							FieldReferenceExpression replaced = new FieldReferenceExpression(id, identifierExpression.Identifier);
-							replaced.Parent = identifierExpression.Parent;
-							ReplaceCurrentNode(replaced);
+							if (DefinedInFieldsClass(baseTypeDeclaration, identifierExpression.Identifier))
+							{
+								TypeReferenceExpression id = new TypeReferenceExpression(referedBaseType);
+								FieldReferenceExpression replaced = new FieldReferenceExpression(id, identifierExpression.Identifier);
+								replaced.Parent = identifierExpression.Parent;
+								ReplaceCurrentNode(replaced);
+							}
+							else
+							{
+								TypeDeclaration type = (TypeDeclaration) CodeBase.Types[fullName];
+								CheckThroughParents(type, identifierExpression);
+							}
 						}
 					}
 					else if (CodeBase.Types.Contains(fullName))
@@ -86,6 +94,7 @@ namespace Janett.Framework
 							AssignmentExpression assignment = new AssignmentExpression(identifierExpression, AssignmentOperatorType.Assign, setValue);
 							assignment.Parent = invocationExpression.Parent;
 							ReplaceCurrentNode(assignment);
+							assignment.AcceptVisitor(this, data);
 						}
 					}
 				}
@@ -106,6 +115,7 @@ namespace Janett.Framework
 							{
 								replaced.Parent = invocationExpression.Parent;
 								ReplaceCurrentNode(replaced);
+								replaced.AcceptVisitor(this, data);
 							}
 							else
 							{
@@ -113,6 +123,7 @@ namespace Janett.Framework
 								AssignmentExpression assignment = new AssignmentExpression(replaced, AssignmentOperatorType.Assign, setValue);
 								assignment.Parent = invocationExpression.Parent;
 								ReplaceCurrentNode(assignment);
+								assignment.AcceptVisitor(this, data);
 							}
 						}
 					}
@@ -234,13 +245,13 @@ namespace Janett.Framework
 		{
 			NamespaceDeclaration ns = (NamespaceDeclaration) AstUtil.GetParentOfType(identifier, typeof(NamespaceDeclaration));
 			string key = ns.Name + "." + identifier.Identifier;
+			INode idParent = identifier.Parent;
+
 			if (CodeBase.References.Contains(key))
 				return (string) CodeBase.References[key];
 			else if (CodeBase.Types.Contains(key))
 			{
-				string value = SearchForParents(key);
-				if (value != null)
-					return value;
+				return GetProperIdentifier(idParent, key);
 			}
 			else
 			{
@@ -255,18 +266,37 @@ namespace Janett.Framework
 						return (string) CodeBase.References[key];
 					else if (CodeBase.Types.Contains(key))
 					{
-						string value = SearchForParents(key);
-						if (value != null)
-							return value;
+						return GetProperIdentifier(idParent, key);
 					}
 				}
 			}
-
 			return null;
 		}
 
-		private string SearchForParents(string typeName)
+		private string GetProperIdentifier(INode idParent, string key)
 		{
+			IList values = SearchForParents(key);
+			if (values.Count > 0 && idParent is FieldReferenceExpression)
+			{
+				FieldReferenceExpression fieldReference = (FieldReferenceExpression) idParent;
+				foreach (string value in values)
+				{
+					if (CodeBase.References.Contains(value))
+					{
+						string fieldClass = (string) CodeBase.References[value];
+						TypeDeclaration type = (TypeDeclaration) CodeBase.Types[fieldClass];
+						IList members = GetFieldsName(type);
+						if (members.Contains(fieldReference.FieldName))
+							return fieldClass;
+					}
+				}
+			}
+			return null;
+		}
+
+		private IList SearchForParents(string typeName)
+		{
+			IList result = new ArrayList();
 			if (CodeBase.Types.Contains(typeName))
 			{
 				TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[typeName];
@@ -276,13 +306,23 @@ namespace Janett.Framework
 					{
 						string fullName = GetFullName(baseType);
 						if (CodeBase.References.Contains(fullName))
-							return (string) CodeBase.References[fullName];
+							result.Add(fullName);
 						else
 							SearchForParents(fullName);
 					}
 				}
 			}
-			return null;
+			return result;
+		}
+
+		private IList GetFieldsName(TypeDeclaration typeDeclaration)
+		{
+			IList fields = new ArrayList();
+
+			ArrayList fieldDeclarations = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			foreach (FieldDeclaration fieldDeclaration in fieldDeclarations)
+				fields.Add(((VariableDeclaration) fieldDeclaration.Fields[0]).Name);
+			return fields;
 		}
 	}
 }

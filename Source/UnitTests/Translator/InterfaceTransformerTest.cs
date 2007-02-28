@@ -5,7 +5,7 @@ namespace Janett.Translator
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class InterfaceTransformerTest : InterfaceTransformer
+	public class InterfaceTransformerTest : ProjectInterfaceTransformer
 	{
 		[SetUp]
 		public void SetUp()

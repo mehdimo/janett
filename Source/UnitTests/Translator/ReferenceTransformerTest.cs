@@ -26,6 +26,12 @@ namespace Janett.Translator
 		public void InterfaceFieldsClass()
 		{
 			CodeBase.References.Add("Test.IClassifier", "Test.IClassifier_Fields");
+			string interfaceFields = TestUtil.PackageMemberParse("public class IClassifier_Fields{public object Type;}");
+			CompilationUnit cuFields = TestUtil.ParseProgram(interfaceFields);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cuFields.Children[0];
+			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
+
+			CodeBase.Types.Add("Test.IClassifier_Fields", ty);
 			string program = TestUtil.PackageMemberParse("import Test.IClassifier; public class Test { public void Main(){IClassifier.Type = null;} }");
 			string expected = TestUtil.NamespaceMemberParse("using Test.IClassifier; public class Test {public void Main(){Test.IClassifier_Fields.Type = null;} }");
 			CompilationUnit cu = TestUtil.ParseProgram(program);
@@ -84,6 +90,41 @@ namespace Janett.Translator
 
 			CodeBase.References.Add("Atom.IMaterial", "Atom.IMaterial_Fields");
 
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void InheritedFromMultiInterfaceWithFields()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			CodeBase.References.Add("Test.IName", "Test.IName_Fields");
+			CodeBase.References.Add("Test.IFamily", "Test.IFamily_Fields");
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void InnerClassUsesEnclosingInheritedInterfaceField()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			CodeBase.References.Add("Test.IDocument", "Test.IDocument_Fields");
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
