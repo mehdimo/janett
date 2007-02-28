@@ -215,13 +215,60 @@ namespace Janett.Framework
 					Expression argument = (Expression) invocationExpression.Arguments[i];
 					TypeReference objectType = GetExpressionType(argument);
 
-					if (objectType != null && parameter.TypeReference.Type != objectType.Type)
+					if (objectType != null && !AreSameTypes(parameter.TypeReference, objectType))
 						return false;
 					i++;
 				}
 				return true;
 			}
 			return false;
+		}
+
+		protected bool AreSameTypes(TypeReference parameterType, TypeReference argumentType)
+		{
+			if (argumentType is NullTypeReference)
+				return true;
+			string parameterFullType = GetFullName(parameterType);
+			string argumentFullType = GetFullName(argumentType);
+
+			if (parameterFullType == argumentFullType || parameterType.Type.ToUpper() == argumentType.Type.ToUpper())
+				return true;
+			else if (CodeBase.Types.Contains(argumentFullType))
+			{
+				TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[argumentFullType];
+				return Extends(typeDeclaration, parameterType);
+			}
+			return false;
+		}
+
+		protected bool AreEqualTypes(TypeReference parameterType, TypeReference argumentType)
+		{
+			string parameterFullType = GetFullName(parameterType);
+			string argumentFullType = GetFullName(argumentType);
+
+			if (parameterFullType == argumentFullType || parameterType.Type.ToUpper() == argumentType.Type.ToUpper())
+				return true;
+			else return false;
+		}
+
+		private bool Extends(TypeDeclaration typeDeclaration, TypeReference typeReference)
+		{
+			bool extends = false;
+			string typeFullName = GetFullName(typeReference);
+			foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+			{
+				string baseTypeName = GetFullName(baseType);
+				if (baseTypeName == typeFullName)
+					return true;
+				else if (CodeBase.Types.Contains(baseTypeName))
+				{
+					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[baseTypeName];
+					extends = Extends(baseTypeDeclaration, typeReference);
+					if (extends)
+						return extends;
+				}
+			}
+			return extends;
 		}
 
 		protected string CreateMapKey(INode expression, bool typedArguments)
@@ -322,6 +369,34 @@ namespace Janett.Framework
 		protected bool IsAbstractClass(TypeDeclaration typeDeclaration)
 		{
 			return (typeDeclaration.Type == ClassType.Class && AstUtil.ContainsModifier(typeDeclaration, Modifiers.Abstract));
+		}
+
+		protected IList GetAccessibleMethods(TypeDeclaration typeDeclaration)
+		{
+			ArrayList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
+			if (typeDeclaration.BaseTypes.Count > 0)
+			{
+				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
+				{
+					string fullName = GetFullName(baseType);
+					if (!IsInExternalLibraries(fullName) && CodeBase.Types.Contains(fullName))
+					{
+						TypeDeclaration type = (TypeDeclaration) CodeBase.Types[fullName];
+						methods.AddRange(GetAccessibleMethods(type));
+					}
+				}
+			}
+			return methods;
+		}
+
+		protected bool IsInExternalLibraries(string name)
+		{
+			foreach (string nameSpace in CodeBase.Types.ExternalLibraries)
+			{
+				if (name.StartsWith(nameSpace + "."))
+					return true;
+			}
+			return false;
 		}
 	}
 }

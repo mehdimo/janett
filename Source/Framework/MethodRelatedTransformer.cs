@@ -47,7 +47,7 @@ namespace Janett.Framework
 						if (secondMethodParam.IndexOf('.') != -1)
 							secondMethodParam = secondMethodParam.Substring(secondMethodParam.LastIndexOf('.') + 1);
 
-						if (firstMethodParam == secondMethodParam &&
+						if ((firstMethodParam == secondMethodParam || AreEqualTypes(parameter.TypeReference, parameterTypeReference)) &&
 						    parameter.TypeReference.RankSpecifier.Length == parameterTypeReference.RankSpecifier.Length)
 							index++;
 						else

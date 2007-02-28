@@ -216,24 +216,6 @@ namespace Janett.Translator
 			return newField;
 		}
 
-		private IList GetAccessibleMethods(TypeDeclaration typeDeclaration)
-		{
-			ArrayList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
-			if (typeDeclaration.BaseTypes.Count > 0)
-			{
-				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
-				{
-					string fullName = GetFullName(baseType);
-					if (CodeBase.Types.Contains(fullName))
-					{
-						TypeDeclaration type = (TypeDeclaration) CodeBase.Types[fullName];
-						methods.AddRange(GetAccessibleMethods(type));
-					}
-				}
-			}
-			return methods;
-		}
-
 		private bool IsInvocation(IdentifierExpression identifier)
 		{
 			if (identifier.Parent is InvocationExpression)

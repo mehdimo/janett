@@ -6,23 +6,13 @@ namespace Janett.Framework
 
 	public class Refactoring : Transformer
 	{
-		protected bool IsInExternalLibraries(string name)
-		{
-			foreach (string nameSpace in CodeBase.Types.ExternalLibraries)
-			{
-				if (name.StartsWith(nameSpace + "."))
-					return true;
-			}
-			return false;
-		}
-
 		protected bool IsMethodInExternalTypes(TypeDeclaration typeDeclaration, MethodDeclaration methodDeclaration)
 		{
 			bool found = false;
 			foreach (TypeReference baseType in typeDeclaration.BaseTypes)
 			{
 				string fullName = GetFullName(baseType);
-				if (CodeBase.Types.Contains(fullName))
+				if (!found && CodeBase.Types.Contains(fullName))
 				{
 					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
 
@@ -30,15 +20,14 @@ namespace Janett.Framework
 					{
 						IList methods = AstUtil.GetChildrenWithType(baseTypeDeclaration, typeof(MethodDeclaration));
 						if (ContainsMethod(methods, methodDeclaration))
-						{
 							found = true;
-							break;
-						}
-						if (!found)
+						else
 							found = IsMethodInExternalTypes(baseTypeDeclaration, methodDeclaration);
 					}
 					else
 						found = IsMethodInExternalTypes(baseTypeDeclaration, methodDeclaration);
+					if (found)
+						break;
 				}
 			}
 			return found;
