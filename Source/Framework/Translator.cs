@@ -202,7 +202,7 @@ namespace Janett.Framework
 					else
 					{
 						output = Regex.Replace(output, @"\t(?<timestamp>\w{3}\s\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s\d{4})\r\n", "\r\n");
-						output = Regex.Replace(output, @"diff\s.+\r\n", "");
+						output = Regex.Replace(output, @"diff\s.+(?<secondPath>(\\\w+)+\.\w+)\r\n", "");
 						output = output.Replace(translatedFolder + Path.DirectorySeparatorChar, "");
 						output = output.Replace(OutputFolder + Path.DirectorySeparatorChar, "");
 						FileSystemUtil.WriteFile(patchFile, output);
