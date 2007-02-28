@@ -65,7 +65,7 @@
 		</if>
 		<property name="jdk.path" value="&quot;${jdk.path}&quot;"/>
 		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries java java.awt,java.nio,java.applet"/>
-		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries javax javax.swing javax.print javax.imageio javax.sound"/>
+		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries javax javax.print javax.imageio javax.sound"/>
 		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries javax org.xml"/>
 		<exec program="Source/Tools/bin/Debug/jar2code.exe" workingdir="${libraries.path}" commandline="${jdk.path}/lib/rt.jar Libraries org.w3c.dom"/>
 		<if test="${environment::variable-exists('CLASSPATH')}">
