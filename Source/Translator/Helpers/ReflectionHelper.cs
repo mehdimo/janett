@@ -19,6 +19,11 @@ namespace Helpers
 			}
 		}
 
+		public static object InstantiateClass(Type type, object[] parameters)
+		{
+			return Activator.CreateInstance(type, parameters);
+		}
+
 		public static Type[] GetParameterTypes(MethodBase method)
 		{
 			ParameterInfo[] parameters = method.GetParameters();

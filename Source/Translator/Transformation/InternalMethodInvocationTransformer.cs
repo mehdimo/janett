@@ -39,6 +39,56 @@ namespace Janett.Translator
 			return base.TrackedVisitInvocationExpression(invocationExpression, data);
 		}
 
+		public override object TrackedVisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression, object data)
+		{
+			TypeDeclaration thisTypeDeclaration = (TypeDeclaration) AstUtil.GetParentOfType(objectCreateExpression, typeof(TypeDeclaration));
+			if (IsTestFixture(thisTypeDeclaration))
+			{
+				string fullName = GetFullName(objectCreateExpression.CreateType);
+				if (CodeBase.Types.Contains(fullName))
+				{
+					TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
+					IList constructors = AstUtil.GetChildrenWithType(typeDeclaration, typeof(ConstructorDeclaration));
+					if (ContainsInternalConstructor(constructors, objectCreateExpression))
+					{
+						Expression replacedExpression;
+						replacedExpression = CreateReflectionInstance(objectCreateExpression);
+						ReplaceCurrentNode(replacedExpression);
+					}
+				}
+			}
+			return base.TrackedVisitObjectCreateExpression(objectCreateExpression, data);
+		}
+
+		private Expression CreateReflectionInstance(ObjectCreateExpression objectCreateExpression)
+		{
+			TypeReferenceExpression helper = new TypeReferenceExpression("Helpers.ReflectionHelper");
+			FieldReferenceExpression target = new FieldReferenceExpression(helper, "InstantiateClass");
+			ArrayList arguments = new ArrayList();
+			TypeOfExpression typeofExpression = new TypeOfExpression(objectCreateExpression.CreateType);
+			ArrayInitializerExpression arrayInitializer = new ArrayInitializerExpression(objectCreateExpression.Parameters);
+			TypeReference reference = new TypeReference("object");
+			reference.RankSpecifier = new int[1];
+			ArrayCreateExpression arrayCreateExpression = new ArrayCreateExpression(reference, arrayInitializer);
+			arguments.Add(typeofExpression);
+			arguments.Add(arrayCreateExpression);
+			InvocationExpression invocation = new InvocationExpression(target, arguments);
+			CastExpression castExpression = new CastExpression(objectCreateExpression.CreateType, invocation, CastType.Cast);
+
+			return castExpression;
+		}
+
+		private bool ContainsInternalConstructor(IList constructors, ObjectCreateExpression objectCreateExpression)
+		{
+			foreach (ConstructorDeclaration constructor in constructors)
+			{
+				if (constructor.Parameters.Count == objectCreateExpression.Parameters.Count
+				    && (AstUtil.ContainsModifier(constructor, Modifiers.Internal) || AstUtil.ContainsModifier(constructor, Modifiers.Protected)))
+					return true;
+			}
+			return false;
+		}
+
 		private InvocationExpression CreateReflectionInvocation(InvocationExpression invocationExpression, bool staticMethod)
 		{
 			ArrayList arguments = new ArrayList();
