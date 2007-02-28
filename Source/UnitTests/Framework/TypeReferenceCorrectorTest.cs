@@ -60,5 +60,19 @@ namespace Janett.Framework
 			Assert.AreEqual("System.Text.Encoding", ((TypeReferenceExpression) referenceExpression.TargetObject).TypeReference.Type);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
+
+		[Test]
+		public void PropertyAndMethod()
+		{
+			string program = TestUtil.StatementParse("id.Keys.GetEnumerator();");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			typeReferenceCorrector.TrackedVisitCompilationUnit(cu, null);
+
+			InvocationExpression ivc = (InvocationExpression) TestUtil.GetStatementNodeOf(cu, 0);
+			FieldReferenceExpression fieldReference = (FieldReferenceExpression) ivc.TargetObject;
+			Expression target = fieldReference.TargetObject;
+			Assert.IsFalse(target is TypeReferenceExpression);
+			Assert.IsTrue(target is FieldReferenceExpression);
+		}
 	}
 }

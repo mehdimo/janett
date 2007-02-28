@@ -11,6 +11,8 @@ namespace Janett.Framework
 			if (!IsMethodInvocation(fieldReferenceExpression) && ReachToInvocation(fieldReferenceExpression))
 			{
 				string targetString = GetTargetString(fieldReferenceExpression);
+				if (targetString.StartsWith("id"))
+					return null;
 				string suffix = "__";
 				if (targetString.IndexOf(suffix) != -1)
 				{
