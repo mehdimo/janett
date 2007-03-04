@@ -136,8 +136,9 @@ namespace Janett.Translator
 					TypeDeclaration typeDeclaration = dataObject.anonymous;
 					if (typeDeclaration != null && typeDeclaration.Name.StartsWith("AnonymousClass"))
 					{
-						IList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
-						if (!ContainsMethod(methods, identifier))
+						TypeDeclaration enclosingType = (TypeDeclaration) typeDeclaration.Parent;
+						IList enclosingMethods = GetAccessibleMethods(enclosingType);
+						if (ContainsMethod(enclosingMethods, identifier))
 						{
 							FieldReferenceExpression fieldReferenceExpression = new FieldReferenceExpression(new IdentifierExpression("enclosingInstance"), identifier);
 							fieldReferenceExpression.Parent = identifierExpression.Parent;
@@ -359,7 +360,7 @@ namespace Janett.Translator
 		{
 			foreach (MethodDeclaration method in methods)
 			{
-				if (method.Name == methodName)
+				if (method.Name == methodName && !AstUtil.ContainsModifier(method, Modifiers.Static))
 					return true;
 			}
 			return false;
