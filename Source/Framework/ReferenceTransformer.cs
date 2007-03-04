@@ -28,6 +28,11 @@ namespace Janett.Framework
 
 		private void CheckThroughParents(TypeDeclaration typeDeclaration, IdentifierExpression identifierExpression)
 		{
+			if (typeDeclaration.Parent is TypeDeclaration)
+			{
+				TypeDeclaration parent = (TypeDeclaration) typeDeclaration.Parent;
+				CheckThroughParents(parent, identifierExpression);
+			}
 			if (typeDeclaration.BaseTypes.Count > 0)
 			{
 				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
