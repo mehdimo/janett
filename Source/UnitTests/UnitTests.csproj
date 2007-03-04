@@ -243,6 +243,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\RenameRepeatedVariableTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\ShortenReferencesTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -454,6 +459,15 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\AnonymousClassTransformerTest\AnonymousClassUseInheritedEnclosingMethod.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AnonymousClassTransformerTest\AnonymousClassUseInheritedEnclosingMethod.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\AnonymousClassTransformerTest\AnonymousClassWithAnonymousConstructor.cs"
                     BuildAction = "None"
                 />
@@ -585,6 +599,24 @@
                 />
                 <File
                     RelPath = "TestCode\IKVMDifferencesTransformerTest\ComparatorDerivedClass.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InitializerBlockTransformerTest\MultiInitializerBlock.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InitializerBlockTransformerTest\MultiInitializerBlock.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InitializerBlockTransformerTest\MultiInitializerBlockWithMultiConstructor.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InitializerBlockTransformerTest\MultiInitializerBlockWithMultiConstructor.java"
                     BuildAction = "None"
                 />
                 <File
@@ -906,12 +938,46 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\ReferenceTransformerTest\InnerClassUsesEnclosingInheritedInterfaceField.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\InnerClassUsesEnclosingInheritedInterfaceField.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\ReferenceTransformerTest\InterfaceFieldsUsageViaInheritance.cs"
                     SubType = "Code"
                     BuildAction = "None"
                 />
                 <File
                     RelPath = "TestCode\ReferenceTransformerTest\InterfaceFieldsUsageViaInheritance.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RenameRepeatedVariableTransformerTest\DifferentScopes.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RenameRepeatedVariableTransformerTest\DifferentScopes.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RenameRepeatedVariableTransformerTest\MultiLevelBlockScope.cs"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RenameRepeatedVariableTransformerTest\MultiLevelBlockScope.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RenameRepeatedVariableTransformerTest\OneLevelBlockScope.cs"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RenameRepeatedVariableTransformerTest\OneLevelBlockScope.java"
                     BuildAction = "None"
                 />
                 <File
@@ -1030,6 +1096,11 @@
                 />
                 <File
                     RelPath = "Translator\ImportTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Translator\InitializerBlockTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

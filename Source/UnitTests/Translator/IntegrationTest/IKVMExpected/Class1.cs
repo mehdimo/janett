@@ -80,9 +80,13 @@ namespace Test.Integration
 		[MethodImplAttribute(MethodImplOptions.Synchronized)]
 		private bool Method2(int arg)
 		{
+			if (arg == 0)
+			{
+				int count = 10;
+			}
 			FileInputStream stream = new FileInputStream("Test");
-			int count = Float.floatToIntBits(10f);
-			byte[] buffer = new byte[count];
+			int count_Renamed1 = Float.floatToIntBits(10f);
+			byte[] buffer = new byte[count_Renamed1];
 			stream.read(buffer);
 			java.lang.reflect.Field f = null;
 			return Modifier.isTransient(f.getModifiers());

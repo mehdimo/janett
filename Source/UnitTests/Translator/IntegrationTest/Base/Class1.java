@@ -64,6 +64,10 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
 
     private synchronized boolean method2(int arg) throws java.lang.UnsupportedOperationException, Exception
 	{
+		if (arg == 0)
+		{
+			int count = 10;
+		}
         FileInputStream stream = new FileInputStream("Test");
         int count = Float.floatToIntBits(10.0f);
         byte buffer[] = new byte[count];

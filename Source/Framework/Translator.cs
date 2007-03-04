@@ -388,6 +388,7 @@ namespace Janett.Framework
 			IDictionary visitors = GetVisitors(typeof(AbstractAstVisitor));
 			visitors.Add(typeof(InheritorsVisitor).FullName, typeof(InheritorsVisitor));
 			IDictionary transformers = GetVisitors(typeof(AbstractAstTransformer));
+			transformers.Add(typeof(RenameRepeatedVariableTransformer).Name, typeof(RenameRepeatedVariableTransformer));
 			progress.SetCount("Transformation", (visitors.Count + transformers.Count + 1) * sourceFileCount);
 			CallVisitors(visitors, "Transformation");
 			CallVisitors(transformers, "Transformation");

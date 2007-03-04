@@ -69,9 +69,13 @@ namespace Test.Integration
 		[System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
 		private bool Method2(int arg)
 		{
+			if (arg == 0)
+			{
+				int count = 10;
+			}
 			System.IO.FileStream stream = new System.IO.FileStream("Test", System.IO.FileMode.Open);
-			int count = (int)10f;
-			byte[] buffer = new byte[count];
+			int count_Renamed1 = (int)10f;
+			byte[] buffer = new byte[count_Renamed1];
 			stream.Read(buffer, 0, buffer.Length);
 			System.Reflection.FieldInfo f = null;
 			return f.IsNotSerialized;
