@@ -603,6 +603,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Transformation\InitializerBlockTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Transformation\InnerClassTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -671,4 +676,5 @@
         </Files>
     </CSHARP>
 </VisualStudioProject>
+
 
