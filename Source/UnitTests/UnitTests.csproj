@@ -854,6 +854,15 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\RefactorRenameMethodInvocationTest\CallInternalMethod.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\RefactorRenameMethodInvocationTest\CallInternalMethod.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\RefactorRenameMethodInvocationTest\ExternalLibrariesMethods.cs"
                     BuildAction = "None"
                 />
@@ -1267,4 +1276,5 @@
         </Files>
     </CSHARP>
 </VisualStudioProject>
+
 

@@ -25,7 +25,26 @@ namespace Janett.Framework
 				if (fieldReferenceExpression.FieldName == "CallInternalMethod")
 				{
 					PrimitiveExpression methodName = (PrimitiveExpression) invocationExpression.Arguments[0];
-					methodName.Value = Renamer.GetNewName(methodName.Value.ToString());
+					if (methodName.Value.ToString().StartsWith("set") || methodName.Value.ToString().StartsWith("get"))
+					{
+						Expression obj = (Expression) invocationExpression.Arguments[1];
+						TypeReference objType = GetExpressionType(obj);
+						if (objType != null)
+						{
+							string fullName = GetFullName(objType);
+							if (CodeBase.Types.Contains(fullName))
+							{
+								TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
+								string propertyName = methodName.Value.ToString().Substring(3);
+								if (ContainsProperty(typeDeclaration, propertyName))
+									methodName.Value = methodName.Value.ToString().Insert(3, "_");
+								else
+									methodName.Value = Renamer.GetNewName(methodName.Value.ToString());
+							}
+						}
+					}
+					else
+						methodName.Value = Renamer.GetNewName(methodName.Value.ToString());
 				}
 				TypeReference invokerType = GetExpressionType(invoker);
 				if (invokerType != null)
@@ -109,6 +128,17 @@ namespace Janett.Framework
 				}
 			}
 			return types;
+		}
+
+		private bool ContainsProperty(TypeDeclaration typeDeclaration, string propertyName)
+		{
+			IList properties = AstUtil.GetChildrenWithType(typeDeclaration, typeof(PropertyDeclaration));
+			foreach (PropertyDeclaration property in properties)
+			{
+				if (property.Name == propertyName)
+					return true;
+			}
+			return false;
 		}
 	}
 }

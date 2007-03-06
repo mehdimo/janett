@@ -124,5 +124,28 @@ namespace Janett.Framework
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
+
+		[Test]
+		public void CallInternalMethod()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
+
+			PropertyDeclaration property = new PropertyDeclaration(Modifiers.Public, null, "Name", null);
+			property.TypeReference = new TypeReference("String");
+			property.SetRegion = new PropertySetRegion(new BlockStatement(), null);
+			ty.AddChild(property);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
 	}
 }
