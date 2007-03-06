@@ -319,6 +319,9 @@ namespace Janett.Framework
 			TypeReferenceCorrector typeReferenceCorrector = new TypeReferenceCorrector();
 			typeReferenceCorrector.VisitCompilationUnit(cu, null);
 
+			MappingIdentifierMarker mappingIdentifierMarker = new MappingIdentifierMarker();
+			mappingIdentifierMarker.MarkIdentifiers(cu);
+
 			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
 			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
 			MethodDeclaration md = (MethodDeclaration) ty.Children[0];

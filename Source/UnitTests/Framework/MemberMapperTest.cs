@@ -427,5 +427,16 @@ namespace Janett.Framework
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
+
+		[Test]
+		public void InvocationContainsMappingSymbols()
+		{
+			string program = TestUtil.StatementParse("StringBuffer buf; String id; buf.append(b).append(id);");
+			string expected = TestUtil.CSharpStatementParse("StringBuffer buf; String id; buf.Append(b).Append(id);");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
 	}
 }

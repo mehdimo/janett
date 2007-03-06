@@ -8,11 +8,13 @@ namespace Janett.Framework
 	public class SubstitutionTest
 	{
 		private Substitution substitution;
+		private MappingIdentifierMarker marker;
 
 		[TestFixtureSetUp]
 		public void SetUp()
 		{
 			substitution = new Substitution();
+			marker = new MappingIdentifierMarker();
 		}
 
 		[Test]
@@ -23,6 +25,7 @@ namespace Janett.Framework
 			InvocationExpression ivc = (InvocationExpression) TestUtil.GetStatementNodeOf(cv, 0);
 			string mapProgram = TestUtil.StatementParse("Substring(a, b - a);");
 			CompilationUnit cu = TestUtil.ParseProgram(mapProgram);
+			marker.MarkIdentifiers(cu);
 
 			substitution.TrackedVisitCompilationUnit(cu, ivc.Arguments);
 			string expected = TestUtil.CSharpStatementParse("Substring(start, end - start);");
@@ -37,6 +40,7 @@ namespace Janett.Framework
 			InvocationExpression ivc = (InvocationExpression) TestUtil.GetStatementNodeOf(cv, 0);
 			string mapProgram = TestUtil.StatementParse("Substring(b).Startswith(a);");
 			CompilationUnit cu = TestUtil.ParseProgram(mapProgram);
+			marker.MarkIdentifiers(cu);
 
 			substitution.TrackedVisitCompilationUnit(cu, ivc.Arguments);
 			string expected = TestUtil.CSharpStatementParse("Substring(startIndex + 5).Startswith(suffix);");
