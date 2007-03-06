@@ -368,7 +368,7 @@ namespace Janett.Framework
 
 			string withOutType = GetArgumentsMap(ivc.Arguments, false);
 			string withType = GetArgumentsMap(ivc.Arguments, true);
-			string expectedWithType = "java.lang.String a,int b,int c";
+			string expectedWithType = "String a,int b,int c";
 			string expectedWithOutType = "a,b,c";
 			Assert.AreEqual(expectedWithOutType, withOutType);
 			Assert.AreEqual(expectedWithType, withType);

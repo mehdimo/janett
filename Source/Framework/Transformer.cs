@@ -325,9 +325,11 @@ namespace Janett.Framework
 					TypeReference argumentTypeReference = GetExpressionType((Expression) argument);
 					if (argumentTypeReference != null)
 					{
-						argumentType = argumentTypeReference.Type;
+						argumentType = GetFullName(argumentTypeReference);
 						if (TypeReference.PrimitiveTypesJavaReverse.Contains(argumentType))
 							argumentType = (string) TypeReference.PrimitiveTypesJavaReverse[argumentType];
+						if (argumentType == "java.lang.String")
+							argumentType = "String";
 					}
 					argumentsMap += argumentType + " " + argumentChar + ",";
 				}

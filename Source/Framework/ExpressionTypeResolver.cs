@@ -303,7 +303,15 @@ namespace Janett.Framework
 				string typeName = expression.Value.GetType().FullName;
 				if (primitiveTypeMappings.Contains(typeName))
 				{
-					TypeReference typeReference = new TypeReference(primitiveTypeMappings[typeName].ToString(), typeName);
+					string csharpType = primitiveTypeMappings[typeName].ToString();
+					string javaType;
+					if (csharpType == "bool")
+						javaType = "java.lang.Boolean";
+					else if (csharpType == "string")
+						javaType = "java.lang.String";
+					else
+						javaType = (string) TypeReference.PrimitiveTypesJava[csharpType];
+					TypeReference typeReference = new TypeReference(javaType, javaType);
 					typeReference.Parent = expression.Parent;
 					return typeReference;
 				}

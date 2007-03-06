@@ -1,2 +1,2 @@
 PascalStyle: readLine()- close()
-new InputStreamReader(InputStream a,string b)-new InputStreamReader(a,System.Text.Encoding.GetEncoding(b))
+new InputStreamReader(java.io.InputStream a,String b)-new InputStreamReader(a,System.Text.Encoding.GetEncoding(b))

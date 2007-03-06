@@ -1,1 +1,1 @@
-new FileReader(File a)-new StreamReader(a.FullName)
+new FileReader(java.io.File a)-new StreamReader(a.FullName)

@@ -344,7 +344,15 @@ namespace Janett.Framework
 			FieldReferenceExpression fieldReference = (FieldReferenceExpression) iv.TargetObject;
 			string ivIdType = GetType(fieldReference.TargetObject).Type;
 
-			Assert.AreEqual("string", ivIdType);
+			Assert.AreEqual("java.lang.String", ivIdType);
+
+			program = TestUtil.StatementParse(@"ss.toUpperCase(true);");
+			cu = TestUtil.ParseProgram(program);
+
+			iv = (InvocationExpression) TestUtil.GetStatementNodeOf(cu, 0);
+			ivIdType = GetType((Expression) iv.Arguments[0]).Type;
+
+			Assert.AreEqual("java.lang.Boolean", ivIdType);
 		}
 
 		[Test]
@@ -363,11 +371,11 @@ namespace Janett.Framework
 
 			string actual = GetType((Expression) inv.Arguments[0]).Type;
 			Assert.IsNotNull(actual);
-			Assert.AreEqual("int", actual);
+			Assert.AreEqual("java.lang.Integer", actual);
 
 			actual = GetType((Expression) inv.Arguments[1]).Type;
 			Assert.IsNotNull(actual);
-			Assert.AreEqual("string", actual);
+			Assert.AreEqual("java.lang.String", actual);
 		}
 
 		[Test]
