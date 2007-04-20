@@ -31,8 +31,8 @@ namespace Janett.Translator
 		{
 			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
 			string testcase = "junit.framework.TestCase";
-			if (typeDeclaration != null && IsDerivedFrom(typeDeclaration, testcase) &&
-			    !(typeDeclaration.Name.StartsWith("Abstract")))
+			if (typeDeclaration != null && ((IsDerivedFrom(typeDeclaration, testcase) &&
+			                                 !(typeDeclaration.Name.StartsWith("Abstract"))) || IsAllTestRunner(typeDeclaration.Name)))
 			{
 				if (methodDeclaration.Name == "main" || methodDeclaration.Name == "suite")
 					RemoveCurrentNode();
@@ -75,6 +75,11 @@ namespace Janett.Translator
 				}
 			}
 			return null;
+		}
+
+		private bool IsAllTestRunner(string typeName)
+		{
+			return typeName.IndexOf("All") != -1 && typeName.IndexOf("Test") != -1;
 		}
 
 		public override object TrackedVisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration, object data)
