@@ -251,7 +251,7 @@ namespace Janett.Framework
 			else return false;
 		}
 
-		private bool Extends(TypeDeclaration typeDeclaration, TypeReference typeReference)
+		protected bool Extends(TypeDeclaration typeDeclaration, TypeReference typeReference)
 		{
 			bool extends = false;
 			string typeFullName = GetFullName(typeReference);

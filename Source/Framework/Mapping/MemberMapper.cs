@@ -189,6 +189,14 @@ namespace Janett.Framework
 
 				mapping = GetProperMapping(invokerType, invocationExpression, methodName, out methodKey);
 
+				if (methodName == "clone" && CodeBase.Types.Contains(returnType))
+				{
+					TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[returnType];
+					TypeReference cloneableType = AstUtil.GetTypeReference("java.lang.Cloneable", invocationTarget);
+					if (Extends(typeDeclaration, cloneableType))
+						mapping = CodeBase.Mappings[cloneableType.Type];
+				}
+
 				if (mapping != null)
 				{
 					replacedExpression = GetReplacedExpression(invocationExpression, methodKey, mapping.Members);

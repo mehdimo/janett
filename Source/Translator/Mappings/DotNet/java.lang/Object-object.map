@@ -1,3 +1,4 @@
 PascalStyle: equals(a)-toString()
 getClass()-GetType()
 hashCode()-GetHashCode()
+clone()-!base.MemberwiseClone()

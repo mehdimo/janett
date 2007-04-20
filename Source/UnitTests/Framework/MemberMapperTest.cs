@@ -336,6 +336,33 @@ namespace Janett.Framework
 		}
 
 		[Test]
+		public void Base_Clone()
+		{
+			string program = TestUtil.PackageMemberParse("public class A extends java.lang.Object implements Cloneable{ public Object clone() {return super.clone();}}");
+			string expected = TestUtil.NamespaceMemberParse("public class A : java.lang.Object,Cloneable{ public Object clone(){ return base.MemberwiseClone();}}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void Instance_Clone()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+						import java.awt.Insets;
+						public class A {Insets insets; public Object clone() { Object obj = insets.clone(); }}");
+			string expected = TestUtil.NamespaceMemberParse(@"
+						using java.awt.Insets;
+						public class A {Insets insets; public Object clone() { Object obj = insets.Clone(); }}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
 		public void TwoDimensionArray()
 		{
 			string program = TestUtil.StatementParse("int[][] matrix; len = matrix[0].length;");
