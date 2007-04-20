@@ -1,0 +1,8 @@
+getSize()-id.Size
+add(a)-id.Controls.Add(a)
+setLayout(a)-Helpers.ControlHelper.setLayout(id,a)
+getComponentOrientation()-Helpers.ControlHelper.getComponentOrientation(id)
+add(a,b)-Helpers.ControlHelper.add(id,a,b)
+getInsets()-Helpers.ControlHelper.getInsets(id)
+getComponent(a)-id.Controls[a]
+doLayout()-Helpers.ControlHelper.doLayout(id)

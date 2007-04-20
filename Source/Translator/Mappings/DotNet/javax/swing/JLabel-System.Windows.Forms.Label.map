@@ -1,0 +1,10 @@
+setText(a)-id.Text = a
+setLabelFor(a)-Helpers.ControlHelper.setLabelFor(id,a)
+setHorizontalAlignment(a)-Helpers.ControlHelper.setHorizontalAlignment(id,a)
+getHorizontalAlignment()-Helpers.ControlHelper.getHorizontalAlignment(id)
+setVerticalAlignment(a)-Helpers.ControlHelper.setVerticalAlignment(id,a)
+setDisplayedMnemonic(a)-Helpers.ControlHelper.setDisplayedMnemonic(id,a)
+setDisplayedMnemonicIndex(a)-Helpers.ControlHelper.setDisplayedMnemonicIndex(id,a)
+getText()-id.Text
+getDisplayedMnemonic()-Helpers.ControlHelper.getDisplayedMnemonic(id)
+getDisplayedMnemonicIndex()-Helpers.ControlHelper.getDisplayedMnemonicIndex(id)

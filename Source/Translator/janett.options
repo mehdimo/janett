@@ -13,5 +13,6 @@ log4net=log4net
 NUnit.Framework=nunit.framework
 junit.framework=Janett.Emulator,nunit.framework
 org.apache.commons.logging=Janett.Emulator,log4net
+System.Windows.Forms=System.Windows.Forms
 
 

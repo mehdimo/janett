@@ -94,6 +94,16 @@
                     AssemblyName = "ICSharpCode.NRefactory"
                     HintPath = "..\..\Lib\ICSharpCode.NRefactory.dll"
                 />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -129,8 +139,23 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\Border.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Helpers\Collections.cs"
                     SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\ComponentOrientation.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\ControlHelper.cs"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
@@ -140,6 +165,11 @@
                 />
                 <File
                     RelPath = "Helpers\DocumentBuilderFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\EmptyBorder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -159,12 +189,52 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\FontMetrics.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Helpers\InputSource.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\Insets.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\JSeparator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\LayoutManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\LayoutManager2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\LookAndFeel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Helpers\PropertyChangeEvent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\PropertyChangeListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\PropertyChangeSupport.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -184,7 +254,66 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\SwingConstants.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\Toolkit.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\UIManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Mappings\DotNet\Array-Array.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Color-System.Drawing.Color.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Component-System.Windows.Forms.Control.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Container-System.Windows.Forms.Control.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Dimension-System.Drawing.Size.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Font-System.Drawing.Font.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Frame-System.Windows.Forms.Form.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Graphics-System.Drawing.Graphics.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\MenuContainer-System.Windows.Forms.Control.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Rectangle-System.Drawing.Rectangle.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.awt\Window-System.Windows.Forms.Form.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -281,6 +410,10 @@
                 />
                 <File
                     RelPath = "Mappings\DotNet\java.lang\Class-System.Type.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Cloneable-System.ICloneable.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -457,6 +590,42 @@
                 />
                 <File
                     RelPath = "Mappings\DotNet\java.util\Stack-System.Collections.Stack.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\JButton-System.Windows.Forms.Button.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\JComponent-System.Windows.Forms.Control.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\JFrame-System.Windows.Forms.Form.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\JLabel-System.Windows.Forms.Label.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\JPanel-System.Windows.Forms.Panel.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\JTextField-System.Windows.Forms.TextBox.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\SwingConstants-Helpers.SwingConstants.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\javax\swing\border\Class.map"
                     BuildAction = "Content"
                 />
                 <File

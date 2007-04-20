@@ -1,0 +1,4 @@
+setBorder(a)-Helpers.ControlHelper.setBorder(id,a)
+putClientProperty(a,b)-Helpers.ControlHelper.putClientProperty(id,a,b)
+setOpaque(a)-Helpers.ControlHelper.setOpaque(id,a)
+getPreferredSize(a)-Helpers.ControlHelper.getPreferredSize(id,a)

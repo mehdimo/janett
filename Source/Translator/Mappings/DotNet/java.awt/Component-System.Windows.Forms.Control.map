@@ -1,0 +1,13 @@
+PascalStyle: setBounds(a,b,c,d)
+isVisible()-id.Visible
+getPreferredSize()-Helpers.ControlHelper.getPreferredSize(id)
+getFontMetrics(a)-Helpers.ControlHelper.getFontMetrics(id,a)
+getMinimumSize()-Helpers.ControlHelper.getMinimumSize(id)
+getToolkit()-Helpers.ControlHelper.getToolkit(id)
+getTreeLock()-Helpers.ControlHelper.getTreeLock(id)
+getX()-id.Left
+getY()-id.Top
+getWidth()-id.Width
+getHeight()-id.Height
+setSize(a)-id.Size = a
+setVisible(a)-ShowDialog()

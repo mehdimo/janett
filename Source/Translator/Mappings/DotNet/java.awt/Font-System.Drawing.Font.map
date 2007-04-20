@@ -1,0 +1,3 @@
+BOLD-System.Drawing.FontStyle.Bold
+PLAIN-System.Drawing.FontStyle.Regular
+deriveFont(a)-Helpers.ControlHelper.deriveFont(id,a)
