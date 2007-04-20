@@ -1079,6 +1079,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Translator\ArrayInitializerTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Translator\ClassModifierTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1276,5 +1281,4 @@
         </Files>
     </CSHARP>
 </VisualStudioProject>
-
 
