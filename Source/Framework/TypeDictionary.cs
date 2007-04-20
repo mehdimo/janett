@@ -52,7 +52,6 @@ namespace Janett.Framework
 			parser.ParseMethodBodies = true;
 			parser.Parse();
 			CompilationUnit compilationUnit = parser.CompilationUnit;
-			Visit(compilationUnit);
 			NamespaceDeclaration ns = (NamespaceDeclaration) compilationUnit.Children[0];
 			TypeDeclaration typeDeclaration = (TypeDeclaration) ns.Children[0];
 			if (key.ToString().IndexOf('$') != -1)
@@ -65,6 +64,7 @@ namespace Janett.Framework
 				ExternalLibraries.Add(externalLib);
 
 			base.Add(key, typeDeclaration);
+			Visit(compilationUnit);
 
 			return true;
 		}
