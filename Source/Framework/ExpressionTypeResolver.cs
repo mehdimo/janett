@@ -38,6 +38,8 @@ namespace Janett.Framework
 				if (targetType != null)
 				{
 					string fullName = TypeResolver.GetFullName(targetType);
+					if (targetType.RankSpecifier != null && targetType.RankSpecifier.Length > 0 && !(ex.Parent is IndexerExpression))
+						fullName = "Array";
 					if (CodeBase.Types.Contains(fullName))
 					{
 						TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];

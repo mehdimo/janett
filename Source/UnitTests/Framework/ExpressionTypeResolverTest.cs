@@ -392,6 +392,20 @@ namespace Janett.Framework
 		}
 
 		[Test]
+		public void ArrayMember()
+		{
+			string program = TestUtil.StatementParse("Boolean[] flags; int count; count = flags.length;");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			AssignmentExpression assign = (AssignmentExpression) TestUtil.GetStatementNodeOf(cu, 2);
+			FieldReferenceExpression fieldReference = (FieldReferenceExpression) assign.Right;
+			TypeReference arrayFieldType = GetType(fieldReference);
+
+			Assert.IsNotNull(arrayFieldType);
+			Assert.AreEqual("int", arrayFieldType.Type);
+		}
+
+		[Test]
 		public void This()
 		{
 			string program = TestUtil.StatementParse(@"this.toString();");
