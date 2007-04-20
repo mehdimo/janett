@@ -108,13 +108,24 @@ namespace Janett.Framework
 				}
 
 				TypeMapping mapping = CodeBase.Mappings[returnType];
+				Expression replacedExpression;
 				string key;
 				if (ContainsMapping(mapping, fieldReferenceExpression, out key))
 				{
 					string cSharpMethodMap = mapping.Members[key];
-					Expression replacedExpression = GetReplacedExpression(fieldReferenceExpression, cSharpMethodMap);
+					replacedExpression = GetReplacedExpression(fieldReferenceExpression, cSharpMethodMap);
 					ReplaceCurrentNode(replacedExpression);
 					replacedExpression.AcceptVisitor(this, data);
+				}
+				else
+				{
+					mapping = GetProperMapping(invokerType, fieldReferenceExpression, fieldReferenceExpression.FieldName, out key);
+					if (key != null)
+					{
+						replacedExpression = GetReplacedExpression(fieldReferenceExpression, key, mapping.Members);
+						ReplaceCurrentNode(replacedExpression);
+						replacedExpression.AcceptVisitor(this, data);
+					}
 				}
 			}
 			return base.TrackedVisitFieldReferenceExpression(fieldReferenceExpression, data);
@@ -375,6 +386,12 @@ namespace Janett.Framework
 				{
 					return AstUtil.GetTypeReference(typeDeclaration.Name, method.Parent);
 				}
+			}
+			IList fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			foreach (FieldDeclaration fieldDeclaration in fields)
+			{
+				if (name == ((VariableDeclaration) fieldDeclaration.Fields[0]).Name)
+					return AstUtil.GetTypeReference(typeDeclaration.Name, fieldDeclaration.Parent);
 			}
 			return declaringType;
 		}

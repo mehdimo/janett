@@ -139,6 +139,27 @@ namespace Janett.Framework
 		}
 
 		[Test]
+		public void FieldToFieldViaInheritence()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+								import javax.swing.JLabel;
+								public class Test
+								{
+									public void Method() { int left = JLabel.LEFT;}
+								}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+
+			string expected = TestUtil.NamespaceMemberParse(@"
+								using javax.swing.JLabel;
+								public class Test
+								{
+									public void Method() { int left = Helpers.SwingConstants.LEFT;}
+								}");
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
 		public void RemovingConstructor()
 		{
 			string program = TestUtil.StatementParse("int ten = new Integer(10);");
