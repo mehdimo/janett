@@ -64,7 +64,6 @@ namespace Helpers
 			return true;
 		}
 
-
 		public static void removeAll(IList set, ICollection coll)
 		{
 			foreach (object item in coll)

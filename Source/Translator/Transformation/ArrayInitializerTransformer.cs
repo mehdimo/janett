@@ -8,7 +8,7 @@ namespace Janett.Translator
 
 	public class ArrayInitializerTransformer : Transformer
 	{
-		enum Position
+		private enum Position
 		{
 			Before = -1,
 			After = 0
@@ -19,7 +19,7 @@ namespace Janett.Translator
 			string variableName = GetVariableName(arrayCreateExpression);
 			ArrayList initializerList = arrayCreateExpression.ArrayInitializer.CreateExpressions;
 			Expression replacedExpression = arrayCreateExpression;
-			if(initializerList.Count > 0 && initializerList[0] is ArrayInitializerExpression && data is InsertionBlockData)
+			if (initializerList.Count > 0 && initializerList[0] is ArrayInitializerExpression && data is InsertionBlockData)
 			{
 				ArrayCreateExpression replacedArrayCreateExpression = arrayCreateExpression;
 				replacedArrayCreateExpression.ArrayInitializer = null;
@@ -39,7 +39,7 @@ namespace Janett.Translator
 				insertionBlockData.BlockChildIndex = GetBlockChildIndex(replacedArrayCreateExpression, position);
 				insertionBlockData.Statements = initStatements;
 
-				if(variableName == arrayTypeName)
+				if (variableName == arrayTypeName)
 				{
 					IdentifierExpression identifierExpression = new IdentifierExpression(variableName);
 					replacedExpression = identifierExpression;
@@ -53,7 +53,7 @@ namespace Janett.Translator
 
 				ReplaceCurrentNode(replacedExpression);
 			}
-			
+
 			return base.TrackedVisitArrayCreateExpression(arrayCreateExpression, data);
 		}
 
@@ -64,7 +64,7 @@ namespace Janett.Translator
 			base.TrackedVisitBlockStatement(blockStatement, insertionBlockData);
 			if (insertionBlockData.Block != null && insertionBlockData.Statements.Count > 0)
 			{
-				if(blockStatement.GetHashCode() == insertionBlockData.Block.GetHashCode())
+				if (blockStatement.GetHashCode() == insertionBlockData.Block.GetHashCode())
 				{
 					replaced.Children.InsertRange(insertionBlockData.BlockChildIndex, insertionBlockData.Statements);
 					ReplaceCurrentNode(replaced);
@@ -76,7 +76,7 @@ namespace Janett.Translator
 		private IList GetArrayInitStatements(ArrayCreateExpression arrayCreateExpression, string variableName, ArrayList initializerList)
 		{
 			IList list = new ArrayList();
-			for(int idx = 0; idx <initializerList.Count; idx++)
+			for (int idx = 0; idx < initializerList.Count; idx++)
 			{
 				AssignmentExpression assignment = InitArrayStatement(arrayCreateExpression, variableName, ((ArrayInitializerExpression) initializerList[idx]).CreateExpressions, idx);
 				ExpressionStatement expressionStatement = new ExpressionStatement(assignment);
@@ -90,12 +90,12 @@ namespace Janett.Translator
 			BlockStatement block = (BlockStatement) AstUtil.GetParentOfType(expression, typeof(BlockStatement));
 			INode expressionParent = GetExpressionParent(expression);
 			int index = -1;
-			if(position == Position.After)
+			if (position == Position.After)
 				index = 0;
-			foreach(INode node in block.Children)
+			foreach (INode node in block.Children)
 			{
 				index++;
-				if(node.GetHashCode() == expressionParent.GetHashCode())
+				if (node.GetHashCode() == expressionParent.GetHashCode())
 					return index;
 			}
 			return 0;
@@ -115,22 +115,22 @@ namespace Janett.Translator
 
 		private string GetVariableName(ArrayCreateExpression arrayCreateExpression)
 		{
-			if(arrayCreateExpression.Parent is AssignmentExpression)
+			if (arrayCreateExpression.Parent is AssignmentExpression)
 			{
 				AssignmentExpression assignmentExpression = (AssignmentExpression) arrayCreateExpression.Parent;
 				Expression left = assignmentExpression.Left;
-				if(left is IdentifierExpression)
-					return ((IdentifierExpression)left).Identifier;
+				if (left is IdentifierExpression)
+					return ((IdentifierExpression) left).Identifier;
 				else
 					return null;
 			}
-			else if(arrayCreateExpression.Parent is VariableDeclaration)
+			else if (arrayCreateExpression.Parent is VariableDeclaration)
 			{
 				VariableDeclaration variableDeclaration = (VariableDeclaration) arrayCreateExpression.Parent;
 				return variableDeclaration.Name;
 			}
-			
-			else 
+
+			else
 				return null;
 		}
 
