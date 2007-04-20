@@ -406,6 +406,32 @@ namespace Janett.Framework
 		}
 
 		[Test]
+		public void InnerType()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+										public class ComponentUsage
+										{ 
+											public void Method() { Component.Item.StaticMethod();} 
+										} 
+										public class Component
+										{ 
+											public class Item
+											{
+												public static void StaticMethod(){}
+											}
+										}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = this.CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+			InvocationExpression ivc = (InvocationExpression) TestUtil.GetStatementNodeOf(cu, 0);
+			Expression target = ((FieldReferenceExpression) ivc.TargetObject).TargetObject;
+			TypeReference type = GetType(target);
+			Assert.IsNotNull(type);
+			Assert.AreEqual("Component.Item", type.Type);
+		}
+
+		[Test]
 		public void This()
 		{
 			string program = TestUtil.StatementParse(@"this.toString();");

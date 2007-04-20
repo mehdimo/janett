@@ -267,6 +267,11 @@ namespace Janett.Framework
 				if (methodDeclaration.Name == identifier)
 					return methodDeclaration.TypeReference;
 			}
+			foreach (TypeDeclaration innerType in AstUtil.GetChildrenWithType(typeDeclaration, typeof(TypeDeclaration)))
+			{
+				if (innerType.Name == identifier)
+					return AstUtil.GetTypeReference(typeDeclaration.Name + "." + innerType.Name, typeDeclaration.Parent);
+			}
 			if (typeDeclaration.BaseTypes.Count > 0)
 			{
 				string baseType = TypeResolver.GetFullName(((TypeReference) typeDeclaration.BaseTypes[0]));
