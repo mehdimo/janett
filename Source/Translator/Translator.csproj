@@ -593,6 +593,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.util\logging\Logger-log4net.LogManager.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\javax\swing\Class.map"
                     BuildAction = "Content"
                 />
