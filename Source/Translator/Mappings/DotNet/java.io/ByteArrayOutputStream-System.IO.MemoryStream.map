@@ -1,2 +1,3 @@
 PascalStyle: flush()
 toByteArray()-GetBuffer()
+size()-id.Length

@@ -1,2 +1,5 @@
 compare(a,b)-!a.CompareTo(b)
 doubleToLongBits(a)-!(long)a
+parseDouble(a)-Parse(a)
+toString(a)-a.ToString()
+new Double(a)-a

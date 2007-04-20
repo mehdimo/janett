@@ -5,3 +5,4 @@ FileNotFoundException-System.IO.FileNotFoundException
 Serializable-System.Runtime.Serialization.ISerializable
 BufferedInputStream-System.IO.BufferedStream
 BufferedOutputStream-System.IO.BufferedStream
+ObjectOutputStream-System.IO.Stream

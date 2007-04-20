@@ -2,3 +2,4 @@ TRUE-true
 FALSE-false
 new Boolean(a)-a
 booleanValue()-id
+valueOf(a)-a

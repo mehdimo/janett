@@ -1,1 +1,4 @@
 new Locale(a,b,c)-new System.Globalization.CultureInfo(a + "-" + b)
+getDefault()-id.CurrentCulture
+setDefault(a)-System.Threading.Thread.CurrentThread.CurrentCulture = a
+ENGLISH-id.CreateSpecificCulture("en")

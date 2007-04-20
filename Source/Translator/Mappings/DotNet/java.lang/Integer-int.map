@@ -5,3 +5,5 @@ intValue()-id
 MAX_VALUE-int.MaxValue
 MIN_VALUE-int.MinValue
 parseInt(a)-Parse(a)
+decode(a)-Parse(a)
+toString(a)-a.ToString()

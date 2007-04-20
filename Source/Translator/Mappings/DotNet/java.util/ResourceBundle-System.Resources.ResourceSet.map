@@ -1,2 +1,2 @@
-PascalStyle: getObject(a)
+PascalStyle: getObject(a)-getString(a)
 getKeys()-GetEnumerator()

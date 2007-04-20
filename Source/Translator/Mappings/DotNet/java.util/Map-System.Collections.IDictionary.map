@@ -1,7 +1,7 @@
 PascalStyle: clear() - remove(a)
 containsKey(a)-Contains(a)
 keySet()-id.Keys
-entrySet()-id.Values
+entrySet()-id
 put(a,b)-id[a] = b
 get(a)-id[a]
 hashCode()-GetHashCode()
