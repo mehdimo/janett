@@ -12,7 +12,7 @@ namespace Janett.Framework
 			IList fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
 			if (methodDeclaration.Name.Length > 3)
 			{
-				string name = methodDeclaration.Name.Substring(3);
+				string name = GetPropertyName(methodDeclaration);
 				if (IsAccessor(methodDeclaration, fields)
 				    || IsInterfaceOrAbstract(typeDeclaration) && ImplementInheritors(typeDeclaration, methodDeclaration)
 				    || ImplementSiblings(typeDeclaration, methodDeclaration))
@@ -32,6 +32,21 @@ namespace Janett.Framework
 				}
 			}
 			return base.TrackedVisitMethodDeclaration(methodDeclaration, data);
+		}
+
+		private string GetPropertyName(MethodDeclaration methodDeclaration)
+		{
+			string name = methodDeclaration.Name.Substring(3);
+			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
+			IList innerTypes = AstUtil.GetChildrenWithType(typeDeclaration, typeof(TypeDeclaration));
+			foreach (TypeDeclaration innerType in innerTypes)
+			{
+				if (innerType.Name == name)
+					return name + "_Property";
+			}
+			if (typeDeclaration.Name == name)
+				return name + "_Property";
+			return name;
 		}
 
 		private bool IsAccessor(MethodDeclaration methodDeclaration, IList fields)
@@ -102,6 +117,11 @@ namespace Janett.Framework
 			string key = fullType + "." + accessorName;
 			if (!CodeBase.References.Contains(key))
 				CodeBase.References.Add(key, PropertyName);
+			else if (CodeBase.References.Contains(key))
+			{
+				if (CodeBase.References[key].ToString() != PropertyName)
+					CodeBase.References[key] = PropertyName;
+			}
 			if (CodeBase.Inheritors.Contains(fullType))
 			{
 				foreach (string inheritor in CodeBase.Inheritors[fullType])

@@ -170,5 +170,29 @@ namespace Janett.Framework
 			Assert.IsTrue(CodeBase.References.Contains("Test.GenericTree.getDegree"));
 			Assert.IsTrue(CodeBase.References.Contains("Test.BinaryTree.getDegree"));
 		}
+
+		[Test]
+		public void AccessorWithSameNameAsInnerClass()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			VisitCompilationUnit(cu, null);
+
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void AccessorWithSameNameAsClass()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			VisitCompilationUnit(cu, null);
+
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
 	}
 }
