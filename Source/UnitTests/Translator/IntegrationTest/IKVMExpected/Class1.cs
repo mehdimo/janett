@@ -44,6 +44,10 @@ namespace Test.Integration
 			Class c = java.lang.Object.instancehelper_getClass(this);
 			string name = Name;
 			Name = name;
+			java.util.Calendar cal = java.util.Calendar.getInstance();
+			int min = cal.get(java.util.Calendar.MINUTE);
+			cal.set(java.util.Calendar.MONTH, java.util.Calendar.AUGUST);
+			cal.add(java.util.Calendar.HOUR, 12);
 			return base.ExistSimilarFieldAndMethod();
 		}
 		private sealed class InnerClass1 : java.lang.Object, IComparable

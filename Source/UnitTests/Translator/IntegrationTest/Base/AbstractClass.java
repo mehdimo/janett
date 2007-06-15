@@ -29,4 +29,8 @@ abstract class AbstractClass implements Interface
         }
 		public abstract void InnerAbstractClassMethod(int num);
 	}
+	
+	public void methodToExclude()
+	{
+	}
 }

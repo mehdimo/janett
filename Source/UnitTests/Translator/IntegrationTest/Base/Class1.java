@@ -3,6 +3,7 @@ package Test.Integration;
 import java.util.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Calendar;
 import java.io.*;
 import java.lang.reflect.Modifier;
 
@@ -29,6 +30,10 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
 		Class c = getClass();
 		String name = getName();
 		setName(name);
+		Calendar cal = Calendar.getInstance();
+		int min = cal.get(Calendar.MINUTE);
+		cal.set(Calendar.MONTH, java.util.Calendar.AUGUST);
+		cal.add(Calendar.HOUR, 12);
         return super.existSimilarFieldAndMethod();
     }
 
@@ -106,6 +111,7 @@ public abstract class Class1 extends AbstractClass implements Serializable, Comp
 
     public int compare(Object obj1, Object obj2)
     {
+        methodToExclude();
         return 0;
     }
 

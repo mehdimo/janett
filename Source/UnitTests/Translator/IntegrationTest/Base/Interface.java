@@ -19,4 +19,8 @@ public interface Interface
 		}
 		public abstract String InterfaceInnerClassMethod(String string);
 	}
+	
+	public void methodToExclude()
+	{
+	}
 }

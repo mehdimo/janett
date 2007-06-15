@@ -22,17 +22,19 @@ namespace Janett.Translator
 
 			javaTranslator.InputFolder = @"../../Translator/IntegrationTest/Base";
 			javaTranslator.Libraries = @"../../../Translator/Libraries";
+			javaTranslator.HelperDirectory = @"../../../Translator/Helpers";
 
-			string class1File = Path.Combine(Path.GetFullPath(javaTranslator.InputFolder), "Class1.java");
-			javaTranslator.MethodExcludes.Add(class1File, "methodToExclude");
+			string class1File = Path.Combine(Path.GetFullPath(javaTranslator.InputFolder), "Interface.java");
+			javaTranslator.MembersExcludes.Add(class1File, "methodToExclude");
 			string stubFile = Path.Combine(Path.GetFullPath(javaTranslator.InputFolder), "Stub.java");
-			javaTranslator.Stubs.Add(stubFile, "Methods");
+			javaTranslator.Stubs.Add(stubFile, "Test");
 		}
 
 		[Test]
 		public void DotNet()
 		{
 			javaTranslator.Mode = "DotNet";
+
 			javaTranslator.OutputFolder = @"../DotNetTranslated";
 			javaTranslator.Mappings = @"../../../Translator/Mappings/DotNet";
 

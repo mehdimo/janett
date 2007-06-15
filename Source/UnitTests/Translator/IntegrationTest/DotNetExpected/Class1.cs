@@ -33,6 +33,10 @@ namespace Test.Integration
 			System.Type c = GetType();
 			string name = Name;
 			Name = name;
+			System.DateTime cal = System.DateTime.Now;
+			int min = cal.Minute;
+			cal.AddMonths(7 - cal.Month);
+			cal.AddHours(12);
 			return base.ExistSimilarFieldAndMethod();
 		}
 		private sealed class InnerClass1 : System.IComparable
@@ -91,7 +95,7 @@ namespace Test.Integration
 			if (map.Contains(text) && ExistSimilarFieldAndMethod())
 			{
 				lock (text) {
-					System.Collections.IEnumerator it = map.Keys.GetEnumerator();
+					System.Collections.IEnumerator it = new System.Collections.ArrayList(map.Keys).GetEnumerator();
 					System.Collections.DictionaryEntry entry = (System.Collections.DictionaryEntry)it.Current;
 					object key = entry.Key;
 				}
