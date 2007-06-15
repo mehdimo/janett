@@ -253,13 +253,40 @@ namespace Janett.Framework
 			INode idParent = identifier.Parent;
 
 			if (CodeBase.References.Contains(key))
-				return (string) CodeBase.References[key];
+			{
+				if (identifier.Parent is FieldReferenceExpression)
+				{
+					FieldReferenceExpression fieldReference = (FieldReferenceExpression) identifier.Parent;
+					string st = GetInterfaceFieldsClass(key, fieldReference.FieldName);
+					if (st != null)
+						return st;
+				}
+			}
 			else if (CodeBase.Types.Contains(key))
 			{
 				return GetProperIdentifier(idParent, key);
 			}
 			else
 			{
+				TypeDeclaration typeDeclaration = (TypeDeclaration) AstUtil.GetParentOfType(identifier, typeof(TypeDeclaration));
+				key = ns.Name + "." + typeDeclaration.Name;
+				if (key.EndsWith("_Fields"))
+					key = key.Replace("_Fields", "");
+				if (CodeBase.References.Contains(key))
+				{
+					TypeDeclaration baseInterface = (TypeDeclaration) CodeBase.Types[key];
+					if (baseInterface.BaseTypes.Count > 0)
+					{
+						foreach (TypeReference baseType in baseInterface.BaseTypes)
+						{
+							string fullName = GetFullName(baseType);
+							string interfaceFieldsClass = GetInterfaceFieldsClass(fullName, identifier.Identifier);
+							if (interfaceFieldsClass != null)
+								return interfaceFieldsClass + "." + identifier.Identifier;
+						}
+					}
+				}
+
 				IList usings = AstUtil.GetChildrenWithType(ns, typeof(UsingDeclaration));
 				foreach (UsingDeclaration usingDeclaration in usings)
 				{
@@ -286,15 +313,23 @@ namespace Janett.Framework
 				FieldReferenceExpression fieldReference = (FieldReferenceExpression) idParent;
 				foreach (string value in values)
 				{
-					if (CodeBase.References.Contains(value))
-					{
-						string fieldClass = (string) CodeBase.References[value];
-						TypeDeclaration type = (TypeDeclaration) CodeBase.Types[fieldClass];
-						IList members = GetFieldsName(type);
-						if (members.Contains(fieldReference.FieldName))
-							return fieldClass;
-					}
+					string interfaceFieldsClass = GetInterfaceFieldsClass(value, fieldReference.FieldName);
+					if (interfaceFieldsClass != null)
+						return interfaceFieldsClass;
 				}
+			}
+			return null;
+		}
+
+		private string GetInterfaceFieldsClass(string interfaceName, string interfaceField)
+		{
+			if (CodeBase.References.Contains(interfaceName))
+			{
+				string fieldClass = (string) CodeBase.References[interfaceName];
+				TypeDeclaration type = (TypeDeclaration) CodeBase.Types[fieldClass];
+				IList members = GetFieldsName(type);
+				if (members.Contains(interfaceField))
+					return fieldClass;
 			}
 			return null;
 		}

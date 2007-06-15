@@ -130,6 +130,47 @@ namespace Janett.Translator
 		}
 
 		[Test]
+		public void InterfaceFieldsUseParentInterfaceFields()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			CodeBase.References.Add("Test.Constants", "Test.Constants_Fields");
+			CodeBase.References.Add("Test.SystemConstants", "Test.SystemConstants_Fields");
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void ProjectAndLibraryTypeWithSameName()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+								import java.util.Calendar; 
+								public class A { int h = Calendar.HOUR; } 
+								public class Calendar_Fields {public static int Month = 0;}");
+			string expected = TestUtil.NamespaceMemberParse(@"
+								using java.util.Calendar; 
+								public class A { int h = Calendar.HOUR; } 
+								public class Calendar_Fields {public static int Month = 0;}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			CodeBase.References.Add("Test.Calendar", "Test.Calendar_Fields");
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
 		public void InterfaceInnerType()
 		{
 			string program = "package Test; public class A extends Interface.InterfaceInnerClass {}";
