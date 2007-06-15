@@ -1,5 +1,7 @@
 namespace Janett.Translator
 {
+	using System.Collections;
+
 	using ICSharpCode.NRefactory.Ast;
 
 	using Janett.Framework;
@@ -7,6 +9,18 @@ namespace Janett.Translator
 	[Mode("DotNet")]
 	public class ToArrayTransformer : Transformer
 	{
+		private IList collectionTypes = new ArrayList();
+
+		public ToArrayTransformer()
+		{
+			collectionTypes.Add("Collection");
+			collectionTypes.Add("List");
+			collectionTypes.Add("LinkedList");
+			collectionTypes.Add("ArrayList");
+			collectionTypes.Add("Set");
+			collectionTypes.Add("HashSet");
+		}
+
 		public override object TrackedVisitInvocationExpression(InvocationExpression invocationExpression, object data)
 		{
 			if (invocationExpression.TargetObject is FieldReferenceExpression)
@@ -17,7 +31,7 @@ namespace Janett.Translator
 				{
 					Expression invoker = targetObject.TargetObject;
 					TypeReference invokerType = GetExpressionType(invoker);
-					if (invokerType != null && (invokerType.Type == "List" || invokerType.Type == "Set" || invokerType.Type == "Collection"))
+					if (invokerType != null && collectionTypes.Contains(invokerType.Type))
 					{
 						if (invocationExpression.Arguments.Count == 1)
 						{
