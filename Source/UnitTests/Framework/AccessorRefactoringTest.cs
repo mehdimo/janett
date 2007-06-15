@@ -10,6 +10,8 @@ namespace Janett.Framework
 		[SetUp]
 		public void SetUp()
 		{
+			CodeBase.Types.Clear();
+			CodeBase.Inheritors.Clear();
 			CodeBase.References.Clear();
 		}
 
@@ -189,6 +191,38 @@ namespace Janett.Framework
 			string program = TestUtil.GetInput();
 			string expected = TestUtil.GetExpected();
 			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			VisitCompilationUnit(cu, null);
+
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void SetterAndGetterWithDifferentAccessibility()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void NotDeclaredAccessor()
+		{
+			string program = TestUtil.GetInput();
+			string expected = TestUtil.GetExpected();
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+
+			InheritorsVisitor inheritorsVisitor = new InheritorsVisitor();
+			inheritorsVisitor.CodeBase = CodeBase;
+
+			typesVisitor.VisitCompilationUnit(cu, null);
+			inheritorsVisitor.VisitCompilationUnit(cu, null);
 
 			VisitCompilationUnit(cu, null);
 

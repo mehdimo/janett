@@ -6,17 +6,27 @@ namespace Janett.Framework
 
 	public class AccessorRefactoring : HierarchicalTraverser
 	{
+		private IList fields;
+
+		public override object TrackedVisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)
+		{
+			fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			base.TrackedVisitTypeDeclaration(typeDeclaration, data);
+
+			AddNotDeclaredAccessor(typeDeclaration);
+			return null;
+		}
+
 		public override object TrackedVisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
 		{
 			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
-			IList fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
 			if (methodDeclaration.Name.Length > 3)
 			{
-				string name = GetPropertyName(methodDeclaration);
 				if (IsAccessor(methodDeclaration, fields)
 				    || IsInterfaceOrAbstract(typeDeclaration) && ImplementInheritors(typeDeclaration, methodDeclaration)
 				    || ImplementSiblings(typeDeclaration, methodDeclaration))
 				{
+					string name = GetPropertyName(methodDeclaration);
 					TypeReference typeReference = GetAccessorTypeReference(methodDeclaration);
 					IList properties = AstUtil.GetChildrenWithType(typeDeclaration, typeof(PropertyDeclaration));
 					PropertyDeclaration propertyDeclaration = GetProperty(properties, name, methodDeclaration.Modifier, typeReference);
@@ -37,15 +47,11 @@ namespace Janett.Framework
 		private string GetPropertyName(MethodDeclaration methodDeclaration)
 		{
 			string name = methodDeclaration.Name.Substring(3);
+			AccessorRefactoringHelper accessorRefactoringHelper = new AccessorRefactoringHelper();
+			accessorRefactoringHelper.CodeBase = this.CodeBase;
 			TypeDeclaration typeDeclaration = (TypeDeclaration) methodDeclaration.Parent;
-			IList innerTypes = AstUtil.GetChildrenWithType(typeDeclaration, typeof(TypeDeclaration));
-			foreach (TypeDeclaration innerType in innerTypes)
-			{
-				if (innerType.Name == name)
-					return name + "_Property";
-			}
-			if (typeDeclaration.Name == name)
-				return name + "_Property";
+			if (accessorRefactoringHelper.SimilarNameExistsInDependedTypes(typeDeclaration, methodDeclaration))
+				name += "_Property";
 			return name;
 		}
 
@@ -196,14 +202,18 @@ namespace Janett.Framework
 				return property;
 			}
 			else
+			{
+				if (modifier > property.Modifier)
+					property.Modifier = modifier;
 				return property;
+			}
 		}
 
 		private PropertyDeclaration GetProperty(IList properties, string name)
 		{
 			foreach (PropertyDeclaration property in properties)
 			{
-				if (property.Name == name)
+				if (property.Name == name || property.Name == name + "_Property")
 					return property;
 			}
 			return null;
@@ -227,6 +237,43 @@ namespace Janett.Framework
 				return ((ParameterDeclarationExpression) accessorMethod.Parameters[0]).TypeReference;
 			else
 				return null;
+		}
+
+		private void AddNotDeclaredAccessor(TypeDeclaration typeDeclaration)
+		{
+			IList properties = AstUtil.GetChildrenWithType(typeDeclaration, typeof(PropertyDeclaration));
+			foreach (PropertyDeclaration property in properties)
+			{
+				if (!property.HasGetRegion || !property.HasSetRegion)
+				{
+					string accessorType;
+					if (!property.HasSetRegion)
+						accessorType = "set";
+					else
+						accessorType = "get";
+
+					string propertyName = property.Name;
+					ImplementPropertyRegionTransformer implementPropertyRegionTransformer = new ImplementPropertyRegionTransformer();
+					implementPropertyRegionTransformer.CodeBase = CodeBase;
+					if (implementPropertyRegionTransformer.ShouldAddAccessor(typeDeclaration, accessorType + propertyName, property.TypeReference))
+					{
+						BlockStatement block;
+						if (IsInterface(typeDeclaration) || (IsAbstractClass(typeDeclaration) && !HasField(fields, propertyName)))
+							block = NullBlockStatement.Instance;
+						else
+						{
+							block = new BlockStatement();
+							ObjectCreateExpression notSupported = new ObjectCreateExpression(new TypeReference("System.NotSupportedException"), null);
+							ThrowStatement throwStatement = new ThrowStatement(notSupported);
+							block.Children.Add(throwStatement);
+						}
+						if (accessorType == "get")
+							property.GetRegion = new PropertyGetRegion(block, null);
+						else
+							property.SetRegion = new PropertySetRegion(block, null);
+					}
+				}
+			}
 		}
 	}
 }
