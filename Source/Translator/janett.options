@@ -2,7 +2,7 @@
 IncludeHelpersInDirectory=helpers
 
 [Preservation]
-DiffParameters=-r -U3 -N -P -x *.user -x *.suo -x bin -x obj -x *.rej -x *.orig -x _ReSharper.*
+DiffParameters=-r -U3 -N -P -x *.user -x *.suo -x bin -x obj -x *.rej -x *.orig -x _ReSharper.* -x *.resharperoptions
 PatchParameters=-p0
 
 [Files]

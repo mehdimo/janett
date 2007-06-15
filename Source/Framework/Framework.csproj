@@ -130,12 +130,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "InheritedTypesExcludeTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "InheritorsVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MethodExcludeTransformer.cs"
+                    RelPath = "MemberExcludeTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -166,6 +171,16 @@
                 />
                 <File
                     RelPath = "RenameRepeatedVariableTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SameFieldAndMethodNameTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SameFieldAndMethodUsagesTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -303,6 +318,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Refactoring\AccessorRefactoringHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Refactoring\ImplementPropertyRegionTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Refactoring\IRenamer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -314,6 +339,11 @@
                 />
                 <File
                     RelPath = "Refactoring\Refactoring.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Refactoring\RemoveEmptyBlocksTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

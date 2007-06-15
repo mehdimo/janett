@@ -36,7 +36,7 @@ namespace Janett.Framework
 					type = type.Substring(0, type.IndexOf('$'));
 				if (!UsedTypes.Contains(type))
 					UsedTypes.Add(type);
-				if (!UsedTypes.Contains(ns))
+				if (ns != null && !UsedTypes.Contains(ns))
 					UsedTypes.Add(ns);
 			}
 
@@ -87,8 +87,14 @@ namespace Janett.Framework
 
 		private bool IsInvocationTarget(TypeReference typeReference)
 		{
-			if (typeReference.Parent is TypeReferenceExpression)
-				return (typeReference.Parent.Parent is FieldReferenceExpression);
+			if (this.Mode != "DotNet" && typeReference.Parent is TypeReferenceExpression && typeReference.Parent.Parent is FieldReferenceExpression)
+			{
+				FieldReferenceExpression fieldReference = (FieldReferenceExpression) typeReference.Parent.Parent;
+				if (fieldReference.Parent is InvocationExpression)
+					return ((InvocationExpression) fieldReference.Parent).TargetObject.GetHashCode() == fieldReference.GetHashCode();
+				else
+					return false;
+			}
 			else
 				return false;
 		}

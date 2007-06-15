@@ -72,6 +72,8 @@ namespace Janett.Framework
 
 		private bool ExistMethodIn(TypeDeclaration typeDeclaration, InvocationExpression invocationExpression)
 		{
+			if (GetFullName(typeDeclaration).StartsWith("Helpers."))
+				return false;
 			bool exist = ContainsMethod(typeDeclaration, invocationExpression);
 			if (! exist && typeDeclaration.BaseTypes.Count != 0)
 			{

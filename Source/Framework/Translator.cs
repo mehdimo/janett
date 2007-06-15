@@ -61,13 +61,15 @@ namespace Janett.Framework
 		protected CodeBase codeBase;
 		private TypesVisitor typesVisitor;
 		private ParentVisitor parentVisitor;
+		private TypeReferenceCorrector projectTypeReferenceCorrector;
 
 		private ProgressController progress = new ProgressController();
 		private int sourceFileCount;
 		private string diagnosticsFile;
 
-		public IDictionary MethodExcludes = new Hashtable();
+		public IDictionary MembersExcludes = new Hashtable();
 		public IDictionary Stubs = new Hashtable();
+		private MultiValuedDictionary baseTypeToExcludeMethod = new MultiValuedDictionary();
 
 		public override void Execute()
 		{
@@ -368,6 +370,7 @@ namespace Janett.Framework
 		{
 			codeBase = new CodeBase(GetLanguage());
 			codeBase.Types.LibrariesFolder = Libraries;
+			codeBase.Types.HelpersFolder = HelperDirectory;
 
 			codeBase.Mappings = new Mappings(Mappings);
 
@@ -375,6 +378,9 @@ namespace Janett.Framework
 
 			typesVisitor = new TypesVisitor();
 			typesVisitor.CodeBase = codeBase;
+
+			projectTypeReferenceCorrector = new TypeReferenceCorrector(true);
+			projectTypeReferenceCorrector.CodeBase = codeBase;
 
 			LoadFiles();
 
@@ -385,6 +391,11 @@ namespace Janett.Framework
 			ParseAndPreVisit();
 
 			BeforeTransformation();
+
+			InheritedTypesExcludeTransformer inheritedTypesExcludeTransformer = new InheritedTypesExcludeTransformer();
+			inheritedTypesExcludeTransformer.ParentTypes = baseTypeToExcludeMethod;
+			CallVisitor(inheritedTypesExcludeTransformer, null);
+
 			IDictionary visitors = GetVisitors(typeof(AbstractAstVisitor));
 			visitors.Add(typeof(InheritorsVisitor).FullName, typeof(InheritorsVisitor));
 			IDictionary transformers = GetVisitors(typeof(AbstractAstTransformer));
@@ -400,7 +411,7 @@ namespace Janett.Framework
 
 			BeforeRefactoring();
 
-			int count = 4;
+			int count = 6;
 			if (Mode == "IKVM")
 				count++;
 			if (Namespace != null)
@@ -408,6 +419,9 @@ namespace Janett.Framework
 			progress.SetCount("Refactoring", sourceFileCount * count);
 
 			Refactor();
+
+			CallVisitor(typeof(RemoveEmptyBlocksTransformer), null);
+
 			OptimizeUsings();
 
 			GenerateCode();
@@ -550,19 +564,21 @@ namespace Janett.Framework
 
 				parentVisitor.VisitCompilationUnit(compilationUnit, null);
 				typesVisitor.VisitCompilationUnit(compilationUnit, null);
+				projectTypeReferenceCorrector.VisitCompilationUnit(compilationUnit, null);
 				if (Stubs.Contains(entry.File))
 				{
 					StubTransformer st = new StubTransformer();
 
+					st.Members = (string) Stubs[entry.File];
 					st.VisitCompilationUnit(compilationUnit, null);
 				}
-				if (MethodExcludes.Contains(entry.File))
+				if (MembersExcludes.Contains(entry.File))
 				{
-					string methods = MethodExcludes[entry.File].ToString();
-					MethodExcludeTransformer met = new MethodExcludeTransformer();
-					foreach (string method in methods.Split(','))
-						met.Methods.Add(method);
+					string members = MembersExcludes[entry.File].ToString();
+					MemberExcludeTransformer met = new MemberExcludeTransformer(members);
 					met.VisitCompilationUnit(compilationUnit, null);
+					if (met.ExcludedType != null && met.ExcludedMembers != null)
+						baseTypeToExcludeMethod[met.ExcludedType] = met.ExcludedMembers;
 				}
 				entry.CompilationUnit = compilationUnit;
 				entry.Parser = parser;
@@ -573,6 +589,7 @@ namespace Janett.Framework
 		{
 			foreach (Type type in transformers.Values)
 			{
+				System.Diagnostics.Debug.WriteLine(type.Name);
 				CallVisitor(type, step);
 			}
 		}
@@ -649,8 +666,12 @@ namespace Janett.Framework
 			codeBase.References.Clear();
 			CallVisitor(typeof(AccessorRefactoring), "Refactoring");
 			CallVisitor(typeof(ReferenceTransformer), "Refactoring");
+
 			CallVisitor(typeof(RenameMethodInvocationRefactoring), "Refactoring");
 			CallVisitor(typeof(RenameMethodDeclarationRefactoring), "Refactoring");
+
+			CallVisitor(typeof(SameFieldAndMethodNameTransformer), "Refactoring");
+			CallVisitor(typeof(SameFieldAndMethodUsagesTransformer), "Refactoring");
 
 			if (Package != null && Namespace != null)
 			{
@@ -759,8 +780,13 @@ namespace Janett.Framework
 					p.FileSet.Includes.Add(path);
 					if (subNode.Attributes["Stub"] != null)
 					{
-						Stubs.Add(GetFullPath(subNode.Attributes["Path"].Value, p), subNode.Attributes["Stub"]);
+						Stubs.Add(GetFullPath(subNode.Attributes["Path"].Value, p), subNode.Attributes["Stub"].Value);
 					}
+				}
+				else if (subNode.Name == "Stub")
+				{
+					if (subNode.Attributes["Members"] != null)
+						Stubs.Add(GetFullPath(subNode.Attributes["Path"].Value, p), subNode.Attributes["Members"].Value);
 				}
 				else
 				{
@@ -770,7 +796,7 @@ namespace Janett.Framework
 						string fileName = path.Substring(0, index);
 						string methods = path.Substring(index + 1);
 						string file = GetFullPath(fileName, p);
-						MethodExcludes.Add(file, methods);
+						MembersExcludes.Add(file, methods);
 					}
 					else
 						p.FileSet.Excludes.Add(path);

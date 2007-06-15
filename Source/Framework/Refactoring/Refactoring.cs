@@ -16,7 +16,7 @@ namespace Janett.Framework
 				{
 					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
 
-					if (IsInExternalLibraries(fullName))
+					if (IsInExternalLibraries(fullName) || fullName.StartsWith("Helpers."))
 					{
 						IList methods = AstUtil.GetChildrenWithType(baseTypeDeclaration, typeof(MethodDeclaration));
 						if (ContainsMethod(methods, methodDeclaration))

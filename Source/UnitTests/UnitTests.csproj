@@ -213,6 +213,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\MemberExcludeTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\MemberMapperTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -243,7 +248,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\RemoveEmptyBlockTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\RenameRepeatedVariableTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\SameFieldAndMethodNameTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -371,6 +386,23 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\AccessorRefactoringTest\AccessorWithSameNameAsClass.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\AccessorWithSameNameAsClass.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\AccessorWithSameNameAsInnerClass.cs"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\AccessorWithSameNameAsInnerClass.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\AccessorRefactoringTest\Getter.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -417,11 +449,28 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\AccessorRefactoringTest\NotDeclaredAccessor.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\NotDeclaredAccessor.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\AccessorRefactoringTest\Setter.cs"
                     BuildAction = "None"
                 />
                 <File
                     RelPath = "TestCode\AccessorRefactoringTest\Setter.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\SetterAndGetterWithDifferentAccessibility.cs"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\AccessorRefactoringTest\SetterAndGetterWithDifferentAccessibility.java"
                     BuildAction = "None"
                 />
                 <File
@@ -644,6 +693,10 @@
                 />
                 <File
                     RelPath = "TestCode\InnerClassTransformerTest\InnerClassCallsNonStaticMethod.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "TestCode\InnerClassTransformerTest\InnerClassConstructors.java"
                     BuildAction = "None"
                 />
                 <File
@@ -965,6 +1018,15 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "TestCode\ReferenceTransformerTest\InterfaceFieldsUseParentInterfaceFields.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestCode\ReferenceTransformerTest\InterfaceFieldsUseParentInterfaceFields.java"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "TestCode\RenameRepeatedVariableTransformerTest\DifferentScopes.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -1159,12 +1221,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Translator\SameProjectAndExternalTypeNameTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Translator\SerializableTransformerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Translator\StaticConstructorTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Translator\StaticPrimitiveTypeFieldsTransformerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Translator\SuperUsageTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -1190,6 +1267,10 @@
                 />
                 <File
                     RelPath = "Translator\IntegrationTest\Base\AbstractClass.java"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Translator\IntegrationTest\Base\Calendar.java"
                     BuildAction = "None"
                 />
                 <File
@@ -1222,6 +1303,11 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "Translator\IntegrationTest\DotNetExpected\Calendar.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Translator\IntegrationTest\DotNetExpected\Class1.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -1237,6 +1323,11 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "Translator\IntegrationTest\DotNetExpected\Stub.cs"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Translator\IntegrationTest\DotNetExpected\TestClass.cs"
                     SubType = "Code"
                     BuildAction = "None"
@@ -1248,6 +1339,11 @@
                 />
                 <File
                     RelPath = "Translator\IntegrationTest\IKVMExpected\AbstractClass.cs"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Translator\IntegrationTest\IKVMExpected\Calendar.cs"
+                    SubType = "Code"
                     BuildAction = "None"
                 />
                 <File

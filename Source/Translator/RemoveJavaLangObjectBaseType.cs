@@ -1,6 +1,8 @@
-namespace Janett.Framework
+namespace Janett.Translator
 {
 	using ICSharpCode.NRefactory.Ast;
+
+	using Janett.Framework;
 
 	[Mode("DotNet")]
 	[Explicit]

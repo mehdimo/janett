@@ -134,11 +134,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Helpers\Arrays.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Helpers\Border.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -205,8 +200,13 @@
                 />
                 <File
                     RelPath = "Helpers\JSeparator.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\JSeparator.resx"
+                    DependentUpon = "JSeparator.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Helpers\LayoutManager.cs"
@@ -220,6 +220,11 @@
                 />
                 <File
                     RelPath = "Helpers\LookAndFeel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\Properties.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -249,12 +254,32 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Helpers\Runnable.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\Runtime.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Helpers\StringTokenizer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Helpers\SwingConstants.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\SystemHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Helpers\ThreadHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -317,11 +342,19 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.beans\BeanInfo-System.Type.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.beans\Class.map"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "Mappings\DotNet\java.beans\FeatureDescriptor-System.Reflection.MemberInfo.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.beans\Introspector-System.Type.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -373,6 +406,14 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.io\ObjectInputStream-System.IO.StreamReader.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.io\ObjectOutputStream-System.IO.StreamWriter.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.io\OutputStream-System.IO.Stream.map"
                     BuildAction = "Content"
                 />
@@ -401,11 +442,19 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.lang\Byte-byte.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.lang\Character-System.Char.map"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "Mappings\DotNet\java.lang\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\ClassLoader-System.Reflection.Assembly.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -445,6 +494,14 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.lang\Process-System.Diagnostics.Process.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.lang\Short-short.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.lang\StringBuffer-System.Text.StringBuilder.map"
                     BuildAction = "Content"
                 />
@@ -457,7 +514,7 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Mappings\DotNet\java.lang\Thread-System.Threading.Thread.map"
+                    RelPath = "Mappings\DotNet\java.lang\Thread-Helpers.ThreadHelper.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -497,6 +554,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.net\InetAddress-System.Net.Dns.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.net\URLConnection-System.Net.WebRequest.map"
                     BuildAction = "Content"
                 />
@@ -509,11 +570,31 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.rmi\Class.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.text\MessageFormat-java.text.MessageFormat.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.text\NumberFormat-java.text.NumberFormat.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.text\ParseException-System.FormatException.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.util\ArrayList-System.Collections.ArrayList.map"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "Mappings\DotNet\java.util\Arrays-System.Array.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Calendar-System.DateTime.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -533,23 +614,15 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.util\Date-System.DateTime.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.util\Dictionary-System.Collections.Hashtable.map"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "Mappings\DotNet\java.util\Enumeration-System.Collections.IEnumerator.map"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Mappings\DotNet\java.util\HashMap-System.Collections.Hashtable.map"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Mappings\DotNet\java.util\HashSet-System.Collections.ArrayList.map"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Mappings\DotNet\java.util\Hashtable-System.Collections.Hashtable.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -577,7 +650,11 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Mappings\DotNet\java.util\Properties-System.Collections.Hashtable.map"
+                    RelPath = "Mappings\DotNet\java.util\Properties-Helpers.Properties.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\Random-System.Random.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -589,7 +666,19 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\java.util\SortedSet-System.Collections.ArrayList.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\java.util\Stack-System.Collections.Stack.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\TimeZone-System.TimeZone.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\java.util\TreeSet-System.Collections.ArrayList.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -645,11 +734,19 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Mappings\DotNet\org.apache.commons\collections\SetUtils-SetUtils.map"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Mappings\DotNet\org.apache.commons\collections\map\Class.map"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Mappings\DotNet\org.apache.commons\collections\set\Class.map"
+                    RelPath = "Mappings\DotNet\org.apache.commons\collections\map\ListOrderedMap-System.Collections.Hashtable.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Mappings\DotNet\org.apache.commons\collections\set\ListOrderedSet-System.Collections.ArrayList.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -705,7 +802,7 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Mappings\IKVM\java.lang.Cloneable-System.ICloneable.map"
+                    RelPath = "Mappings\IKVM\java.lang.Cloneable-Cloneable.__Interface.map"
                     BuildAction = "Content"
                 />
                 <File
@@ -826,12 +923,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Transformation\SameProjectAndExternalTypeNameTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Transformation\SerializableTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Transformation\StaticConstructorTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\StaticPrimitiveTypeFieldsTransformer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transformation\SuperUsageTransformer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

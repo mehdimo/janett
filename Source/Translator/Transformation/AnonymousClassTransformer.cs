@@ -299,7 +299,7 @@ namespace Janett.Translator
 					IList cons = AstUtil.GetChildrenWithType(baseTypeDeclaration, typeof(ConstructorDeclaration));
 					foreach (ConstructorDeclaration constructor in cons)
 					{
-						if (constructor.Parameters.Count == obc.Parameters.Count)
+						if (MatchArguments(constructor.Parameters, obc.Parameters))
 							result.AddRange(constructor.Parameters);
 					}
 				}

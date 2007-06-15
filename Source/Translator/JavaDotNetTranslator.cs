@@ -36,8 +36,10 @@ namespace Janett.Translator
 
 		protected override void BeforeRefactoring()
 		{
+			CallVisitor(typeof(SameProjectAndExternalTypeNameTransformer), null);
 			if (Mode == "DotNet")
 				CallVisitor(typeof(RemoveJavaLangObjectBaseType), null);
+			CallVisitor(typeof(SuperUsageTransformer), null);
 		}
 
 		public override SupportedLanguage GetLanguage()
