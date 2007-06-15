@@ -15,6 +15,7 @@ namespace Janett.Framework
 		public IList Visitors = new ArrayList();
 		public IList ExternalLibraries = new ArrayList();
 		public string LibrariesFolder = "Libraries";
+		public string HelpersFolder = "Helpers";
 
 		private IDictionary zipCache = new Hashtable();
 		private AstUtil AstUtil = new AstUtil();
@@ -37,46 +38,69 @@ namespace Janett.Framework
 			bool contains = base.Contains(key);
 			if (contains)
 				return (base[key] != null);
-			if (!Directory.Exists(LibrariesFolder))
-				return false;
 
-			string fileContent = GetFile(key.ToString());
-			if (fileContent == null)
+			bool exists = false;
+			if (Directory.Exists(LibrariesFolder))
+				exists = LoadFile(key, LibrariesFolder, language, true);
+			if (!exists)
 			{
-				base.Add(key, null);
-				return false;
+				if (Directory.Exists(HelpersFolder))
+					exists = LoadFile(key, HelpersFolder, SupportedLanguage.CSharp, false);
 			}
+			if (!exists)
+				base.Add(key, null);
+			return exists;
+		}
+
+		private bool LoadFile(object key, string folder, SupportedLanguage supportedLanguage, bool visit)
+		{
+			TypeDeclaration typeDeclaration;
+			string fileContent = GetFile(key.ToString(), folder, supportedLanguage);
+			if (fileContent == null)
+				return false;
 
 			StringReader reader = new StringReader(fileContent);
-			IParser parser = ParserFactory.CreateParser(language, reader);
+			IParser parser = ParserFactory.CreateParser(supportedLanguage, reader);
 			parser.ParseMethodBodies = true;
 			parser.Parse();
 			CompilationUnit compilationUnit = parser.CompilationUnit;
 			NamespaceDeclaration ns = (NamespaceDeclaration) compilationUnit.Children[0];
-			TypeDeclaration typeDeclaration = (TypeDeclaration) ns.Children[0];
+			typeDeclaration = GetTypeDeclaration(ns, key.ToString());
 			if (key.ToString().IndexOf('$') != -1)
 			{
 				string innerType = key.ToString().Substring(key.ToString().IndexOf('$') + 1);
 				typeDeclaration = GetInnerType(typeDeclaration, innerType);
 			}
 			string externalLib = ns.Name;
-			if (!ExternalLibraries.Contains(externalLib))
+			if (!ExternalLibraries.Contains(externalLib) && externalLib != "Helpers")
 				ExternalLibraries.Add(externalLib);
 
 			base.Add(key, typeDeclaration);
-			Visit(compilationUnit);
+			if (visit)
+				Visit(compilationUnit);
 
 			return true;
 		}
 
-		private string GetFile(string key)
+		private TypeDeclaration GetTypeDeclaration(NamespaceDeclaration namespaceDeclaration, string name)
 		{
-			string file = GetFileName(key);
+			IList types = AstUtil.GetChildrenWithType(namespaceDeclaration, typeof(TypeDeclaration));
+			foreach (TypeDeclaration typeDeclaration in types)
+			{
+				if (name.StartsWith(namespaceDeclaration.Name + "." + typeDeclaration.Name))
+					return typeDeclaration;
+			}
+			return (TypeDeclaration) namespaceDeclaration.Children[namespaceDeclaration.Children.Count - 1];
+		}
+
+		private string GetFile(string key, string folder, SupportedLanguage language)
+		{
+			string file = GetFileName(key, folder, language);
 			if (file != null)
 				return FileSystemUtil.ReadFile(file);
 			else
 			{
-				foreach (string zipFile in Directory.GetFiles(LibrariesFolder, "*.zip"))
+				foreach (string zipFile in Directory.GetFiles(folder, "*.zip"))
 				{
 					string zipFileName = Path.GetFileNameWithoutExtension(zipFile);
 					if (key.StartsWith(zipFileName + "."))
@@ -94,10 +118,12 @@ namespace Janett.Framework
 			return null;
 		}
 
-		private string GetFileName(object key)
+		private string GetFileName(object key, string folder, SupportedLanguage language)
 		{
 			string typeName = key.ToString();
-			string folder = LibrariesFolder;
+			if (folder == HelpersFolder && !typeName.StartsWith("Helpers."))
+				return null;
+			typeName = typeName.Replace("Helpers.", "");
 
 			if (typeName.IndexOf('.') != -1)
 			{
