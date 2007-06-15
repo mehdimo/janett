@@ -114,14 +114,19 @@ namespace Janett.Tools
 				typeDeclaration.Name = GetTypeName(clazz.Name);
 			foreach (ClassFile.Method method in clazz.Methods)
 			{
-				if (!(method.IsPublic || method.IsProtected) || method.Name == "<init>")
+				if (!(method.IsPublic || method.IsProtected))
 					continue;
-
-				TypeReference returnType = sigParser.GetReturnType(method.Signature);
-				MethodDeclaration methodDeclaration = new MethodDeclaration(method.Name, Modifiers.None, returnType, null, null);
-				if (method.IsAbstract)
-					methodDeclaration.Modifier |= Modifiers.Abstract;
-				methodDeclaration.Modifier |= Modifiers.Public;
+				ParametrizedNode methodDeclaration;
+				if (method.Name == "<init>")
+					methodDeclaration = new ConstructorDeclaration(typeDeclaration.Name, Modifiers.Public, null, null);
+				else
+				{
+					TypeReference returnType = sigParser.GetReturnType(method.Signature);
+					methodDeclaration = new MethodDeclaration(method.Name, Modifiers.None, returnType, null, null);
+					if (method.IsAbstract)
+						methodDeclaration.Modifier |= Modifiers.Abstract;
+					methodDeclaration.Modifier |= Modifiers.Public;
+				}
 				methodDeclaration.Parent = typeDeclaration;
 
 				if (IncludeParamters)
