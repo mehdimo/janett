@@ -17,8 +17,7 @@ namespace Janett.Framework
 				return typeReference.Type;
 			if (CodeBase.Types.Contains(typeReference.Type))
 				return typeReference.Type;
-			if (CodeBase.Types.Contains(nsd.Name + "." + typeReference.Type))
-				return nsd.Name + "." + typeReference.Type;
+
 			if (typeReference.Type.IndexOf(".") != -1)
 			{
 				int firstDot = typeReference.Type.IndexOf('.');
@@ -65,6 +64,16 @@ namespace Janett.Framework
 			TypeDeclaration typeDec = (TypeDeclaration) AstUtil.GetParentOfType(typeReference, typeof(TypeDeclaration));
 			if (typeDec != null)
 			{
+				if (typeDec.BaseTypes.Count > 0)
+				{
+					foreach (TypeReference baseTypeReference in typeDec.BaseTypes)
+					{
+						string fullBaseName = GetFullName(baseTypeReference, nsd);
+						string typeName = fullBaseName + "$" + typeReference.Type;
+						if (CodeBase.Types.Contains(typeName))
+							return typeName;
+					}
+				}
 				if (typeDec.Name == typeReference.Type)
 					typeDec = (TypeDeclaration) AstUtil.GetParentOfType(typeDec, typeof(TypeDeclaration));
 				if (typeDec != null)
@@ -110,8 +119,19 @@ namespace Janett.Framework
 				else if (CodeBase.Types.Contains(usingName + "." + typeReference.Type))
 					return usingName + "." + typeReference.Type;
 			}
+			if (CodeBase.Types.Contains(nsd.Name + "." + typeReference.Type))
+				return nsd.Name + "." + typeReference.Type;
 
 			return "java.lang." + typeReference.Type;
+		}
+
+		private string GetFullName(TypeReference typeReference, NamespaceDeclaration namespaceDeclaration)
+		{
+			string fullNameQualified = namespaceDeclaration.Name + "." + typeReference.Type;
+			if (CodeBase.Types.Contains(fullNameQualified))
+				return fullNameQualified;
+			else
+				return null;
 		}
 
 		public string GetFullName(TypeDeclaration typeDeclaration)

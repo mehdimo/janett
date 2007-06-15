@@ -149,5 +149,56 @@ namespace Janett.Framework
 			string fullName = GetFullName(field.TypeReference);
 			Assert.AreEqual("java.util.Map$Entry", fullName);
 		}
+
+		[Test]
+		public void InheritedInnerType()
+		{
+			string program = TestUtil.PackageMemberParse(@"public class BaseClass {
+																public interface BaseInnerType
+																{
+																}
+															}
+															public class InheritedClass extends BaseClass{
+																BaseInnerType inner;
+															}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = this.CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
+
+			TypeDeclaration ty = (TypeDeclaration) CodeBase.Types["Test.InheritedClass"];
+			FieldDeclaration fd = (FieldDeclaration) ty.Children[0];
+			string type = GetFullName(fd.TypeReference);
+			Assert.AreEqual("Test.BaseClass$BaseInnerType", type);
+		}
+
+		[Test]
+		public void ProjectTypeAndExternalTypeWithSameName()
+		{
+			string projectType = TestUtil.PackageMemberParse("public interface Calendar {}");
+			string program = TestUtil.PackageMemberParse(@"import java.util.Calendar; 
+															public class MyCalendar 
+															{ 
+																public Calendar getCalendar()
+																{
+																	return null;
+																}
+															}");
+
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = CodeBase;
+
+			CompilationUnit cu1 = TestUtil.ParseProgram(projectType);
+			typesVisitor.VisitCompilationUnit(cu1, null);
+
+			CompilationUnit cu2 = TestUtil.ParseProgram(program);
+			typesVisitor.VisitCompilationUnit(cu2, null);
+
+			TypeDeclaration type = (TypeDeclaration) CodeBase.Types["Test.MyCalendar"];
+			MethodDeclaration method = (MethodDeclaration) type.Children[0];
+			string typeName = GetFullName(method.TypeReference);
+			Assert.AreEqual("java.util.Calendar", typeName);
+		}
 	}
 }
