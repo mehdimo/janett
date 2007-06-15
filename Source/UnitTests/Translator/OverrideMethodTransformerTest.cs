@@ -7,6 +7,12 @@ namespace Janett.Translator
 	[TestFixture]
 	public class OverrideMethodTransformerTest : OverridedMethodTransformer
 	{
+		[TestFixtureSetUp]
+		public void SetUp()
+		{
+			this.CodeBase.Types.LibrariesFolder = @"../../../Translator/Libraries";
+		}
+
 		[TearDown]
 		public void TearDown()
 		{
@@ -87,6 +93,34 @@ namespace Janett.Translator
 			CodeBase.Types.Add("Test.A", ty2);
 			CodeBase.Types.Add("Test.A.B", ty3);
 
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void InterfaceImplementedMethod()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+												public class A extends java.lang.Object implements java.io.Serializable, Cloneable 
+												{
+													public Object clone()
+													{
+														return null;
+													}
+												}");
+			string expected = TestUtil.NamespaceMemberParse(@"
+												public class A : java.lang.Object, java.io.Serializable, Cloneable 
+												{
+													public Object clone()
+													{
+														return null;
+													}
+												}");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
+			CodeBase.Types.Add("Test.A", ty);
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}

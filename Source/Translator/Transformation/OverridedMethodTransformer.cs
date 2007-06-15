@@ -24,7 +24,7 @@ namespace Janett.Translator
 				bool flag = true;
 				if (Mode == "DotNet")
 					flag = !ExistsInExternalExceptObject(baseType);
-				if (CodeBase.Types.Contains(baseType) && flag)
+				if (CodeBase.Types.Contains(baseType) && flag && !IsOverridableObjectMethod(baseType, methodDeclaration.Name))
 				{
 					TypeDeclaration baseTypeDeclaration = (TypeDeclaration) CodeBase.Types[baseType];
 					if (IsClass(baseTypeDeclaration))
@@ -51,6 +51,16 @@ namespace Janett.Translator
 					}
 				}
 			}
+		}
+
+		private bool IsOverridableObjectMethod(string type, string method)
+		{
+			IList list = new ArrayList();
+			list.Add("toString");
+			list.Add("hashCode");
+			list.Add("equals");
+
+			return (type == "java.lang.Object" && !list.Contains(method));
 		}
 
 		private bool ExistsInExternalExceptObject(string typeName)
