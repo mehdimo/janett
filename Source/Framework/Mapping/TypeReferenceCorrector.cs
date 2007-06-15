@@ -1,16 +1,37 @@
 namespace Janett.Framework
 {
-	using System.Collections;
-
 	using ICSharpCode.NRefactory.Ast;
 
 	public class TypeReferenceCorrector : Transformer
 	{
+		private bool projectTypes;
+
+		public TypeReferenceCorrector() : this(false)
+		{
+		}
+
+		public TypeReferenceCorrector(bool projectTypes)
+		{
+			this.projectTypes = projectTypes;
+		}
+
 		public override object TrackedVisitFieldReferenceExpression(FieldReferenceExpression fieldReferenceExpression, object data)
 		{
-			if (!IsMethodInvocation(fieldReferenceExpression) && ReachToInvocation(fieldReferenceExpression))
+			string targetString;
+			if (projectTypes)
 			{
-				string targetString = GetTargetString(fieldReferenceExpression);
+				targetString = GetTargetString(fieldReferenceExpression);
+				if (CodeBase.Mappings.Contains(targetString))
+				{
+					TypeReferenceExpression typeExpression = new TypeReferenceExpression(targetString);
+					typeExpression.Parent = fieldReferenceExpression.Parent;
+					ReplaceCurrentNode(typeExpression);
+					return null;
+				}
+			}
+			else if (!IsMethodInvocation(fieldReferenceExpression) && ReachToInvocation(fieldReferenceExpression))
+			{
+				targetString = GetTargetString(fieldReferenceExpression);
 				if (targetString.StartsWith("id"))
 					return null;
 				string suffix = "__";
@@ -60,29 +81,6 @@ namespace Janett.Framework
 				}
 			}
 			return false;
-		}
-
-		protected string GetTargetString(Expression targetObject)
-		{
-			Stack stack = new Stack();
-			Expression target = targetObject;
-			while (target is FieldReferenceExpression)
-			{
-				string str = ((FieldReferenceExpression) target).FieldName;
-				stack.Push(str);
-				target = ((FieldReferenceExpression) target).TargetObject;
-			}
-			if (target is IdentifierExpression)
-				stack.Push(((IdentifierExpression) target).Identifier);
-			string item;
-			string result = "";
-			while (stack.Count != 0)
-			{
-				item = (string) stack.Pop();
-				result += item + ".";
-			}
-			result = result.TrimEnd('.');
-			return result;
 		}
 	}
 }
