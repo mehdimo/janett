@@ -1,10 +1,11 @@
-TreeSet-System.Collections.ArrayList
 LinkedHashSet-System.Collections.ArrayList
 StringTokenizer-Helpers.StringTokenizer
-Date-System.DateTime
-SortedSet-System.Collections.ArrayList
 LinkedHashMap-System.Collections.Hashtable
 TreeMap-System.Collections.Hashtable
 IdentityHashMap-System.Collections.Hashtable
 AbstractList-System.Collections.ArrayList
 MissingResourceException-System.Resources.MissingManifestResourceException
+HashSet-System.Collections.ArrayList
+Hashtable-System.Collections.Hashtable
+HashMap-System.Collections.Hashtable
+NoSuchElementException-System.InvalidOperationException

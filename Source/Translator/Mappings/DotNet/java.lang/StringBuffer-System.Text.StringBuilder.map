@@ -1,6 +1,6 @@
 PascalStyle: append(a)-append(a,b,c)
 append(bool a)-Append(a.ToString().ToLower())
-length()-id.Length
+length()-Length
 charAt(a)-id[a]
 deleteCharAt(a)-Remove(a,1)
 delete(a,b)-Remove(a,b)

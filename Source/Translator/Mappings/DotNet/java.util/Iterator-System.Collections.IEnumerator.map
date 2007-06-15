@@ -1,2 +1,3 @@
 hasNext()-MoveNext()
 next()-id.Current
+remove()-((System.Collections.IList)id).Remove(id.Current)

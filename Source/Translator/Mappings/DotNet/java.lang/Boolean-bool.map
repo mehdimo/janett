@@ -1,5 +1,7 @@
 TRUE-true
 FALSE-false
-new Boolean(a)-a
-booleanValue()-id
-valueOf(a)-a
+new Boolean(boolean a)-a
+new Boolean(String a)-bool.Parse(a)
+booleanValue()-!id
+valueOf(java.lang.Boolean a)-!a
+valueOf(String a)-bool.Parse(a)

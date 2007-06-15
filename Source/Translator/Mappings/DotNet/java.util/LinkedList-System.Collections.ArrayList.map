@@ -1,0 +1,2 @@
+getFirst()-id[0]
+removeFirst()-id[0];id.RemoveAt(0)

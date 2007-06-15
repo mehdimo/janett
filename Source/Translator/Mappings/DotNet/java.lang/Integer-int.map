@@ -1,7 +1,8 @@
 PascalStyle: comapreTo(a)
-new Integer(a)-a
+new Integer(int a)-a
+new Integer(String a)-int.Parse(a)
 new int(a)-a
-intValue()-id
+intValue()-!id
 MAX_VALUE-int.MaxValue
 MIN_VALUE-int.MinValue
 parseInt(a)-Parse(a)

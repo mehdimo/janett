@@ -1,2 +1,3 @@
 getKey()-id.Key
 getValue()-id.Value
+setValue(a)-id.Value = a

@@ -1,0 +1,78 @@
+clone()-new System.DateTime(id.Year, id.Month, id.Day, id.Hour, id.Minute, id.Second, id.Millisecond)
+getInstance()-System.DateTime.Now
+getInstance(a)-System.DateTime.Now.ToLocalTime()
+before(a)-(id.CompareTo(a) < 0)
+after(a)-(id.CompareTo(a) > 0)
+setTime(a)-id = a.Date
+getTime()-id.Date
+setLenient(a)-!
+setTimeZone(a)-!
+set(a,b,c,d,e,f)-id = new System.DateTime(a,b,c,d,e,f)
+set(a,b,c,d,e)-id = new System.DateTime(a,b,c,d,e)
+set(a,b,c)-id = new System.DateTime(a,b,c)
+clear()-id = new System.DateTime(1970,1,1,0,0,0)
+SUNDAY-(int)System.DayOfWeek.Sunday
+MONDAY-(int)System.DayOfWeek.Monday
+TUESDAY-(int)System.DayOfWeek.Tuesday
+WEDNESDAY-(int)System.DayOfWeek.Wednesday
+THURSDAY-(int)System.DayOfWeek.Thursday
+FRIDAY-(int)System.DayOfWeek.Friday
+SATURDAY-(int)System.DayOfWeek.Saturday
+JANUARY-0
+FEBRUARY-1
+MARCH-2
+APRIL-3
+MAY-4
+JUNE-5
+JULY-6
+AUGUST-7
+SEPTEMBER-8
+OCTOBER-9
+NOVEMBER-10
+DECEMBER-11
+UNDECIMBER-12
+
+get(Calendar.MILLISECOND)-Millisecond
+get(Calendar.SECOND)-Second
+get(Calendar.MINUTE)-Minute
+get(Calendar.HOUR)-Hour
+get(Calendar.DATE)-Day
+get(Calendar.MONTH)-Month
+get(Calendar.YEAR)-Year
+get(Calendar.DAY_OF_MONTH)-Day
+get(Calendar.DAY_OF_WEEK)-(int)id.DayOfWeek
+get(Calendar.HOUR_OF_DAY)-Hour
+get(Calendar.WEEK_OF_YEAR)-id.DayOfYear / 7
+
+add(Calendar.MILLISECOND,b)-AddMilliseconds(b)
+add(Calendar.SECOND,b)-AddSeconds(b)
+add(Calendar.MINUTE,b)-AddMinutes(b)
+add(Calendar.HOUR,b)-AddHours(b)
+add(Calendar.DATE,b)-AddDays(b)
+add(Calendar.MONTH,b)-AddMonths(b)
+add(Calendar.YEAR,b)-AddYears(b)
+add(Calendar.DAY_OF_WEEK,b)-AddDays(b)
+add(Calendar.DAY_OF_MONTH,b)-AddDays(b)
+add(Calendar.HOUR_OF_DAY,b)-AddHours(b)
+
+set(Calendar.MILLISECOND,b)-AddMilliseconds(b - id.Millisecond)
+set(Calendar.SECOND,b)-AddSeconds(b - id.Second)
+set(Calendar.MINUTE,b)-AddMinutes(b - id.Minute)
+set(Calendar.HOUR,b)-AddHours(b - id.Hour)
+set(Calendar.DATE,b)-AddDays(b - id.Day)
+set(Calendar.MONTH,b)-AddMonths(b - id.Month)
+set(Calendar.YEAR,b)-AddYears(b - id.Year)
+set(Calendar.DAY_OF_WEEK,b)-AddDays(b - (int)id.DayOfWeek)
+set(Calendar.DAY_OF_MONTH,b)-AddDays(b - id.Day)
+set(Calendar.HOUR_OF_DAY,b)-AddHours(b - id.Hour)
+
+clear(Calendar.MILLISECOND)-AddMilliseconds(-id.Millisecond)
+clear(Calendar.SECOND)-AddSeconds(-id.Second)
+clear(Calendar.MINUTE)-AddMinutes(-id.Minute)
+clear(Calendar.HOUR)-AddHours(-id.Hour)
+clear(Calendar.DATE)-AddDays(-id.Day)
+clear(Calendar.MONTH)-AddMonths(-id.Month)
+clear(Calendar.YEAR)-AddYears(-id.Year)
+clear(Calendar.DAY_OF_WEEK)-AddDays(-(int)id.DayOfWeek)
+clear(Calendar.DAY_OF_MONTH)-AddDays(-id.Day)
+clear(Calendar.HOUR_OF_DAY)-AddHours(-id.Hour)

@@ -64,17 +64,92 @@ namespace Helpers
 			return true;
 		}
 
-		public static void removeAll(IList set, ICollection coll)
+		public static bool removeAll(ICollection set, ICollection coll)
 		{
 			foreach (object item in coll)
 			{
-				set.Remove(item);
+				((IList) set).Remove(item);
 			}
+			return true;
+		}
+
+		public static ICollection unmodifiableCollection(ICollection coll)
+		{
+			return coll;
+		}
+
+		public static IList unmodifiableList(IList list)
+		{
+			return list;
+		}
+
+		public static ArrayList unmodifiableSortedSet(ArrayList list)
+		{
+			return list;
+		}
+
+		public static IDictionary singletonMap(object key, object value)
+		{
+			IDictionary dictionary = new Hashtable();
+			dictionary.Add(key, value);
+			return dictionary;
+		}
+
+		public static IList singletonList(object obj)
+		{
+			IList list = new ArrayList();
+			list.Add(obj);
+			return list;
+		}
+
+		public static bool retainAll(ICollection col, ICollection c)
+		{
+			throw new NotImplementedException();
 		}
 
 		public static IList EMPTY_LIST
 		{
 			get { return new ArrayList(); }
+		}
+
+		public static bool remove(IList collection, object value)
+		{
+			bool b = collection.Contains(value);
+			if (b)
+				collection.Remove(value);
+			return b;
+		}
+
+		public static bool add(ICollection list, object value)
+		{
+			if (!((IList) list).Contains(value))
+			{
+				((IList) list).Add(value);
+				return true;
+			}
+			else
+				return false;
+		}
+
+		public static bool equals(Array arrayA, Array arrayB)
+		{
+			if (arrayA.Length != arrayB.Length)
+				return false;
+			for (int i = 0; i < arrayA.Length; i++)
+			{
+				if (arrayB.GetValue(i) != arrayA.GetValue(i))
+					return false;
+			}
+			return true;
+		}
+
+		public static ArrayList tailSet(IList list, int from)
+		{
+			ArrayList tailList = new ArrayList();
+			for (int i = from; i < list.Count; i++)
+				tailList.Add(list[i]);
+
+			return tailList;
 		}
 	}
 }

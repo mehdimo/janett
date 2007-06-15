@@ -1,0 +1,6 @@
+inDaylightTime(a)-IsDaylightSavingTime(a)
+getDefault()-id.CurrentTimeZone
+getID()-id.StandardName
+getTimeZone(a)-id.CurrentTimeZone
+useDaylightTime()-IsDaylightSavingTime(new System.DateTime())
+getRawOffset()-id.GetUtcOffset(System.DateTime.Now).Milliseconds

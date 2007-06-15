@@ -1,1 +1,2 @@
 new FileOutputStream(java.io.File a)-new FileOutputStream(a.FullName, System.IO.FileMode.Open)
+new FileOutputStream(String a)-new FileOutputStream(a, System.IO.FileMode.Open)

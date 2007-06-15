@@ -1,4 +1,6 @@
 currentTimeMillis()-System.DateTime.Now.Millisecond
 _out-System.Console.Out
+_in-System.Console.OpenStandardInput()
 err-System.Console.Error
 arraycopy(a,b,c,d,e)-System.Array.Copy(a,b,c,d,e)
+getProperty(a)-Helpers.SystemHelper.getProperty(a)

@@ -21,6 +21,10 @@ namespace Helpers
 			parts = (string[]) list.ToArray(typeof(string));
 		}
 
+		public StringTokenizer(string str, string delimiters, bool flag) : this(str, delimiters)
+		{
+		}
+
 		public bool hasMoreTokens()
 		{
 			return (i < parts.Length);

@@ -1,1 +1,7 @@
 MAX_VALUE-long.MaxValue
+doubleValue()-!id
+parseLong(a)-Parse(a)
+longValue()-!id
+toString(a,b)-!a.ToString()
+new Long(String a)-long.Parse(a)
+new Long(long a)-a

@@ -1,2 +1,3 @@
 print(a)-Write(a)
 println(a)-WriteLine(a)
+println()-WriteLine()

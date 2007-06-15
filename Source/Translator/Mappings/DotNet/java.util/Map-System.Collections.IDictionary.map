@@ -1,7 +1,8 @@
-PascalStyle: clear() - remove(a)
+PascalStyle: clear()-equals(a)
+remove(a)-=id[a];Remove(a)
 containsKey(a)-Contains(a)
-keySet()-id.Keys
-entrySet()-id
+keySet()-new System.Collections.ArrayList(id.Keys)
+entrySet()-new System.Collections.ArrayList(id.Values)
 put(a,b)-id[a] = b
 get(a)-id[a]
 hashCode()-GetHashCode()

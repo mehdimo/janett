@@ -1,0 +1,3 @@
+parseShort(a)-Parse(a)
+new Short(String a)-short.Parse(a)
+new Short(short a)-a

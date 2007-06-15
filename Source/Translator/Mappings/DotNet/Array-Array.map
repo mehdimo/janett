@@ -1,2 +1,3 @@
 PascalStyle: clone()
 length-id.Length
+newInstance(a,b)-CreateInstance(a,b)

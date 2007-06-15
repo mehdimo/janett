@@ -1,0 +1,3 @@
+parseByte(a)-Parse(a)
+new Byte(String a)-byte.Parse(a)
+new Byte(byte a)-a

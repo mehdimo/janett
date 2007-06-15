@@ -1,0 +1,4 @@
+getInputStream()-id.StandardOutput.BaseStream
+getOutputStream()-id.StandardInput.BaseStream
+getErrorStream()-id.StandardError.BaseStream
+waitFor()-WaitForExit();=id.ExitCode

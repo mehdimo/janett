@@ -1,5 +1,5 @@
-getName()-id.Name
+getName()-Name
 get(a)-GetValue(a)
-getModifiers()-id
-getType()-id.FieldType
-getDeclaringClass()-id.DeclaringType
+getModifiers()-!id
+getType()-FieldType
+getDeclaringClass()-DeclaringType

@@ -1,0 +1,3 @@
+first()-id[0]
+last()-id[id.Count - 1]
+tailSet(a)-Helpers.Collections.tailSet(id,a)

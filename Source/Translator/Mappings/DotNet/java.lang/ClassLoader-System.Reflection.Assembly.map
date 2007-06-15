@@ -1,0 +1,2 @@
+loadClass(a)-GetType(a)
+getResourceAsStream(a)-GetManifestResourceStream(a)

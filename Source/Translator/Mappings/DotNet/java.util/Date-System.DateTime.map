@@ -1,0 +1,4 @@
+before(a)-(id.CompareTo(a) < 0)
+after(a)-(id.CompareTo(a) > 0)
+getTime()-id.Date.Millisecond
+setTime(a)-AddMilliseconds(a - id.Millisecond)

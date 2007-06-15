@@ -1,3 +1,4 @@
 PropertyEditor-System.ComponentModel.TypeConverter
 PropertyChangeListener-Helpers.PropertyChangeListener
 PropertyChangeSupport-Helpers.PropertyChangeSupport
+IntrospectionException-System.TypeLoadException

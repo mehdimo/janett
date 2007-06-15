@@ -1,0 +1,9 @@
+PascalStyle: join()-start()-currentThread()
+getContextClassLoader()-System.Reflection.Assembly.GetExecutingAssembly()
+getName()-Name
+sleep(a)-Sleep((int)(a))
+setDaemon(a)-IsBackground=a
+getPriority()-(int)id.Priority
+setPriority(a)-Priority = (System.Threading.ThreadPriority) System.Threading.ThreadPriority.Parse(typeof(System.Threading.ThreadPriority), a.ToString())
+NORM_PRIORITY-(int)System.Threading.ThreadPriority.Normal
+setContextClassLoader(a)-!

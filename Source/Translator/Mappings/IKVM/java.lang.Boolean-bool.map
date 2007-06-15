@@ -1,4 +1,6 @@
 TRUE-true
 FALSE-false
-new Boolean(a)-a
-booleanValue()-id
+new Boolean(boolean a)-a
+new Boolean(String a)-bool.Parse(a)
+booleanValue()-!id
+valueOf(a)-Parse(a)

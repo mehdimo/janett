@@ -1,0 +1,2 @@
+getLocalHost()-GetHostByAddress("127.0.0.1")
+getHostName()-id.HostName

@@ -1,7 +1,7 @@
-getDeclaringClass()-id.DeclaringType
-getName()-id.Name
+getDeclaringClass()-DeclaringType
+getName()-Name
 setAccessible(a)-!
 invoke(a,b)-Invoke(a,b)
-getModifiers()-id
+getModifiers()-!id
 getParameterTypes()-!Helpers.ReflectionHelper.GetParameterTypes(id)
-getReturnType()-id.ReturnType
+getReturnType()-ReturnType

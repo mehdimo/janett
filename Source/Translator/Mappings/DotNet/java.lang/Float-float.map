@@ -1,2 +1,6 @@
 floatToIntBits(a)-!(int)a
-new Float(a)-a
+new Float(String a)-float.Parse(a)
+new Float(float a)-!a
+new Float(int a)-(float)a
+parseFloat(a)-Parse(a)
+floatValue()-!id

@@ -1,0 +1,5 @@
+setMaximumIntegerDigits(a)-!
+setMinimumIntegerDigits(a)-!
+setMaximumFractionDigits(a)-!
+getNumberInstance()-!
+format(a)-(a).ToString()
