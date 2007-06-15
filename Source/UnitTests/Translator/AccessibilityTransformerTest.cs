@@ -69,6 +69,21 @@ namespace Janett.Translator
 		}
 
 		[Test]
+		public void ProtectedInnerClass()
+		{
+			string program = TestUtil.PackageMemberParse("public class A {protected class InnerA {}}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+
+			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
+			TypeDeclaration ty1 = (TypeDeclaration) ns.Children[0];
+			TypeDeclaration ty2 = (TypeDeclaration) ty1.Children[0];
+
+			Assert.IsNotNull(ty2);
+			Assert.AreEqual(Modifiers.Protected | Modifiers.Internal, ty2.Modifier);
+		}
+
+		[Test]
 		public void NonModifierConstructor()
 		{
 			string program = TestUtil.TypeMemberParse("Test(){}");

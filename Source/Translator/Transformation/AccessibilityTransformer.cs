@@ -16,6 +16,11 @@ namespace Janett.Translator
 			{
 				AstUtil.AddModifierTo(typeDeclaration, typeDefaultModifier);
 			}
+			else if (typeDeclaration.Parent is TypeDeclaration)
+			{
+				if (AstUtil.ContainsModifier(typeDeclaration, Modifiers.Protected))
+					AstUtil.AddModifierTo(typeDeclaration, Modifiers.Internal);
+			}
 
 			return base.TrackedVisitTypeDeclaration(typeDeclaration, data);
 		}
