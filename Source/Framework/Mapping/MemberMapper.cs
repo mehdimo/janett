@@ -23,7 +23,7 @@ namespace Janett.Framework
 						if (mappings != null)
 						{
 							string newName = mappings.Members[methodKey];
-							if (newName.IndexOf('.') == -1)
+							if (newName.IndexOf('.') == -1 && newName.IndexOf('(') != -1)
 							{
 								newName = newName.Substring(0, newName.IndexOf('('));
 								methodDeclaration.Name = newName;
@@ -39,8 +39,41 @@ namespace Janett.Framework
 		{
 			IList removeStatement = new ArrayList();
 			base.TrackedVisitExpressionStatement(ExpressionStatement, removeStatement);
-			if (removeStatement.Count > 0)
-				RemoveCurrentNode();
+			if (removeStatement.Count > 0 && data != null && data is IList)
+				((IList) data).Add(ExpressionStatement);
+			return null;
+		}
+
+		public override object TrackedVisitLocalVariableDeclaration(LocalVariableDeclaration localVariableDeclaration, object data)
+		{
+			IList removableVariables = new ArrayList();
+			base.TrackedVisitLocalVariableDeclaration(localVariableDeclaration, removableVariables);
+			if (data != null && data is IList && removableVariables.Count > 0)
+			{
+				((IList) data).Add(localVariableDeclaration);
+			}
+			return null;
+		}
+
+		public override object TrackedVisitBlockStatement(BlockStatement blockStatement, object data)
+		{
+			IList removables = new ArrayList();
+			BlockStatement blockCopy = new BlockStatement();
+			blockCopy.Children.AddRange(blockStatement.Children);
+			blockCopy.Parent = blockStatement.Parent;
+			base.TrackedVisitBlockStatement(blockCopy, removables);
+			if (removables.Count > 0)
+			{
+				IDictionary list = new Hashtable();
+				foreach (INode node in blockStatement.Children)
+					list.Add(node.GetHashCode(), node);
+
+				foreach (INode node in removables)
+				{
+					if (list.Contains(node.GetHashCode()))
+						blockStatement.Children.Remove(node);
+				}
+			}
 			return null;
 		}
 
@@ -108,14 +141,12 @@ namespace Janett.Framework
 				}
 
 				TypeMapping mapping = CodeBase.Mappings[returnType];
-				Expression replacedExpression;
+				Expression[] replacedExpression;
 				string key;
 				if (ContainsMapping(mapping, fieldReferenceExpression, out key))
 				{
-					string cSharpMethodMap = mapping.Members[key];
-					replacedExpression = GetReplacedExpression(fieldReferenceExpression, cSharpMethodMap);
-					ReplaceCurrentNode(replacedExpression);
-					replacedExpression.AcceptVisitor(this, data);
+					replacedExpression = GetReplacedExpression(fieldReferenceExpression, key, mapping.Members);
+					ReplaceCurrentNode(fieldReferenceExpression, replacedExpression, data);
 				}
 				else
 				{
@@ -123,8 +154,7 @@ namespace Janett.Framework
 					if (key != null)
 					{
 						replacedExpression = GetReplacedExpression(fieldReferenceExpression, key, mapping.Members);
-						ReplaceCurrentNode(replacedExpression);
-						replacedExpression.AcceptVisitor(this, data);
+						ReplaceCurrentNode(fieldReferenceExpression, replacedExpression, data);
 					}
 				}
 			}
@@ -154,7 +184,7 @@ namespace Janett.Framework
 
 		private void ReplaceMember(InvocationExpression invocationExpression, object data, TypeReference invokerType)
 		{
-			Expression replacedExpression;
+			Expression[] replacedExpression;
 			string returnType = GetFullName(invokerType);
 			if (invokerType.RankSpecifier != null && invokerType.RankSpecifier.Length > 0)
 				returnType = "Array";
@@ -165,7 +195,7 @@ namespace Janett.Framework
 			if (ContainsMapping(mapping, invocationExpression, out methodKey))
 			{
 				replacedExpression = GetReplacedExpression(invocationExpression, methodKey, mapping.Members);
-				if (replacedExpression is NullExpression)
+				if (replacedExpression[0] is NullExpression)
 				{
 					RemoveCurrentNode();
 					((IList) data).Add(invocationExpression);
@@ -173,8 +203,7 @@ namespace Janett.Framework
 				else
 				{
 					invocationExpression.TypeArguments.Add(null);
-					ReplaceCurrentNode(replacedExpression);
-					replacedExpression.AcceptVisitor(this, data);
+					ReplaceCurrentNode(invocationExpression, replacedExpression, data);
 				}
 			}
 			else if (invocationExpression.TargetObject is FieldReferenceExpression || invocationExpression.TargetObject is IdentifierExpression)
@@ -189,19 +218,21 @@ namespace Janett.Framework
 
 				mapping = GetProperMapping(invokerType, invocationExpression, methodName, out methodKey);
 
-				if (methodName == "clone" && CodeBase.Types.Contains(returnType))
+				if (Mode == "DotNet" && methodName == "clone" && CodeBase.Types.Contains(returnType))
 				{
 					TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[returnType];
 					TypeReference cloneableType = AstUtil.GetTypeReference("java.lang.Cloneable", invocationTarget);
 					if (Extends(typeDeclaration, cloneableType))
+					{
 						mapping = CodeBase.Mappings[cloneableType.Type];
+						methodKey = "clone()";
+					}
 				}
 
 				if (mapping != null)
 				{
 					replacedExpression = GetReplacedExpression(invocationExpression, methodKey, mapping.Members);
-					ReplaceCurrentNode(replacedExpression);
-					replacedExpression.AcceptVisitor(this, data);
+					ReplaceCurrentNode(invocationExpression, replacedExpression, data);
 				}
 			}
 		}
@@ -234,22 +265,43 @@ namespace Janett.Framework
 			return null;
 		}
 
-		private Expression GetReplacedExpression(Expression expression, string methodKey, IDictionary classMap)
+		private Expression[] GetReplacedExpression(Expression expression, string methodKey, IDictionary classMap)
 		{
-			Expression replacedExpression;
+			Expression[] replacedExpression;
 			string cSharpMethodMap = (string) classMap[methodKey];
-			replacedExpression = GetReplacedExpression(expression, cSharpMethodMap);
+			string[] methodMaps = cSharpMethodMap.Split(';');
+			replacedExpression = GetReplacedExpression(expression, methodMaps);
 
 			return replacedExpression;
+		}
+
+		private Expression[] GetReplacedExpression(Expression expression, string[] mapKeys)
+		{
+			ArrayList list = new ArrayList();
+			foreach (string map in mapKeys)
+			{
+				if (map.StartsWith("=") && expression.Parent is ExpressionStatement)
+					continue;
+				Expression expr = GetReplacedExpression(expression, map);
+				list.Add(expr);
+			}
+
+			return (Expression[]) list.ToArray(typeof(Expression));
 		}
 
 		protected Expression GetReplacedExpression(Expression expression, string mapKey)
 		{
 			bool removeId = false;
+			bool isCurrent = false;
 			if (mapKey.StartsWith("!"))
 			{
 				removeId = true;
 				mapKey = mapKey.Substring(1);
+			}
+			else if (mapKey.StartsWith("="))
+			{
+				mapKey = mapKey.Substring(1);
+				isCurrent = true;
 			}
 
 			AssignmentExpression mappedExpression = (AssignmentExpression) GetMapExpression(mapKey);
@@ -258,21 +310,29 @@ namespace Janett.Framework
 			ArrayList parameters = GetParameters(expression);
 			Expression targetId = GetTargetObject(expression);
 			substitution.Identifier = targetId;
-			if (!removeId && expression is InvocationExpression)
+			if (!removeId)
 			{
-				InvocationExpression invocationExpression = (InvocationExpression) expression;
-				if (invocationExpression.TargetObject is FieldReferenceExpression)
+				if (expression is InvocationExpression)
 				{
-					FieldReferenceExpression invocationTarget = (FieldReferenceExpression) invocationExpression.TargetObject;
-					if (mappedExpression.Right is InvocationExpression)
+					InvocationExpression invocationExpression = (InvocationExpression) expression;
+					if (invocationExpression.TargetObject is FieldReferenceExpression)
 					{
-						IdentifierExpression identifierExpression = GetIdentifierExpression((InvocationExpression) mappedExpression.Right);
-						if (identifierExpression != null)
+						FieldReferenceExpression invocationTarget = (FieldReferenceExpression) invocationExpression.TargetObject;
+						if (mappedExpression.Right is InvocationExpression)
 						{
-							FieldReferenceExpression referenceExpression = new FieldReferenceExpression(invocationTarget.TargetObject, identifierExpression.Identifier);
-							Expression identifierParent = (Expression) identifierExpression.Parent;
-							if (identifierParent is InvocationExpression)
-								((InvocationExpression) identifierParent).TargetObject = referenceExpression;
+							IdentifierExpression identifierExpression = GetIdentifierExpression((InvocationExpression) mappedExpression.Right);
+							if (identifierExpression != null)
+							{
+								FieldReferenceExpression referenceExpression = new FieldReferenceExpression(invocationTarget.TargetObject, identifierExpression.Identifier);
+								Expression identifierParent = (Expression) identifierExpression.Parent;
+								if (identifierParent is InvocationExpression)
+									((InvocationExpression) identifierParent).TargetObject = referenceExpression;
+							}
+						}
+						else if (mappedExpression.Right is IdentifierExpression)
+						{
+							FieldReferenceExpression referenceExpression = new FieldReferenceExpression(invocationTarget.TargetObject, ((IdentifierExpression) mappedExpression.Right).Identifier);
+							mappedExpression.Right = referenceExpression;
 						}
 					}
 				}
@@ -280,6 +340,8 @@ namespace Janett.Framework
 
 			substitution.Substitute(mappedExpression, parameters);
 			mappedExpression.Right.Parent = expression.Parent;
+			if (isCurrent)
+				mappedExpression.Right.StartLocation = new Location(-1, -1);
 			return mappedExpression.Right;
 		}
 

@@ -271,7 +271,7 @@ namespace Janett.Framework
 			return extends;
 		}
 
-		protected string CreateMapKey(INode expression, bool typedArguments)
+		protected string CreateMapKey(INode expression, ArgumentMapType typedArguments)
 		{
 			if (expression is InvocationExpression)
 			{
@@ -312,14 +312,15 @@ namespace Janett.Framework
 			return null;
 		}
 
-		protected string GetArgumentsMap(ArrayList arguments, bool withReturnType)
+		protected string GetArgumentsMap(ArrayList arguments, ArgumentMapType argumentMapType)
 		{
 			string argumentsMap = "";
 			char argumentChar = 'a';
 
+			int expressiondCount = 0;
 			foreach (INode argument in arguments)
 			{
-				if (withReturnType)
+				if (argumentMapType == ArgumentMapType.Typed)
 				{
 					string argumentType = "";
 					TypeReference argumentTypeReference = GetExpressionType((Expression) argument);
@@ -333,8 +334,22 @@ namespace Janett.Framework
 					}
 					argumentsMap += argumentType + " " + argumentChar + ",";
 				}
-				else
+				else if (argumentMapType == ArgumentMapType.Untyped)
 					argumentsMap += argumentChar + ",";
+				else if (argumentMapType == ArgumentMapType.Expression)
+				{
+					if (argument is Expression)
+					{
+						string str = argumentChar.ToString();
+						if (expressiondCount == 0)
+						{
+							str = GetTargetString((Expression) argument);
+							expressiondCount++;
+						}
+						str = RemoveNamespace(str);
+						argumentsMap += str + ",";
+					}
+				}
 
 				argumentChar++;
 			}
@@ -344,16 +359,46 @@ namespace Janett.Framework
 			return argumentsMap;
 		}
 
+		private string RemoveNamespace(string expression)
+		{
+			if (expression.IndexOf(".") != -1)
+			{
+				string[] expressionParts = expression.Split('.');
+				string ns = "";
+				foreach (string str in expressionParts)
+				{
+					if (ns == "")
+						ns = str;
+					else
+						ns += "." + str;
+					if (codeBase.Types.ExternalLibraries.Contains(ns))
+						break;
+				}
+				if (ns != expression)
+					return expression.Replace(ns + ".", "");
+			}
+			return expression;
+		}
+
 		protected bool ContainsMapping(TypeMapping mapping, INode expression, out string key)
 		{
-			string methodKey = CreateMapKey(expression, false);
-			string typedArgumentsMethodKey = CreateMapKey(expression, true);
+			string methodKey = CreateMapKey(expression, ArgumentMapType.Untyped);
+			string typedArgumentsMethodKey = CreateMapKey(expression, ArgumentMapType.Typed);
 			if (mapping != null && (mapping.Members.Contains(methodKey) || mapping.Members.Contains(typedArgumentsMethodKey)))
 			{
 				if (mapping.Members.Contains(methodKey))
 					key = methodKey;
 				else key = typedArgumentsMethodKey;
 				return true;
+			}
+			else
+			{
+				string expressionedMethodKey = CreateMapKey(expression, ArgumentMapType.Expression);
+				if (mapping != null && mapping.Members.Contains(expressionedMethodKey))
+				{
+					key = expressionedMethodKey;
+					return true;
+				}
 			}
 			key = null;
 			return false;
@@ -400,5 +445,166 @@ namespace Janett.Framework
 			}
 			return false;
 		}
+
+		protected string GetTargetString(Expression targetObject)
+		{
+			Stack stack = new Stack();
+			Expression target = targetObject;
+			while (target is FieldReferenceExpression)
+			{
+				string str = ((FieldReferenceExpression) target).FieldName;
+				stack.Push(str);
+				target = ((FieldReferenceExpression) target).TargetObject;
+			}
+			if (target is IdentifierExpression)
+				stack.Push(((IdentifierExpression) target).Identifier);
+			if (target is TypeReferenceExpression)
+				stack.Push(((TypeReferenceExpression) target).TypeReference.Type);
+			string item;
+			string result = "";
+			while (stack.Count != 0)
+			{
+				item = (string) stack.Pop();
+				result += item + ".";
+			}
+			result = result.TrimEnd('.');
+			return result;
+		}
+
+		protected void ReplaceCurrentNode(INode oldNode, INode[] newNodes, object data)
+		{
+			ReplaceCurrentNode(oldNode, newNodes);
+			INode currentReplacedExpression = GetCurrentReplacedNode(newNodes);
+			currentReplacedExpression.AcceptVisitor(this, data);
+		}
+
+		private INode GetCurrentReplacedNode(INode[] nodes)
+		{
+			foreach (INode node in nodes)
+			{
+				if (node.StartLocation.X == -1 && node.StartLocation.Y == -1)
+					return node;
+			}
+			return nodes[0];
+		}
+
+		private void ReplaceCurrentNode(INode oldNode, INode[] newNodes)
+		{
+			BlockStatement blockStatement = (BlockStatement) AstUtil.GetParentOfType(oldNode, typeof(BlockStatement));
+
+			ArrayList beforeCurrentNodes = new ArrayList();
+			ArrayList afterCurrentNodes = new ArrayList();
+			INode newCurrentNode = Partition(newNodes, beforeCurrentNodes, afterCurrentNodes);
+
+			int index = 0;
+			if (newNodes.Length > 1)
+				index = GetIndex(blockStatement.Children, oldNode);
+
+			ReplaceCurrentNode(newCurrentNode);
+
+			if (afterCurrentNodes.Count > 0)
+				InsertSidesOfCurrentNode(afterCurrentNodes, blockStatement, index, Position.After);
+
+			if (beforeCurrentNodes.Count > 0)
+				InsertSidesOfCurrentNode(beforeCurrentNodes, blockStatement, index, Position.Before);
+		}
+
+		private INode Partition(INode[] nodes, ArrayList beforeCurrentNodes, ArrayList afterCurrentNodes)
+		{
+			if (nodes.Length == 1)
+				return nodes[0];
+			else
+			{
+				INode current = null;
+				foreach (INode node in nodes)
+				{
+					if (node.StartLocation.X == -1 && node.StartLocation.Y == -1)
+						current = node;
+					else if (current == null)
+						beforeCurrentNodes.Add(node);
+					else
+						afterCurrentNodes.Add(node);
+				}
+
+				if (current == null && beforeCurrentNodes.Count > 0)
+				{
+					current = nodes[0];
+					beforeCurrentNodes.RemoveAt(0);
+					afterCurrentNodes.AddRange(beforeCurrentNodes);
+					beforeCurrentNodes.Clear();
+				}
+				return current;
+			}
+		}
+
+		private void InsertSidesOfCurrentNode(IList nodes, BlockStatement blockStatement, int index, Position position)
+		{
+			ArrayList coll = new ArrayList();
+			foreach (INode node in nodes)
+			{
+				INode nde = node;
+				if (node is Expression)
+					nde = new ExpressionStatement((Expression) node);
+				nde.Parent = blockStatement;
+				coll.Add(nde);
+			}
+			if (position == Position.After)
+				index++;
+			blockStatement.Children.InsertRange(index, coll);
+		}
+
+		private int GetIndex(ArrayList list, INode node)
+		{
+			int index = 0;
+			INode parent = AstUtil.GetParentOfType(node, typeof(ExpressionStatement));
+			if (parent == null)
+				parent = AstUtil.GetParentOfType(node, typeof(LocalVariableDeclaration));
+			if (parent == null)
+				parent = AstUtil.GetParentOfType(node, typeof(AssignmentExpression));
+			if (parent != null)
+			{
+				int nodeHashCode = parent.GetHashCode();
+				foreach (INode nd in list)
+				{
+					int hashCode = nd.GetHashCode();
+					if (nodeHashCode == hashCode)
+						return index;
+					index++;
+				}
+			}
+			return index;
+		}
+
+		protected bool MatchArguments(ArrayList parameters, ArrayList arguments)
+		{
+			if (parameters.Count == arguments.Count)
+			{
+				int index = 0;
+				foreach (Expression argument in arguments)
+				{
+					TypeReference argumentType = GetExpressionType(argument);
+					TypeReference parameterType = ((ParameterDeclarationExpression) parameters[index]).TypeReference;
+					if (!AreSameTypes(parameterType, argumentType))
+						return false;
+					index++;
+				}
+				return true;
+			}
+			else
+				return false;
+		}
+	}
+
+	public enum ArgumentMapType
+	{
+		Untyped,
+		Typed,
+		Expression
+	}
+
+	public enum Position
+	{
+		Before,
+		After
 	}
 }

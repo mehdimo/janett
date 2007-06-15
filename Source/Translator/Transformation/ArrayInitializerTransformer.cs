@@ -8,12 +8,6 @@ namespace Janett.Translator
 
 	public class ArrayInitializerTransformer : Transformer
 	{
-		private enum Position
-		{
-			Before = -1,
-			After = 0
-		}
-
 		public override object TrackedVisitArrayCreateExpression(ArrayCreateExpression arrayCreateExpression, object data)
 		{
 			string variableName = GetVariableName(arrayCreateExpression);

@@ -14,6 +14,12 @@ namespace Janett.Framework
 			CodeBase.Mappings = new Mappings(@"../../../Translator/Mappings/DotNet");
 		}
 
+		[TearDown]
+		public void TearDown()
+		{
+			CodeBase.Types.Clear();
+		}
+
 		[Test]
 		public void InstanceMethod()
 		{
@@ -184,7 +190,7 @@ namespace Janett.Framework
 			string expected = TestUtil.NamespaceMemberParse(@"
 				using java.util.Map; 
 				public class Test { 
-					public void Method() { Map map; obj = map.Keys.GetEnumerator();} 
+					public void Method() { Map map; obj = new System.Collections.ArrayList(map.Keys).GetEnumerator();} 
 				}");
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
@@ -349,6 +355,7 @@ namespace Janett.Framework
 		[Test]
 		public void Instance_Clone()
 		{
+			this.Mode = "DotNet";
 			string program = TestUtil.PackageMemberParse(@"
 						import java.awt.Insets;
 						public class A {Insets insets; public Object clone() { Object obj = insets.clone(); }}");
@@ -414,8 +421,8 @@ namespace Janett.Framework
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			InvocationExpression ivc = (InvocationExpression) TestUtil.GetStatementNodeOf(cu, 2);
 
-			string withOutType = GetArgumentsMap(ivc.Arguments, false);
-			string withType = GetArgumentsMap(ivc.Arguments, true);
+			string withOutType = GetArgumentsMap(ivc.Arguments, ArgumentMapType.Untyped);
+			string withType = GetArgumentsMap(ivc.Arguments, ArgumentMapType.Typed);
 			string expectedWithType = "String a,int b,int c";
 			string expectedWithOutType = "a,b,c";
 			Assert.AreEqual(expectedWithOutType, withOutType);
@@ -481,6 +488,95 @@ namespace Janett.Framework
 		{
 			string program = TestUtil.StatementParse("StringBuffer buf; String id; buf.append(b).append(id);");
 			string expected = TestUtil.CSharpStatementParse("StringBuffer buf; String id; buf.Append(b).Append(id);");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void RemoveVariableDeclarationAndInvocation()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+											import java.text.NumberFormat;
+											public class Test
+											{
+												public void myMethod()
+												{
+													int i = 0;
+													NumberFormat n = NumberFormat.getNumberInstance();
+													i++;
+													method();
+												}
+											}");
+			string expected = TestUtil.NamespaceMemberParse(@"
+											using java.text.NumberFormat; 
+											public class Test 
+											{
+												public void myMethod()
+												{ 
+													int i = 0;
+													i++;
+													method(); 
+												}
+											}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void ExpressionParameter()
+		{
+			string program = TestUtil.StatementParse(@"
+											java.util.Calendar cal; 
+											int min = cal.get(Calendar.MINUTE); 
+											int sec = cal.get(java.util.Calendar.SECOND);
+											cal.set(Calendar.HOUR, 12);");
+			string expected = TestUtil.CSharpStatementParse(@"
+											java.util.Calendar cal; 
+											int min = cal.Minute; 
+											int sec = cal.Second;
+											cal.AddHours(12 - cal.Hour);");
+
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void MultiLineMapping()
+		{
+			TypeMapping typeMapping = new TypeMapping("MyTest.NewType");
+			typeMapping.Members.Add("method()", "Method1();Method2()");
+			CodeBase.Mappings.Add("MyTest.OldType", typeMapping);
+
+			string program = TestUtil.StatementParse("MyTest.OldType ot; ot.method();");
+			string expected = TestUtil.CSharpStatementParse("MyTest.OldType ot; ot.Method1(); ot.Method2();");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void ConditionalMapping()
+		{
+			TypeMapping typeMapping = new TypeMapping("MyTest.CSType");
+			typeMapping.Members.Add("method()", "Method1();=Method2();Method3()");
+			CodeBase.Mappings.Add("MyTest.JavaType", typeMapping);
+
+			string program = TestUtil.StatementParse("MyTest.JavaType jt; int i = jt.method();");
+			string expected = TestUtil.CSharpStatementParse("MyTest.JavaType jt; jt.Method1(); int i = jt.Method2();jt.Method3();");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void MultiLine_MapRemove()
+		{
+			string program = TestUtil.StatementParse("java.util.Map map; Object key; Object obj = map.remove(key); map.remove(key);");
+			string expected = TestUtil.CSharpStatementParse("java.util.Map map; Object key; Object obj = map[key]; map.Remove(key); map.Remove(key);");
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			VisitCompilationUnit(cu, null);
