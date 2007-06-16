@@ -1,13 +1,18 @@
 namespace Helpers
 {
+	using System;
+	using System.Collections;
+
 	public class SystemHelper
 	{
-		private static Properties properties = new Properties();
+		private static IDictionary properties = new Hashtable();
 
 		static SystemHelper()
 		{
-			properties.Add("os.name", System.Environment.OSVersion.ToString());
-			properties.Add("os.user", System.Environment.UserName);
+			string osName = Environment.OSVersion.ToString();
+			if (osName.StartsWith("Microsoft Windows NT 5.1"))
+				properties.Add("os.name", "Windows XP");
+			properties.Add("user.name", Environment.UserName);
 		}
 
 		public static string getProperty(object key)
