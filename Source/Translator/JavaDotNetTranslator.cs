@@ -34,9 +34,13 @@ namespace Janett.Translator
 			CallVisitor(typeof(AddJavaLangObjectBaseType), null);
 		}
 
-		protected override void BeforeRefactoring()
+		protected override void AfterTransformation()
 		{
 			CallVisitor(typeof(SameProjectAndExternalTypeNameTransformer), null);
+		}
+
+		protected override void BeforeRefactoring()
+		{
 			if (Mode == "DotNet")
 				CallVisitor(typeof(RemoveJavaLangObjectBaseType), null);
 			CallVisitor(typeof(SuperUsageTransformer), null);

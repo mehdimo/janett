@@ -403,6 +403,7 @@ namespace Janett.Framework
 			progress.SetCount("Transformation", (visitors.Count + transformers.Count + 1) * sourceFileCount);
 			CallVisitors(visitors, "Transformation");
 			CallVisitors(transformers, "Transformation");
+			AfterTransformation();
 			CallVisitor(typeof(ReferenceTransformer), "Transformation");
 
 			progress.SetCount("Mapping", 2 * sourceFileCount);
@@ -430,6 +431,10 @@ namespace Janett.Framework
 		}
 
 		protected virtual void BeforeTransformation()
+		{
+		}
+
+		protected virtual void AfterTransformation()
 		{
 		}
 
