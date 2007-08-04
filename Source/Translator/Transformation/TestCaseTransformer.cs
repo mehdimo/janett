@@ -1,6 +1,6 @@
 namespace Janett.Translator
 {
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -16,7 +16,7 @@ namespace Janett.Translator
 				{
 					TypeDeclaration newType = typeDeclaration;
 					Attribute attr = new Attribute("NUnit.Framework.TestFixture", null, null);
-					ArrayList attributes = new ArrayList();
+					List<Attribute> attributes = new List<Attribute>();
 					attributes.Add(attr);
 					AttributeSection attrSection = new AttributeSection(null, attributes);
 					newType.Attributes.Add(attrSection);
@@ -41,7 +41,7 @@ namespace Janett.Translator
 				{
 					MethodDeclaration replaced = methodDeclaration;
 					Attribute attr = new Attribute("NUnit.Framework.Test", null, null);
-					ArrayList attributes = new ArrayList();
+					List<Attribute> attributes = new List<Attribute>();
 					attributes.Add(attr);
 					AttributeSection testAttribute = new AttributeSection(null, attributes);
 					replaced.Attributes.Add(testAttribute);
@@ -61,7 +61,7 @@ namespace Janett.Translator
 							attributeName = "NUnit.Framework.TearDown";
 
 						Attribute attribute = new Attribute(attributeName, null, null);
-						ArrayList attributes = new ArrayList();
+						List<Attribute> attributes = new List<Attribute>();
 						attributes.Add(attribute);
 						AttributeSection attributeSection = new AttributeSection(null, attributes);
 						replaced.Attributes.Add(attributeSection);

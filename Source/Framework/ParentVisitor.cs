@@ -369,13 +369,13 @@ namespace Janett.Framework
 			return base.VisitArrayCreateExpression(arrayCreateExpression, data);
 		}
 
-		public override object VisitArrayInitializerExpression(ArrayInitializerExpression arrayInitializerExpression, object data)
+		public override object VisitCollectionInitializerExpression(CollectionInitializerExpression arrayInitializerExpression, object data)
 		{
 			foreach (INode node in arrayInitializerExpression.CreateExpressions)
 			{
 				node.Parent = arrayInitializerExpression;
 			}
-			return base.VisitArrayInitializerExpression(arrayInitializerExpression, data);
+			return base.VisitCollectionInitializerExpression(arrayInitializerExpression, data);
 		}
 
 		public override object VisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)

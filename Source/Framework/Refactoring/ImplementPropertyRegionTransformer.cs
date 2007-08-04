@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -13,7 +14,7 @@ namespace Janett.Framework
 			if (methodName.StartsWith("set"))
 			{
 				method.TypeReference = new TypeReference("void");
-				ArrayList parameters = new ArrayList();
+				List<ParameterDeclarationExpression> parameters = new List<ParameterDeclarationExpression>();
 				parameters.Add(new ParameterDeclarationExpression(typeReference, "Parameter1"));
 				method.Parameters = parameters;
 			}

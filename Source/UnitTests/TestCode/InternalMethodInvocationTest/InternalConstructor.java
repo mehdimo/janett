@@ -1,9 +1,11 @@
-package Test;
-[NUnit.Framework.TestFixture()]
-public class TestA
+namespace Test
 {
-	public void testMethod()
+	[NUnit.Framework.TestFixture()]
+	public class TestA
 	{
-		Test test = new Test("TestClass", 0); 
+		public void testMethod()
+		{
+			Test test = new Test("TestClass", 0); 
+		}
 	}
 }

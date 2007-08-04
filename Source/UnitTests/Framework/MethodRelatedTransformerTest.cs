@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -22,7 +23,7 @@ namespace Janett.Framework
 			p1.TypeReference.RankSpecifier = new int[] {};
 			ParameterDeclarationExpression p2 = new ParameterDeclarationExpression(new TypeReference("string"), "text");
 			p2.TypeReference.RankSpecifier = new int[] {};
-			ArrayList argList = new ArrayList();
+			List<ParameterDeclarationExpression> argList = new List<ParameterDeclarationExpression>();
 			argList.Add(p1);
 			argList.Add(p2);
 			MethodDeclaration exMethod = new MethodDeclaration("Sentence",
@@ -74,7 +75,7 @@ namespace Janett.Framework
 			ParameterDeclarationExpression pm = new ParameterDeclarationExpression(
 				new TypeReference("int"), "from");
 			pm.TypeReference.RankSpecifier = new int[] {};
-			ArrayList al = new ArrayList();
+			List<ParameterDeclarationExpression> al = new List<ParameterDeclarationExpression>();
 			al.Add(pm);
 			MethodDeclaration myMethod = new MethodDeclaration("Distance", Modifiers.Protected,
 			                                                   new TypeReference("int"),
@@ -94,7 +95,7 @@ namespace Janett.Framework
 
 			ParameterDeclarationExpression p1 = new ParameterDeclarationExpression(new TypeReference("Circle"), "circle");
 			p1.TypeReference.RankSpecifier = new int[] {};
-			ArrayList md1Param = new ArrayList();
+			List<ParameterDeclarationExpression> md1Param = new List<ParameterDeclarationExpression>();
 			md1Param.Add(p1);
 			MethodDeclaration md1 = new MethodDeclaration("GetRadius", Modifiers.Private, new TypeReference("int"), md1Param, null);
 

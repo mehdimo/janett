@@ -557,7 +557,7 @@ namespace Janett.Framework
 			PrimitiveExpression nl = (PrimitiveExpression) ass.Right;
 			TypeReference type = GetType(nl);
 			Assert.IsNotNull(type);
-			Assert.IsTrue(type is NullTypeReference);
+			Assert.AreEqual(TypeReference.Null, type);
 		}
 	}
 }

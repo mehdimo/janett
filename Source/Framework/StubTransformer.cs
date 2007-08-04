@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -54,7 +55,7 @@ namespace Janett.Framework
 		{
 			blockStatement.Children.Clear();
 			TypeReference notImplmentedException = new TypeReference("System.NotImplementedException");
-			ObjectCreateExpression objectCreate = new ObjectCreateExpression(notImplmentedException, new ArrayList());
+			ObjectCreateExpression objectCreate = new ObjectCreateExpression(notImplmentedException, new List<Expression>());
 			blockStatement.Children.Add(new ThrowStatement(objectCreate));
 			return null;
 		}

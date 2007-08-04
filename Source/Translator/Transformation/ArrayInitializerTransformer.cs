@@ -1,6 +1,6 @@
 namespace Janett.Translator
 {
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -11,9 +11,9 @@ namespace Janett.Translator
 		public override object TrackedVisitArrayCreateExpression(ArrayCreateExpression arrayCreateExpression, object data)
 		{
 			string variableName = GetVariableName(arrayCreateExpression);
-			ArrayList initializerList = arrayCreateExpression.ArrayInitializer.CreateExpressions;
+			List<Expression> initializerList = arrayCreateExpression.ArrayInitializer.CreateExpressions;
 			Expression replacedExpression = arrayCreateExpression;
-			if (initializerList.Count > 0 && initializerList[0] is ArrayInitializerExpression && data is InsertionBlockData)
+			if (initializerList.Count > 0 && initializerList[0] is CollectionInitializerExpression && data is InsertionBlockData)
 			{
 				ArrayCreateExpression replacedArrayCreateExpression = arrayCreateExpression;
 				replacedArrayCreateExpression.ArrayInitializer = null;
@@ -27,7 +27,7 @@ namespace Janett.Translator
 					position = Position.Before;
 				}
 
-				IList initStatements = GetArrayInitStatements(replacedArrayCreateExpression, variableName, initializerList);
+				List<Statement> initStatements = GetArrayInitStatements(replacedArrayCreateExpression, variableName, initializerList);
 				InsertionBlockData insertionBlockData = (InsertionBlockData) data;
 				insertionBlockData.Block = (BlockStatement) AstUtil.GetParentOfType(replacedArrayCreateExpression, typeof(BlockStatement));
 				insertionBlockData.BlockChildIndex = GetBlockChildIndex(replacedArrayCreateExpression, position);
@@ -60,19 +60,22 @@ namespace Janett.Translator
 			{
 				if (blockStatement.GetHashCode() == insertionBlockData.Block.GetHashCode())
 				{
-					replaced.Children.InsertRange(insertionBlockData.BlockChildIndex, insertionBlockData.Statements);
+					IList<INode> nodes = new List<INode>();
+					foreach (Statement node in insertionBlockData.Statements)
+						nodes.Add(node);
+					replaced.Children.InsertRange(insertionBlockData.BlockChildIndex, nodes);
 					ReplaceCurrentNode(replaced);
 				}
 			}
 			return null;
 		}
 
-		private IList GetArrayInitStatements(ArrayCreateExpression arrayCreateExpression, string variableName, ArrayList initializerList)
+		private List<Statement> GetArrayInitStatements(ArrayCreateExpression arrayCreateExpression, string variableName, List<Expression> initializerList)
 		{
-			IList list = new ArrayList();
+			List<Statement> list = new List<Statement>();
 			for (int idx = 0; idx < initializerList.Count; idx++)
 			{
-				AssignmentExpression assignment = InitArrayStatement(arrayCreateExpression, variableName, ((ArrayInitializerExpression) initializerList[idx]).CreateExpressions, idx);
+				AssignmentExpression assignment = InitArrayStatement(arrayCreateExpression, variableName, ((CollectionInitializerExpression) initializerList[idx]).CreateExpressions, idx);
 				ExpressionStatement expressionStatement = new ExpressionStatement(assignment);
 				list.Add(expressionStatement);
 			}
@@ -95,15 +98,15 @@ namespace Janett.Translator
 			return 0;
 		}
 
-		private AssignmentExpression InitArrayStatement(ArrayCreateExpression arrayCreateExpression, string variableName, ArrayList creatExpressions, int index)
+		private AssignmentExpression InitArrayStatement(ArrayCreateExpression arrayCreateExpression, string variableName, List<Expression> creatExpressions, int index)
 		{
 			IdentifierExpression identifierExpression = new IdentifierExpression(variableName);
-			ArrayList indexes = new ArrayList();
+			List<Expression> indexes = new List<Expression>();
 			indexes.Add(new PrimitiveExpression(index, index.ToString()));
 			IndexerExpression left = new IndexerExpression(identifierExpression, indexes);
 			string createType = arrayCreateExpression.CreateType.Type;
 			ArrayCreateExpression right = new ArrayCreateExpression(new TypeReference(createType, new int[1]));
-			right.ArrayInitializer = new ArrayInitializerExpression(creatExpressions);
+			right.ArrayInitializer = new CollectionInitializerExpression(creatExpressions);
 			return new AssignmentExpression(left, AssignmentOperatorType.Assign, right);
 		}
 
@@ -141,6 +144,6 @@ namespace Janett.Translator
 		public BlockStatement Block;
 
 		public int BlockChildIndex;
-		public IList Statements;
+		public List<Statement> Statements;
 	}
 }

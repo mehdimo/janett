@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 	using System.IO;
 
 	using ICSharpCode.NRefactory;
@@ -195,7 +196,7 @@ namespace Janett.Framework
 			if (ContainsMapping(mapping, invocationExpression, out methodKey))
 			{
 				replacedExpression = GetReplacedExpression(invocationExpression, methodKey, mapping.Members);
-				if (replacedExpression[0] is NullExpression)
+				if (replacedExpression[0] == Expression.Null)
 				{
 					RemoveCurrentNode();
 					((IList) data).Add(invocationExpression);
@@ -307,7 +308,7 @@ namespace Janett.Framework
 			AssignmentExpression mappedExpression = (AssignmentExpression) GetMapExpression(mapKey);
 
 			Substitution substitution = new Substitution();
-			ArrayList parameters = GetParameters(expression);
+			List<Expression> parameters = GetParameters(expression);
 			Expression targetId = GetTargetObject(expression);
 			substitution.Identifier = targetId;
 			if (!removeId)
@@ -360,7 +361,7 @@ namespace Janett.Framework
 			return null;
 		}
 
-		private ArrayList GetParameters(Expression expression)
+		private List<Expression> GetParameters(Expression expression)
 		{
 			if (expression is InvocationExpression)
 				return ((InvocationExpression) expression).Arguments;

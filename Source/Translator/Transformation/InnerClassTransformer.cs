@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -41,7 +42,7 @@ namespace Janett.Translator
 
 				if (typeDeclaration.Parent is TypeDeclaration)
 				{
-					ArrayList argList = new ArrayList();
+					List<ParameterDeclarationExpression> argList = new List<ParameterDeclarationExpression>();
 					int i = 0;
 					foreach (Expression argument in invocationExpression.Arguments)
 					{
@@ -153,7 +154,7 @@ namespace Janett.Translator
 			if (constructors.Count == 0)
 			{
 				string name = typeDeclaration.Name;
-				ArrayList parameters = new ArrayList();
+				List<ParameterDeclarationExpression> parameters = new List<ParameterDeclarationExpression>();
 				parameters.Add(fieldParameter);
 				ConstructorDeclaration constructorDeclaration = new ConstructorDeclaration(name, Modifiers.Public, parameters, null);
 

@@ -6,7 +6,7 @@ namespace A
 		{
 			return 0;
 		}
-		public bool equals(java.lang.Object obj)
+		public bool @equals(java.lang.Object obj)
 		{
 			return java.lang.Object.instancehelper_equals(this, obj);
 		}

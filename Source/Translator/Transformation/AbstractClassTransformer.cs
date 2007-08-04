@@ -88,7 +88,7 @@ namespace Janett.Translator
 
 			foreach (MethodDeclaration method in comparedList)
 			{
-				if (!Contains(baseList, method) && method.Body is NullBlockStatement)
+				if (!Contains(baseList, method) && method.Body == BlockStatement.Null)
 					diffList.Add(method);
 			}
 			return diffList;

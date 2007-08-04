@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -16,7 +17,7 @@ namespace Janett.Translator
 				IList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
 
 				MethodDeclaration equalsMethod = new MethodDeclaration("equals",
-				                                                       Modifiers.Public, AstUtil.GetTypeReference("bool", typeDeclaration), new ArrayList(), null);
+				                                                       Modifiers.Public, AstUtil.GetTypeReference("bool", typeDeclaration), new List<ParameterDeclarationExpression>(), null);
 				equalsMethod.Parent = typeDeclaration;
 
 				TypeReference argTypeReference = AstUtil.GetTypeReference("java.lang.Object", equalsMethod);
@@ -66,7 +67,7 @@ namespace Janett.Translator
 			string fieldName = "instancehelper_" + equalsMethod.Name;
 			IdentifierExpression targetObject = new IdentifierExpression("java.lang.Object");
 
-			ArrayList arguments = new ArrayList();
+			List<Expression> arguments = new List<Expression>();
 			arguments.Add(new ThisReferenceExpression());
 			string parameterName = ((ParameterDeclarationExpression) equalsMethod.Parameters[0]).ParameterName;
 			IdentifierExpression identifier = new IdentifierExpression(parameterName);

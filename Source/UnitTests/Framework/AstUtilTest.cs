@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -28,8 +29,8 @@ namespace Janett.Framework
 			NamespaceDeclaration ns = (NamespaceDeclaration) compilationUnit.Children[0];
 			TypeDeclaration typeDeclaration = (TypeDeclaration) ns.Children[0];
 
-			ArrayList fieldList = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
-			ArrayList methodList = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
+			List<INode> fieldList = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			List<INode> methodList = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
 
 			Assert.IsNotNull(fieldList);
 			Assert.AreEqual(4, fieldList.Count);

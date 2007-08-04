@@ -1,7 +1,7 @@
 namespace Janett.Framework
 {
 	using System;
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -26,9 +26,9 @@ namespace Janett.Framework
 			return typeRef;
 		}
 
-		public ArrayList GetChildrenWithType(INode parentNode, Type specificType)
+		public List<INode> GetChildrenWithType(INode parentNode, Type specificType)
 		{
-			ArrayList list = new ArrayList();
+			List<INode> list = new List<INode>();
 			foreach (INode node in parentNode.Children)
 			{
 				if (node.GetType() == specificType)

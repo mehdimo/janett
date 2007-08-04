@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -359,7 +360,7 @@ namespace Janett.Framework
 		{
 			IList fields = new ArrayList();
 
-			ArrayList fieldDeclarations = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			List<INode> fieldDeclarations = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
 			foreach (FieldDeclaration fieldDeclaration in fieldDeclarations)
 				fields.Add(((VariableDeclaration) fieldDeclaration.Fields[0]).Name);
 			return fields;

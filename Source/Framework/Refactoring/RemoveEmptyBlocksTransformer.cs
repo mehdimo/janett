@@ -1,6 +1,6 @@
 namespace Janett.Framework
 {
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -18,7 +18,7 @@ namespace Janett.Framework
 			}
 			if (ifElseStatement.HasElseIfSections)
 			{
-				ArrayList elseIfSections = new ArrayList();
+				List<ElseIfSection> elseIfSections = new List<ElseIfSection>();
 				elseIfSections.AddRange(ifElseStatement.ElseIfSections);
 				foreach (ElseIfSection stm in ifElseStatement.ElseIfSections)
 				{

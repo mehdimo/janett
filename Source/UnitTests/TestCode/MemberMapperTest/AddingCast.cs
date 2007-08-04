@@ -6,7 +6,7 @@ namespace Test
 	{
 		public void Method()
 		{
-			List myList; Set set; ((System.Collections.ArrayList)set).AddRange(myList);
+			List myList; Set @set; ((System.Collections.ArrayList)@set).AddRange(myList);
 		}
 	}
 }

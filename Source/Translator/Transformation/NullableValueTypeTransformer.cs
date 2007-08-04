@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -174,7 +175,7 @@ namespace Janett.Translator
 			if (CodeBase.Types.Contains(fullName))
 			{
 				TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];
-				ArrayList args = ReplaceNullArguments(typeDeclaration, objectCreateExpression.Parameters, objectCreateExpression);
+				List<Expression> args = ReplaceNullArguments(typeDeclaration, objectCreateExpression.Parameters, objectCreateExpression);
 				objectCreateExpression.Parameters = args;
 			}
 			return base.TrackedVisitObjectCreateExpression(objectCreateExpression, data);
@@ -185,7 +186,7 @@ namespace Janett.Translator
 			if (constructorInitializer.ConstructorInitializerType == ConstructorInitializerType.This)
 			{
 				TypeDeclaration typeDeclaration = (TypeDeclaration) AstUtil.GetParentOfType(constructorInitializer, typeof(TypeDeclaration));
-				ArrayList args = ReplaceNullArguments(typeDeclaration, constructorInitializer.Arguments, constructorInitializer);
+				List<Expression> args = ReplaceNullArguments(typeDeclaration, constructorInitializer.Arguments, constructorInitializer);
 				constructorInitializer.Arguments = args;
 			}
 			return base.TrackedVisitConstructorInitializer(constructorInitializer, data);
@@ -196,16 +197,16 @@ namespace Janett.Translator
 			if (invocationExpression.TargetObject is IdentifierExpression)
 			{
 				TypeDeclaration typeDeclaration = (TypeDeclaration) AstUtil.GetParentOfType(invocationExpression, typeof(TypeDeclaration));
-				ArrayList args = ReplaceNullArguments(typeDeclaration, invocationExpression.Arguments, invocationExpression);
+				List<Expression> args = ReplaceNullArguments(typeDeclaration, invocationExpression.Arguments, invocationExpression);
 				invocationExpression.Arguments = args;
 			}
 			return base.TrackedVisitInvocationExpression(invocationExpression, data);
 		}
 
-		private ArrayList ReplaceNullArguments(TypeDeclaration typeDeclaration, ArrayList ArgExpressions, INode node)
+		private List<Expression> ReplaceNullArguments(TypeDeclaration typeDeclaration, List<Expression> ArgExpressions, INode node)
 		{
 			int index = 0;
-			ArrayList args = new ArrayList();
+			List<Expression> args = new List<Expression>();
 
 			foreach (Expression argument in ArgExpressions)
 			{
@@ -236,7 +237,7 @@ namespace Janett.Translator
 			return args;
 		}
 
-		private ParametrizedNode GetAssociateMember(TypeDeclaration typeDeclaration, INode node, ArrayList argExpressions)
+		private ParametrizedNode GetAssociateMember(TypeDeclaration typeDeclaration, INode node, List<Expression> argExpressions)
 		{
 			if (node is InvocationExpression)
 				return GetMethodDeclarationOf(typeDeclaration, (InvocationExpression) node);

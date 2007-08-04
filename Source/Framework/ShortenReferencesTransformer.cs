@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -16,7 +17,7 @@ namespace Janett.Framework
 			if (addingUsings.Count > 0)
 			{
 				NamespaceDeclaration replaceNamespace = namespaceDeclaration;
-				ArrayList children = namespaceDeclaration.Children;
+				List<INode> children = namespaceDeclaration.Children;
 				INode[] childMembers = new INode[children.Count];
 				children.CopyTo(childMembers);
 				replaceNamespace.Children.Clear();

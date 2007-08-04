@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -8,7 +9,7 @@ namespace Janett.Framework
 	{
 		public override object TrackedVisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)
 		{
-			ArrayList fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			List<INode> fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
 			if (fields.Count > 0)
 			{
 				IList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));

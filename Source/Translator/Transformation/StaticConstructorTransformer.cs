@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -11,7 +12,7 @@ namespace Janett.Translator
 		public override object TrackedVisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)
 		{
 			TypeDeclaration replacedType = typeDeclaration;
-			ArrayList typeChildren = new ArrayList();
+			List<INode> typeChildren = new List<INode>();
 			typeChildren.AddRange(typeDeclaration.Children);
 
 			IList constructors = AstUtil.GetChildrenWithType(typeDeclaration, typeof(ConstructorDeclaration));
@@ -39,7 +40,7 @@ namespace Janett.Translator
 				replacedConstructor = (ConstructorDeclaration) staticConstructors[0];
 				for (int i = 1; i < staticConstructors.Count; i++)
 				{
-					ArrayList children = ((ConstructorDeclaration) staticConstructors[i]).Body.Children;
+					IEnumerable<INode> children = ((ConstructorDeclaration) staticConstructors[i]).Body.Children;
 					replacedConstructor.Body.Children.AddRange(children);
 				}
 			}
@@ -57,9 +58,9 @@ namespace Janett.Translator
 			return list;
 		}
 
-		private ArrayList RemoveStaticConstructors(ArrayList typeChildren, out int firstStaticCotrIndex)
+		private List<INode> RemoveStaticConstructors(List<INode> typeChildren, out int firstStaticCotrIndex)
 		{
-			ArrayList cleanList = new ArrayList();
+			List<INode> cleanList = new List<INode>();
 			firstStaticCotrIndex = 0;
 			int index = 0;
 			foreach (INode child in typeChildren)

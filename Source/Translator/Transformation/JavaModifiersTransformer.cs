@@ -1,6 +1,6 @@
 namespace Janett.Translator
 {
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -22,7 +22,7 @@ namespace Janett.Translator
 		{
 			if (AstUtil.ContainsModifier(methodDeclaration, Modifiers.Synchronized))
 			{
-				ArrayList positionalArgs = new ArrayList();
+				List<Expression> positionalArgs = new List<Expression>();
 				TypeReferenceExpression system = new TypeReferenceExpression("System.Runtime.CompilerServices.MethodImplOptions");
 				FieldReferenceExpression attributeArgument = new FieldReferenceExpression(system, "Synchronized");
 				positionalArgs.Add(attributeArgument);
@@ -48,10 +48,10 @@ namespace Janett.Translator
 			return base.TrackedVisitFieldDeclaration(fieldDeclaration, data);
 		}
 
-		private AttributeSection CreateAttributeSection(string attributeName, ArrayList args)
+		private AttributeSection CreateAttributeSection(string attributeName, List<Expression> args)
 		{
 			Attribute attribute = new Attribute(attributeName, args, null);
-			ArrayList attributes = new ArrayList();
+			List<Attribute> attributes = new List<Attribute>();
 			attributes.Add(attribute);
 			AttributeSection attributeSection = new AttributeSection("", attributes);
 			attribute.Parent = attributeSection;

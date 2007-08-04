@@ -1,5 +1,6 @@
 namespace Janett.Translator
 {
+	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
 
 	using Janett.Framework;
@@ -28,7 +29,7 @@ namespace Janett.Translator
 			string program2 = TestUtil.GetInput();
 			string expected = TestUtil.GetExpected();
 
-			CompilationUnit cu2 = TestUtil.ParseProgram(program2);
+			CompilationUnit cu2 = TestUtil.ParseProgram(program2, SupportedLanguage.CSharp);
 			NamespaceDeclaration ns2 = (NamespaceDeclaration) cu2.Children[0];
 			TypeDeclaration ty2 = (TypeDeclaration) ns2.Children[0];
 
@@ -51,7 +52,7 @@ namespace Janett.Translator
 			string program2 = TestUtil.GetInput();
 			string expected = TestUtil.GetExpected();
 
-			CompilationUnit cu2 = TestUtil.ParseProgram(program2);
+			CompilationUnit cu2 = TestUtil.ParseProgram(program2, SupportedLanguage.CSharp);
 			NamespaceDeclaration ns2 = (NamespaceDeclaration) cu2.Children[0];
 			TypeDeclaration ty2 = (TypeDeclaration) ns2.Children[0];
 
@@ -73,7 +74,7 @@ namespace Janett.Translator
 			CompilationUnit cu1 = TestUtil.ParseProgram(programBase);
 			NamespaceDeclaration ns = (NamespaceDeclaration) cu1.Children[0];
 			TypeDeclaration ty = (TypeDeclaration) ns.Children[0];
-			CompilationUnit cu2 = TestUtil.ParseProgram(usageProgram);
+			CompilationUnit cu2 = TestUtil.ParseProgram(usageProgram, SupportedLanguage.CSharp);
 
 			CodeBase.Types.Add("Test.Test", ty);
 			typesVisitor.VisitCompilationUnit(cu2, null);

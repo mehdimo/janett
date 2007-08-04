@@ -1,6 +1,6 @@
 namespace Janett.Translator
 {
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -24,7 +24,7 @@ namespace Janett.Translator
 		{
 			FieldReferenceExpression argument = new FieldReferenceExpression(typeOfExpression, "AssemblyQualifiedName");
 			typeOfExpression.Parent = argument;
-			ArrayList arguments = new ArrayList();
+			List<Expression> arguments = new List<Expression>();
 			arguments.Add(argument);
 			IdentifierExpression methodIdentifier = new IdentifierExpression("java.lang.Class");
 			FieldReferenceExpression methodReference = new FieldReferenceExpression(methodIdentifier, "forName");

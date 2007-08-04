@@ -86,7 +86,7 @@ namespace Janett.Framework
 				}
 			}
 
-			if (TypeReference.PrimitiveTypesJava.Contains(typeReference.Type))
+			if (TypeReference.PrimitiveTypesJava.ContainsKey(typeReference.Type))
 				return (string) TypeReference.PrimitiveTypesJava[typeReference.Type];
 
 			IList nsUsings = AstUtil.GetChildrenWithType(nsd, typeof(UsingDeclaration));

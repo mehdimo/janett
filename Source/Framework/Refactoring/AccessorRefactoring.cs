@@ -93,8 +93,8 @@ namespace Janett.Framework
 			BlockStatement block;
 			string fieldName = accessorMethod.Name.Substring(3);
 			TypeDeclaration typeDeclaration = (TypeDeclaration) accessorMethod.Parent;
-			if (IsInterface(typeDeclaration) || (IsAbstractClass(typeDeclaration) && !HasField(fields, fieldName) && accessorMethod.Body is NullBlockStatement))
-				block = NullBlockStatement.Instance;
+			if (IsInterface(typeDeclaration) || (IsAbstractClass(typeDeclaration) && !HasField(fields, fieldName) && accessorMethod.Body == BlockStatement.Null))
+				block = BlockStatement.Null;
 			else
 			{
 				block = new BlockStatement();
@@ -259,7 +259,7 @@ namespace Janett.Framework
 					{
 						BlockStatement block;
 						if (IsInterface(typeDeclaration) || (IsAbstractClass(typeDeclaration) && !HasField(fields, propertyName)))
-							block = NullBlockStatement.Instance;
+							block = BlockStatement.Null;
 						else
 						{
 							block = new BlockStatement();

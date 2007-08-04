@@ -2,11 +2,11 @@ namespace Test
 {
 	public interface Comparator
 	{
-		int equals(Object arg);
+		int @equals(Object arg);
 	}
 	public class Object
 	{
-		public int equals(Object obj)
+		public int @equals(Object obj)
 		{
 			return 0;
 		}

@@ -1,6 +1,6 @@
 namespace Janett.Translator
 {
-	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -18,7 +18,7 @@ namespace Janett.Translator
 				Removeables.Add(serializableType);
 				if (typeDeclaration.Type == ClassType.Class)
 				{
-					ArrayList attributes = new ArrayList();
+					List<Attribute> attributes = new List<Attribute>();
 					Attribute attribute = new Attribute("System.SerializableAttribute", null, null);
 					attributes.Add(attribute);
 					AttributeSection attributeSection = new AttributeSection("", attributes);

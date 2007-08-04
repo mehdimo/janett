@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -64,9 +65,9 @@ namespace Janett.Translator
 		{
 			TypeReferenceExpression helper = new TypeReferenceExpression("Helpers.ReflectionHelper");
 			FieldReferenceExpression target = new FieldReferenceExpression(helper, "InstantiateClass");
-			ArrayList arguments = new ArrayList();
+			List<Expression> arguments = new List<Expression>();
 			TypeOfExpression typeofExpression = new TypeOfExpression(objectCreateExpression.CreateType);
-			ArrayInitializerExpression arrayInitializer = new ArrayInitializerExpression(objectCreateExpression.Parameters);
+			CollectionInitializerExpression arrayInitializer = new CollectionInitializerExpression(objectCreateExpression.Parameters);
 			TypeReference reference = new TypeReference("object");
 			reference.RankSpecifier = new int[1];
 			ArrayCreateExpression arrayCreateExpression = new ArrayCreateExpression(reference, arrayInitializer);
@@ -91,7 +92,7 @@ namespace Janett.Translator
 
 		private InvocationExpression CreateReflectionInvocation(InvocationExpression invocationExpression, bool staticMethod)
 		{
-			ArrayList arguments = new ArrayList();
+			List<Expression> arguments = new List<Expression>();
 			FieldReferenceExpression fieldReferenceExpression = (FieldReferenceExpression) invocationExpression.TargetObject;
 			Expression invoker = fieldReferenceExpression.TargetObject;
 
@@ -106,7 +107,7 @@ namespace Janett.Translator
 			else
 				arguments.Add(invoker);
 
-			ArrayInitializerExpression arrayInitializer = new ArrayInitializerExpression(invocationExpression.Arguments);
+			CollectionInitializerExpression arrayInitializer = new CollectionInitializerExpression(invocationExpression.Arguments);
 			TypeReference reference = AstUtil.GetTypeReference("object", invocationExpression);
 			reference.RankSpecifier = new int[1];
 			ArrayCreateExpression argArray = new ArrayCreateExpression(reference, arrayInitializer);

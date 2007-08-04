@@ -2,6 +2,7 @@ namespace Janett.Translator
 {
 	using System.Collections;
 	using System.Collections.Specialized;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -65,7 +66,7 @@ namespace Janett.Translator
 				GetAnonymousFields(anonymousTypeDeclaration, dataObject);
 				IDictionary anonymousFields = unknownFields;
 
-				ArrayList constructorParameters = new ArrayList();
+				List<ParameterDeclarationExpression> constructorParameters = new List<ParameterDeclarationExpression>();
 
 				ParameterDeclarationExpression parentInstance = new ParameterDeclarationExpression(
 					AstUtil.GetTypeReference(parentClass.Name, objectCreateExpression.Parent), "enclosingInstance");
@@ -215,7 +216,7 @@ namespace Janett.Translator
 			if (eqType != null)
 			{
 				IList list = AstUtil.GetChildrenWithType(eqType, typeof(FieldDeclaration));
-				ArrayList constructors = AstUtil.GetChildrenWithType(eqType, typeof(ConstructorDeclaration));
+				List<INode> constructors = AstUtil.GetChildrenWithType(eqType, typeof(ConstructorDeclaration));
 				if (constructors.Count > 0)
 				{
 					ConstructorDeclaration constructorDeclaration = (ConstructorDeclaration) constructors[0];
@@ -225,10 +226,10 @@ namespace Janett.Translator
 			return resList;
 		}
 
-		private void AddAnonymousClassConstructor(ObjectCreateExpression obc, TypeDeclaration typeDeclaration, ArrayList parameters)
+		private void AddAnonymousClassConstructor(ObjectCreateExpression obc, TypeDeclaration typeDeclaration, List<ParameterDeclarationExpression> parameters)
 		{
-			ArrayList constructorParameters = new ArrayList();
-			ArrayList baseArguments = GetBaseConstructorParameters(obc);
+			List<ParameterDeclarationExpression> constructorParameters = new List<ParameterDeclarationExpression>();
+			List<ParameterDeclarationExpression> baseArguments = GetBaseConstructorParameters(obc);
 			constructorParameters.AddRange(baseArguments);
 			constructorParameters.AddRange(parameters);
 			ConstructorDeclaration constructor = new ConstructorDeclaration(typeDeclaration.Name, Modifiers.Public, constructorParameters, null);
@@ -286,9 +287,9 @@ namespace Janett.Translator
 			typeDeclaration.Children.Add(property);
 		}
 
-		private ArrayList GetBaseConstructorParameters(ObjectCreateExpression obc)
+		private List<ParameterDeclarationExpression> GetBaseConstructorParameters(ObjectCreateExpression obc)
 		{
-			ArrayList result = new ArrayList();
+			List<ParameterDeclarationExpression> result = new List<ParameterDeclarationExpression>();
 			TypeDeclaration anonymousClass = obc.AnonymousClass;
 			if (obc.Parameters.Count > 0)
 			{
@@ -334,7 +335,7 @@ namespace Janett.Translator
 			return result;
 		}
 
-		private void InitializeConstructor(ConstructorDeclaration constructor, ArrayList initializerArguments, string initializerType)
+		private void InitializeConstructor(ConstructorDeclaration constructor, List<ParameterDeclarationExpression> initializerArguments, string initializerType)
 		{
 			if (initializerType != null)
 			{
@@ -345,7 +346,7 @@ namespace Janett.Translator
 				else if (initializerType == "this")
 					constructor.ConstructorInitializer.ConstructorInitializerType = ConstructorInitializerType.This;
 
-				constructor.ConstructorInitializer.Arguments = new ArrayList();
+				constructor.ConstructorInitializer.Arguments = new List<Expression>();
 				if (initializerArguments != null)
 				{
 					foreach (ParameterDeclarationExpression pm in initializerArguments)

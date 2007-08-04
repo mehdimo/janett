@@ -1,5 +1,6 @@
 namespace Janett.Framework
 {
+	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
 
 	using NUnit.Framework;
@@ -26,8 +27,8 @@ namespace Janett.Framework
 		[Test]
 		public void Attribute()
 		{
-			string program = "package Test; [NUnit.Framework.TestFixtureAttribute] public class A {} ";
-			CompilationUnit cu = TestUtil.ParseProgram(program);
+			string program = "namespace Test{ [NUnit.Framework.TestFixtureAttribute] public class A {} }";
+			CompilationUnit cu = TestUtil.ParseProgram(program, SupportedLanguage.CSharp);
 			VisitCompilationUnit(cu, null);
 
 			Assert.AreEqual(1, Usings.Count);

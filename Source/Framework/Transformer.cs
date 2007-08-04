@@ -1,6 +1,7 @@
 namespace Janett.Framework
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
@@ -226,7 +227,7 @@ namespace Janett.Framework
 
 		protected bool AreSameTypes(TypeReference parameterType, TypeReference argumentType)
 		{
-			if (argumentType is NullTypeReference)
+			if (argumentType == TypeReference.Null)
 				return true;
 			string parameterFullType = GetFullName(parameterType);
 			string argumentFullType = GetFullName(argumentType);
@@ -312,7 +313,7 @@ namespace Janett.Framework
 			return null;
 		}
 
-		protected string GetArgumentsMap(ArrayList arguments, ArgumentMapType argumentMapType)
+		protected string GetArgumentsMap<T>(List<T> arguments, ArgumentMapType argumentMapType)
 		{
 			string argumentsMap = "";
 			char argumentChar = 'a';
@@ -327,7 +328,7 @@ namespace Janett.Framework
 					if (argumentTypeReference != null)
 					{
 						argumentType = GetFullName(argumentTypeReference);
-						if (TypeReference.PrimitiveTypesJavaReverse.Contains(argumentType))
+						if (TypeReference.PrimitiveTypesJavaReverse.ContainsKey(argumentType))
 							argumentType = (string) TypeReference.PrimitiveTypesJavaReverse[argumentType];
 						if (argumentType == "java.lang.String")
 							argumentType = "String";
@@ -418,9 +419,9 @@ namespace Janett.Framework
 			return (typeDeclaration.Type == ClassType.Class && AstUtil.ContainsModifier(typeDeclaration, Modifiers.Abstract));
 		}
 
-		protected IList GetAccessibleMethods(TypeDeclaration typeDeclaration)
+		protected List<INode> GetAccessibleMethods(TypeDeclaration typeDeclaration)
 		{
-			ArrayList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
+			List<INode> methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
 			if (typeDeclaration.BaseTypes.Count > 0)
 			{
 				foreach (TypeReference baseType in typeDeclaration.BaseTypes)
@@ -539,7 +540,7 @@ namespace Janett.Framework
 
 		private void InsertSidesOfCurrentNode(IList nodes, BlockStatement blockStatement, int index, Position position)
 		{
-			ArrayList coll = new ArrayList();
+			List<INode> coll = new List<INode>();
 			foreach (INode node in nodes)
 			{
 				INode nde = node;
@@ -553,7 +554,7 @@ namespace Janett.Framework
 			blockStatement.Children.InsertRange(index, coll);
 		}
 
-		private int GetIndex(ArrayList list, INode node)
+		private int GetIndex(List<INode> list, INode node)
 		{
 			int index = 0;
 			INode parent = AstUtil.GetParentOfType(node, typeof(ExpressionStatement));
@@ -575,7 +576,7 @@ namespace Janett.Framework
 			return index;
 		}
 
-		protected bool MatchArguments(ArrayList parameters, ArrayList arguments)
+		protected bool MatchArguments(List<ParameterDeclarationExpression> parameters, List<Expression> arguments)
 		{
 			if (parameters.Count == arguments.Count)
 			{

@@ -2,6 +2,7 @@ namespace Janett.Framework
 {
 	using System;
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -15,7 +16,7 @@ namespace Janett.Framework
 		public ExpressionTypeResolver()
 		{
 			primitiveTypeMappings = new Hashtable();
-			foreach (DictionaryEntry entry in TypeReference.PrimitiveTypesCSharp)
+			foreach (KeyValuePair<string, string> entry in TypeReference.PrimitiveTypesCSharp)
 				primitiveTypeMappings.Add(entry.Value, entry.Key);
 		}
 
@@ -127,7 +128,7 @@ namespace Janett.Framework
 			{
 				return ((ParameterDeclarationExpression) ex).TypeReference;
 			}
-			else if (ex is NullExpression)
+			else if (ex == Expression.Null)
 			{
 				return null;
 			}
@@ -185,7 +186,7 @@ namespace Janett.Framework
 			if (parentScope is ConstructorDeclaration || parentScope is MethodDeclaration)
 			{
 				BlockStatement body = GetBody(parentScope);
-				ArrayList parameters = ((ParametrizedNode) parentScope).Parameters;
+				List<ParameterDeclarationExpression> parameters = ((ParametrizedNode) parentScope).Parameters;
 				TypeDeclaration typeDeclaration = AstUtil.GetParentOfType(parentScope, typeof(TypeDeclaration)) as TypeDeclaration;
 				typeReference = GetTypeInLocalVariables(body, identifier);
 
@@ -229,7 +230,7 @@ namespace Janett.Framework
 			return null;
 		}
 
-		protected TypeReference GetTypeInArguments(ArrayList parameters, string identifier)
+		protected TypeReference GetTypeInArguments(List<ParameterDeclarationExpression> parameters, string identifier)
 		{
 			foreach (ParameterDeclarationExpression parameter in parameters)
 			{
@@ -301,7 +302,7 @@ namespace Janett.Framework
 		{
 			if (expression.Value == null)
 			{
-				NullTypeReference nullType = NullTypeReference.Instance;
+				TypeReference nullType = TypeReference.Null;
 				nullType.Parent = expression.Parent;
 				return nullType;
 			}

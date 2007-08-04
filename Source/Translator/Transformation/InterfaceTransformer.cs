@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -19,7 +20,7 @@ namespace Janett.Translator
 
 		private void CreateInterfaceFieldsClass(TypeDeclaration typeDeclaration)
 		{
-			IList fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
+			List<INode> fields = AstUtil.GetChildrenWithType(typeDeclaration, typeof(FieldDeclaration));
 			if (fields.Count > 0)
 			{
 				TypeDeclaration fieldsClass = new TypeDeclaration(Modifiers.Public, null);

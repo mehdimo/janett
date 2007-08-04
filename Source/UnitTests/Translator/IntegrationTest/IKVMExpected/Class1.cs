@@ -45,9 +45,9 @@ namespace Test.Integration
 			string name = Name;
 			Name = name;
 			java.util.Calendar cal = java.util.Calendar.getInstance();
-			int min = cal.get(java.util.Calendar.MINUTE);
-			cal.set(java.util.Calendar.MONTH, java.util.Calendar.AUGUST);
-			cal.add(java.util.Calendar.HOUR, 12);
+			int min = cal.@get(java.util.Calendar.MINUTE);
+			cal.@set(java.util.Calendar.MONTH, java.util.Calendar.AUGUST);
+			cal.@add(java.util.Calendar.HOUR, 12);
 			return base.ExistSimilarFieldAndMethod();
 		}
 		private sealed class InnerClass1 : java.lang.Object, IComparable
@@ -138,7 +138,7 @@ namespace Test.Integration
 				get { return enclosingInstance; }
 			}
 		}
-		public override bool equals(object obj)
+		public override bool @equals(object obj)
 		{
 			return java.lang.Object.instancehelper_equals(this, obj);
 		}

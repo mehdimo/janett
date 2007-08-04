@@ -89,10 +89,15 @@
 		</if>
 	</target>
 	
-	<target name="test">
+	<target name="run-tests">
 		<setenv name="COMPLUS_Version" value="v${framework::get-clr-version(Framework)}"/>
-		<exec program="${nunit.path}nunit-console.exe" workingdir="Source/UnitTests/bin/Debug" commandline="UnitTest.dll"/>
+		<exec program="${nunit.path}nunit-console.exe" commandline="${TestAssembly}"/>
 		<setenv name="COMPLUS_Version" value=""/>
+	</target>
+	
+	<target name="test">
+		<property name="TestAssembly" value="Source/UnitTests/bin/Debug/UnitTest.dll"/>
+		<call target="test"/>
 	</target>
 	
 	<target name="release">
@@ -107,12 +112,14 @@
 		<delete dir="Classifier/IKVM" if="${directory::exists('Classifier/IKVM')}"/>
 		<exec program="Bin/janett.exe" commandline="Classifier/Java ../IKVM /m IKVM"/>
 		<solution solutionfile="Classifier/IKVM/NClassifier.sln" configuration="debug"/>
-		<exec program="${nunit.path}nunit-console.exe" workingdir="Classifier/IKVM/UnitTests/bin/Debug" commandline="UnitTests.dll"/>
+		<property name="TestAssembly" value="Classifier/IKVM/UnitTests/bin/Debug/UnitTests.dll"/>
+		<call target="run-tests"/>
 		
 		<delete dir="Classifier/DotNet" if="${directory::exists('Classifier/DotNet')}"/>
 		<exec program="Bin/janett.exe" commandline="Classifier/Java ../DotNet /m DotNet"/>
 		<solution solutionfile="Classifier/DotNet/NClassifier.sln" configuration="debug"/>
-		<exec program="${nunit.path}nunit-console.exe" workingdir="Classifier/DotNet/UnitTests/bin/Debug" commandline="UnitTests.dll"/>
+		<property name="TestAssembly" value="Classifier/DotNet/UnitTests/bin/Debug/UnitTests.dll"/>
+		<call target="run-tests"/>
 	</target>
 	
 	<target name="copy-bin">

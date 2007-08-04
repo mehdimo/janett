@@ -1,6 +1,8 @@
-package Test;
-public class A implements System.IComparable
+namespace Test
 {
-	[System.NonSerializedAttribute()]
-	System.IComparable com;
+	public class A : System.IComparable
+	{
+		[System.NonSerializedAttribute()]
+		System.IComparable com;
+	}
 }

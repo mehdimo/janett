@@ -23,7 +23,7 @@ namespace Janett.Translator
 
 		private bool IsJavaPrimitiveType(TypeReference typeReference)
 		{
-			return (TypeReference.PrimitiveTypesJava.Contains(typeReference.Type));
+			return (TypeReference.PrimitiveTypesJava.ContainsKey(typeReference.Type));
 		}
 	}
 }

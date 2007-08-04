@@ -141,7 +141,7 @@ namespace Janett.Framework
 		[Test]
 		public void InnerTypeImportedViaPackage()
 		{
-			string program = TestUtil.PackageMemberParse("import import java.util.*; public class A { Map.Entry entry;}");
+			string program = TestUtil.PackageMemberParse("import java.util.*; public class A { Map.Entry entry;}");
 			CompilationUnit cu = TestUtil.ParseProgram(program);
 			NamespaceDeclaration ns = (NamespaceDeclaration) cu.Children[0];
 			TypeDeclaration type = (TypeDeclaration) ns.Children[1];

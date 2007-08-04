@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -16,8 +17,8 @@ namespace Janett.Translator
 			object ret = base.TrackedVisitTypeDeclaration(typeDeclaration, data);
 			if (typeDeclaration.Type == ClassType.Interface)
 			{
-				ArrayList methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
-				ArrayList typeDeclarations = AstUtil.GetChildrenWithType(typeDeclaration, typeof(TypeDeclaration));
+				IEnumerable<INode> methods = AstUtil.GetChildrenWithType(typeDeclaration, typeof(MethodDeclaration));
+				List<INode> typeDeclarations = AstUtil.GetChildrenWithType(typeDeclaration, typeof(TypeDeclaration));
 
 				typeDeclaration.Children.Clear();
 				typeDeclaration.Children.AddRange(methods);
@@ -28,20 +29,20 @@ namespace Janett.Translator
 			return ret;
 		}
 
-		private void RemoveMethodsModifier(IList methods)
+		private void RemoveMethodsModifier(IEnumerable<INode> methods)
 		{
 			foreach (MethodDeclaration method in methods)
 				method.Modifier = Modifiers.None;
 		}
 
-		private void SeperateTypes(TypeDeclaration typeDeclaration, ArrayList typeDeclarations)
+		private void SeperateTypes(TypeDeclaration typeDeclaration, List<INode> typeDeclarations)
 		{
 			NamespaceDeclaration namespaceDeclaration = (NamespaceDeclaration) AstUtil.GetParentOfType(typeDeclaration, typeof(NamespaceDeclaration));
 			foreach (TypeDeclaration type in typeDeclarations)
 			{
 				CodeBase.References.Add(typeDeclaration.Name + "." + type.Name, namespaceDeclaration.Name + "." + type.Name);
 				namespaceDeclaration.Children.Add(type);
-				IList typeMethods = AstUtil.GetChildrenWithType(type, typeof(MethodDeclaration));
+				IEnumerable<INode> typeMethods = AstUtil.GetChildrenWithType(type, typeof(MethodDeclaration));
 				if (type.Type == ClassType.Interface)
 					RemoveMethodsModifier(typeMethods);
 			}
