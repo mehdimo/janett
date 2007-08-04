@@ -1,4 +1,8 @@
 <project>
+	<property name="nant.settings.targetframework" value="net-2.0"/>
+	<property name="Framework" value="${nant.settings.targetframework}"/>
+	<property name="Version" value="2005"/>
+	
 	<property name="nunit.path" value="" overwrite="false"/>
 	<property name="tools.path" value="Tools" overwrite="false"/>
 	<property name="major.minor" value="0.6"/>
@@ -36,13 +40,16 @@
 	</target>
 	
 	<target name="create-solution">
-		<exec program="Tools\pcreate.exe" commandline="Source\Janett.projekt 2003"/>
+		<property name="Version" value="2003" if="${Framework == 'net-1.1'}" />
+		<exec program="Tools\pcreate.exe" commandline="Source/Janett.projekt ${Version}"/>
 	</target>
 	
 	<target name="build">
 		<call target="asminfo"/>
 		<call target="create-solution"/>
-		<solution solutionfile="Source/Janett.sln" configuration="debug"/>
+		<solution if="${Version == '2003'}" solutionfile="Source/Janett.sln" configuration="debug" />
+		<exec if="${Version == '2005'}" program="${framework::get-framework-directory(Framework)}/msbuild.exe" 
+			commandline="Source/Janett.sln" />
 		<call target="cmdline"/>
 	</target>
 	
@@ -83,7 +90,9 @@
 	</target>
 	
 	<target name="test">
+		<setenv name="COMPLUS_Version" value="v${framework::get-clr-version(Framework)}"/>
 		<exec program="${nunit.path}nunit-console.exe" workingdir="Source/UnitTests/bin/Debug" commandline="UnitTest.dll"/>
+		<setenv name="COMPLUS_Version" value=""/>
 	</target>
 	
 	<target name="release">

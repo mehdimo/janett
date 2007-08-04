@@ -7,7 +7,7 @@ namespace Test
 		public Lock Synch()
 		{
 			bool locked = true;
-			return new AnonymousClassLock1(this, waitTime, locked);
+			return new AnonymousClassLock1(this, locked, waitTime);
 		}
 		public void Wait(int time)
 		{
@@ -17,11 +17,11 @@ namespace Test
 
 		private class AnonymousClassLock1 : Lock
 		{
-			public AnonymousClassLock1(Synchro enclosingInstance, int waitTime, bool locked)
+			public AnonymousClassLock1(Synchro enclosingInstance, bool locked, int waitTime)
 			{
 				this.enclosingInstance = enclosingInstance;
-				this.waitTime = waitTime;
 				this.locked = locked;
+				this.waitTime = waitTime;
 			}
 			public bool obtain()
 			{
@@ -33,8 +33,8 @@ namespace Test
 				return false;
 			}
 			private Synchro enclosingInstance;
-			private int waitTime;
 			private bool locked;
+			private int waitTime;
 			public Synchro Enclosing_Instance
 			{
 				get

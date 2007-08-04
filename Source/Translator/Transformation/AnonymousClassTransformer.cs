@@ -1,6 +1,7 @@
 namespace Janett.Translator
 {
 	using System.Collections;
+	using System.Collections.Specialized;
 
 	using ICSharpCode.NRefactory.Ast;
 
@@ -24,7 +25,7 @@ namespace Janett.Translator
 		}
 
 		private int count = 0;
-		private IDictionary unknownFields = new Hashtable();
+		private IDictionary unknownFields = new ListDictionary();
 
 		public override object TrackedVisitCompilationUnit(CompilationUnit compilationUnit, object data)
 		{
