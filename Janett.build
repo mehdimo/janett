@@ -97,7 +97,7 @@
 	
 	<target name="test">
 		<property name="TestAssembly" value="Source/UnitTests/bin/Debug/UnitTest.dll"/>
-		<call target="test"/>
+		<call target="run-tests"/>
 	</target>
 	
 	<target name="release">
