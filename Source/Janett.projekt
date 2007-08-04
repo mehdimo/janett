@@ -1,0 +1,42 @@
+<Projekt xmlns="urn:projektor">
+  <ReferenceRoot>..\..\Lib</ReferenceRoot>
+  <AssemblyNamePrefix>Janett</AssemblyNamePrefix>
+  <NamesapcePrefix>Janett</NamesapcePrefix>
+  
+  <BuildAction Pattern="UnitTests\TestCode\**\*.*" Set="Content"/>
+  <BuildAction Pattern="UnitTests\Translator\IntegrationTest\*\*.*" Set="Content"/>
+  <BuildAction Pattern="UnitTests\Translator\IntegrationTest\*\*\*.*" Set="Content"/>
+  <BuildAction Pattern="Framework\Projects\*Template.*" Set="EmbeddedResource"/>
+  
+  <Project Name="Commons" />
+  <Project Name="Emulator">
+    <Reference Assembly="log4net" />
+    <Reference Assembly="nunit.framework" />
+  </Project>
+  <Project Name="Framework">
+    <Reference Project="Commons" />
+    <Reference Assembly="ICSharpCode.SharpZipLib" />
+    <Reference Assembly="ICSharpCode.NRefactory" />
+  </Project>
+  <Project Name="Tools">
+    <Reference Project="Commons" />
+    <Reference Assembly="ICSharpCode.SharpZipLib" />
+    <Reference Assembly="ICSharpCode.NRefactory" />
+  </Project>
+  <Project Name="Translator">
+    <PreBuildEvent>copy $(ProjectDir)\janett.options $(TargetDir)</PreBuildEvent>
+    <Reference Project="Framework" />
+    <Reference Project="Commons" />
+    <Reference Assembly="ICSharpCode.NRefactory" />
+    <Reference AssemblyName="System.Drawing" />
+    <Reference AssemblyName="System.Windows.Forms" />
+  </Project>
+  <Project Name="UnitTests" AssemblyName="UnitTest">
+    <Reference Project="Commons" />
+    <Reference Project="Framework" />
+    <Reference Project="Translator" />
+    <Reference Project="Tools" />
+    <Reference Assembly="nunit.framework" />
+    <Reference Assembly="ICSharpCode.NRefactory" />
+  </Project>
+</Projekt>

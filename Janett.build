@@ -35,8 +35,13 @@
 		</asminfo>
 	</target>
 	
+	<target name="create-solution">
+		<exec program="Tools\pcreate.exe" commandline="Source\Janett.projekt 2003"/>
+	</target>
+	
 	<target name="build">
 		<call target="asminfo"/>
+		<call target="create-solution"/>
 		<solution solutionfile="Source/Janett.sln" configuration="debug"/>
 		<call target="cmdline"/>
 	</target>
