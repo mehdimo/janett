@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema targetNamespace="http://mayaf.org/janett/schema/0.6/translate.xsd" xmlns="http://mayaf.org/janett/schema/0.6/translate.xsd"
+<xs:schema targetNamespace="http://mayaf.org/janett/schema/0.7/translate.xsd" xmlns="http://mayaf.org/janett/schema/0.7/translate.xsd"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<xs:element name="Translate" type="TranslateType" />
 	<xs:complexType name="TranslateType">
@@ -43,6 +43,7 @@
 	<xs:complexType name="IncludeExcludeType">
 		<xs:attribute name="Path" type="xs:string" use="required" />
 		<xs:attribute name="Mode" type="xs:string" use="optional" />
+		<xs:attribute name="Stub" type="xs:string" use="optional" />
 	</xs:complexType>
 	<xs:complexType name="FilesType">
 		<xs:sequence>
