@@ -1,11 +1,11 @@
-<project>
+<project default="all">
 	<property name="nant.settings.targetframework" value="net-2.0"/>
 	<property name="Framework" value="${nant.settings.targetframework}"/>
 	<property name="Version" value="2005"/>
 	
 	<property name="nunit.path" value="" overwrite="false"/>
 	<property name="tools.path" value="Tools" overwrite="false"/>
-	<property name="major.minor" value="0.6"/>
+	<property name="major.minor" value="0.7"/>
 	<property name="build" value="0"/>
 	<property name="version" value="${major.minor}.${build}"/>
 	<property name="release" value="false" overwrite="false"/>
@@ -100,7 +100,7 @@
 		<call target="run-tests"/>
 	</target>
 	
-	<target name="release">
+	<target name="all">
 		<call target="clean"/>
 		<call target="build"/>
 		<call target="test"/>
@@ -162,13 +162,15 @@
 				<exclude name="Test.include"/>
 				<include name="Source/**/*"/>
 				<exclude name="Source/Janett.suo"/>
+				<exclude name="Source/Janett.resharper"/>
 				<exclude name="Source/**/*.user"/>
 				<exclude name="Source/_ReSharper.*/**"/>
 				<exclude name="Source/*/bin/**"/>
 				<exclude name="Source/*/obj/**"/>
 				<include name="Lib/**"/>
-				<exclude name="Lib/NRefactory.pdb"/>
+				<exclude name="Lib/ICSharpCode.NRefactory.pdb"/>
 				<include name="Bin/**"/>
+				<exclude name="Bin/ICSharpCode.NRefactory.pdb"/>
 				<exclude name="Bin/Translated/**"/>
 			</fileset>
 		</zip>
