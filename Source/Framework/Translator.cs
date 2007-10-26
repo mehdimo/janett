@@ -400,11 +400,13 @@ namespace Janett.Framework
 			visitors.Add(typeof(InheritorsVisitor).FullName, typeof(InheritorsVisitor));
 			IDictionary transformers = GetVisitors(typeof(AbstractAstTransformer));
 			transformers.Add(typeof(RenameRepeatedVariableTransformer).Name, typeof(RenameRepeatedVariableTransformer));
-			progress.SetCount("Transformation", (visitors.Count + transformers.Count + 1) * sourceFileCount);
+			progress.SetCount("Transformation", (visitors.Count + transformers.Count) * sourceFileCount);
 			CallVisitors(visitors, "Transformation");
 			CallVisitors(transformers, "Transformation");
 			AfterTransformation();
-			CallVisitor(typeof(ReferenceTransformer), "Transformation");
+			Diagnostics.Set("Phase", "Transformation");
+			progress.SetCount("References", sourceFileCount);
+			CallVisitor(typeof(ReferenceTransformer), "References");
 
 			progress.SetCount("Mapping", 2 * sourceFileCount);
 			CallVisitor(typeof(MemberMapper), "Mapping");
@@ -669,6 +671,7 @@ namespace Janett.Framework
 		private void Refactor()
 		{
 			codeBase.References.Clear();
+			Diagnostics.Set("Phase", "Refactoring");
 			CallVisitor(typeof(AccessorRefactoring), "Refactoring");
 			CallVisitor(typeof(ReferenceTransformer), "Refactoring");
 
