@@ -1,9 +1,9 @@
 namespace Janett.Translator
 {
+	using Framework;
+
 	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
-
-	using Janett.Framework;
 
 	using NUnit.Framework;
 

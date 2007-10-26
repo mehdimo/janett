@@ -3,9 +3,9 @@ namespace Janett.Translator
 	using System.Collections;
 	using System.Collections.Generic;
 
-	using ICSharpCode.NRefactory.Ast;
+	using Framework;
 
-	using Janett.Framework;
+	using ICSharpCode.NRefactory.Ast;
 
 	public abstract class InterfaceTransformer : Transformer
 	{

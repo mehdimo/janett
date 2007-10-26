@@ -2,9 +2,9 @@ namespace Janett.Translator
 {
 	using System.Collections;
 
-	using ICSharpCode.NRefactory.Ast;
+	using Framework;
 
-	using Janett.Framework;
+	using ICSharpCode.NRefactory.Ast;
 
 	[Mode("IKVM")]
 	public class SystemFieldsTransformer : Transformer

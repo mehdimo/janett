@@ -9,12 +9,12 @@ namespace Janett.Framework
 	using System.Text.RegularExpressions;
 	using System.Xml;
 
+	using Commons;
+
 	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
 	using ICSharpCode.NRefactory.PrettyPrinter;
 	using ICSharpCode.NRefactory.Visitors;
-
-	using Janett.Commons;
 
 	public class Translator : Commandlet
 	{

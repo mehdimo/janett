@@ -1,6 +1,5 @@
 namespace Janett.Framework
 {
-	using System.Collections;
 	using System.Collections.Generic;
 
 	using ICSharpCode.NRefactory.Ast;

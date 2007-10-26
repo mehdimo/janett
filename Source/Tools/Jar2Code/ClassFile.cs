@@ -26,15 +26,13 @@
 using System;
 using System.Collections;
 
-using IKVM.Attributes;
-
 using __Modifiers = IKVM.Attributes.Modifiers;
 
 internal sealed class ClassFile
 {
 	private ConstantPoolItem[] constantpool;
 	private string[] utf8_cp;
-	private Modifiers access_flags;
+	private __Modifiers access_flags;
 	private ushort this_class;
 	private ushort super_class;
 	private ConstantPoolItemClass[] interfaces;
@@ -139,7 +137,7 @@ internal sealed class ClassFile
 					}
 				}
 			}
-			access_flags = (Modifiers) br.ReadUInt16();
+			access_flags = (__Modifiers) br.ReadUInt16();
 			// NOTE although the vmspec says (in 4.1) that interfaces must be marked abstract, earlier versions of
 			// javac (JDK 1.1) didn't do this, so the VM doesn't enforce this rule
 			// NOTE although the vmspec implies (in 4.1) that ACC_SUPER is illegal on interfaces, it doesn't enforce this
@@ -281,7 +279,7 @@ internal sealed class ClassFile
 							innerClasses[j].innerClass = rdr.ReadUInt16();
 							innerClasses[j].outerClass = rdr.ReadUInt16();
 							innerClasses[j].name = rdr.ReadUInt16();
-							innerClasses[j].accessFlags = (Modifiers) rdr.ReadUInt16();
+							innerClasses[j].accessFlags = (__Modifiers) rdr.ReadUInt16();
 							if (innerClasses[j].innerClass != 0 && !(GetConstantPoolItem(innerClasses[j].innerClass) is ConstantPoolItemClass))
 							{
 								throw new ClassFormatError("{0} (inner_class_info_index has bad constant pool index)", this.Name);
@@ -479,7 +477,7 @@ internal sealed class ClassFile
 		set { outerClass = value; }
 	}
 
-	internal Modifiers Modifiers
+	internal __Modifiers Modifiers
 	{
 		get { return access_flags; }
 	}
@@ -489,28 +487,28 @@ internal sealed class ClassFile
 		get
 		{
 			// interfaces are implicitly abstract
-			return (access_flags & (Modifiers.Abstract | Modifiers.Interface)) != 0;
+			return (access_flags & (__Modifiers.Abstract | __Modifiers.Interface)) != 0;
 		}
 	}
 
 	internal bool IsFinal
 	{
-		get { return (access_flags & Modifiers.Final) != 0; }
+		get { return (access_flags & __Modifiers.Final) != 0; }
 	}
 
 	internal bool IsPublic
 	{
-		get { return (access_flags & Modifiers.Public) != 0; }
+		get { return (access_flags & __Modifiers.Public) != 0; }
 	}
 
 	internal bool IsInterface
 	{
-		get { return (access_flags & Modifiers.Interface) != 0; }
+		get { return (access_flags & __Modifiers.Interface) != 0; }
 	}
 
 	internal bool IsSuper
 	{
-		get { return (access_flags & Modifiers.Super) != 0; }
+		get { return (access_flags & __Modifiers.Super) != 0; }
 	}
 
 	internal ConstantPoolItemFieldref GetFieldref(int index)
@@ -626,7 +624,7 @@ internal sealed class ClassFile
 		internal ushort innerClass; // ConstantPoolItemClass
 		internal ushort outerClass; // ConstantPoolItemClass
 		internal ushort name; // ConstantPoolItemUtf8
-		internal Modifiers accessFlags;
+		internal __Modifiers accessFlags;
 	}
 
 	internal InnerClass[] InnerClasses
@@ -961,14 +959,14 @@ internal sealed class ClassFile
 
 	internal abstract class FieldOrMethod
 	{
-		protected Modifiers access_flags;
+		protected __Modifiers access_flags;
 		private string name;
 		private string descriptor;
 		protected bool deprecated;
 
 		internal FieldOrMethod(ClassFile classFile, BigEndianBinaryReader br)
 		{
-			access_flags = (Modifiers) br.ReadUInt16();
+			access_flags = (__Modifiers) br.ReadUInt16();
 			name = String.Intern(classFile.GetConstantPoolUtf8String(br.ReadUInt16()));
 			descriptor = classFile.GetConstantPoolUtf8String(br.ReadUInt16());
 			ValidateSig(classFile, descriptor);
@@ -987,59 +985,59 @@ internal sealed class ClassFile
 			get { return descriptor; }
 		}
 
-		internal Modifiers Modifiers
+		internal __Modifiers Modifiers
 		{
-			get { return (Modifiers) access_flags; }
+			get { return (__Modifiers) access_flags; }
 		}
 
 		internal bool IsAbstract
 		{
-			get { return (access_flags & Modifiers.Abstract) != 0; }
+			get { return (access_flags & __Modifiers.Abstract) != 0; }
 		}
 
 		internal bool IsFinal
 		{
-			get { return (access_flags & Modifiers.Final) != 0; }
+			get { return (access_flags & __Modifiers.Final) != 0; }
 		}
 
 		internal bool IsPublic
 		{
-			get { return (access_flags & Modifiers.Public) != 0; }
+			get { return (access_flags & __Modifiers.Public) != 0; }
 		}
 
 		internal bool IsPrivate
 		{
-			get { return (access_flags & Modifiers.Private) != 0; }
+			get { return (access_flags & __Modifiers.Private) != 0; }
 		}
 
 		internal bool IsProtected
 		{
-			get { return (access_flags & Modifiers.Protected) != 0; }
+			get { return (access_flags & __Modifiers.Protected) != 0; }
 		}
 
 		internal bool IsStatic
 		{
-			get { return (access_flags & Modifiers.Static) != 0; }
+			get { return (access_flags & __Modifiers.Static) != 0; }
 		}
 
 		internal bool IsSynchronized
 		{
-			get { return (access_flags & Modifiers.Synchronized) != 0; }
+			get { return (access_flags & __Modifiers.Synchronized) != 0; }
 		}
 
 		internal bool IsVolatile
 		{
-			get { return (access_flags & Modifiers.Volatile) != 0; }
+			get { return (access_flags & __Modifiers.Volatile) != 0; }
 		}
 
 		internal bool IsTransient
 		{
-			get { return (access_flags & Modifiers.Transient) != 0; }
+			get { return (access_flags & __Modifiers.Transient) != 0; }
 		}
 
 		internal bool IsNative
 		{
-			get { return (access_flags & Modifiers.Native) != 0; }
+			get { return (access_flags & __Modifiers.Native) != 0; }
 		}
 
 		internal bool DeprecatedAttribute
@@ -1167,8 +1165,8 @@ internal sealed class ClassFile
 			// vmspec 4.6 says that all flags, except ACC_STRICT are ignored on <clinit>
 			if (Name == "<clinit>" && Signature == "()V")
 			{
-				access_flags &= Modifiers.Strictfp;
-				access_flags |= (Modifiers.Static | Modifiers.Private);
+				access_flags &= __Modifiers.Strictfp;
+				access_flags |= (__Modifiers.Static | __Modifiers.Private);
 			}
 			else
 			{
@@ -1269,7 +1267,7 @@ internal sealed class ClassFile
 
 		internal bool IsStrictfp
 		{
-			get { return (access_flags & Modifiers.Strictfp) != 0; }
+			get { return (access_flags & __Modifiers.Strictfp) != 0; }
 		}
 
 		// Is this the <clinit>()V method?

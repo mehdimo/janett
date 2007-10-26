@@ -4,11 +4,11 @@ namespace Janett.Framework
 	using System.Collections;
 	using System.IO;
 
+	using Commons;
+
 	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
 	using ICSharpCode.SharpZipLib.Zip;
-
-	using Janett.Commons;
 
 	public class TypeDictionary : SortedList
 	{

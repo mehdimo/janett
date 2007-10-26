@@ -2,9 +2,9 @@ namespace Janett.Framework
 {
 	using System.Collections;
 
-	using ICSharpCode.NRefactory;
+	using Commons;
 
-	using Janett.Commons;
+	using ICSharpCode.NRefactory;
 
 	public class CodeBase
 	{

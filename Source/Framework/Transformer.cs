@@ -3,12 +3,12 @@ namespace Janett.Framework
 	using System.Collections;
 	using System.Collections.Generic;
 
+	using Commons;
+
 	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
 	using ICSharpCode.NRefactory.PrettyPrinter;
 	using ICSharpCode.NRefactory.Visitors;
-
-	using Janett.Commons;
 
 	public class Transformer : NodeTrackingAstTransformer
 	{

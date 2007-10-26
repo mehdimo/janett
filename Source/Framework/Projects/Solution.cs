@@ -4,7 +4,7 @@ namespace Janett.Framework
 	using System.IO;
 	using System.Reflection;
 
-	using Janett.Commons;
+	using Commons;
 
 	public class Solution
 	{

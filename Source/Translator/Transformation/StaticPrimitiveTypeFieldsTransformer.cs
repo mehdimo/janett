@@ -1,8 +1,8 @@
 namespace Janett.Translator
 {
-	using ICSharpCode.NRefactory.Ast;
+	using Framework;
 
-	using Janett.Framework;
+	using ICSharpCode.NRefactory.Ast;
 
 	public class StaticPrimitiveTypeFieldsTransformer : Transformer
 	{

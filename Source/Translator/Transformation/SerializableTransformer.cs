@@ -2,9 +2,9 @@ namespace Janett.Translator
 {
 	using System.Collections.Generic;
 
-	using ICSharpCode.NRefactory.Ast;
+	using Framework;
 
-	using Janett.Framework;
+	using ICSharpCode.NRefactory.Ast;
 
 	public class SerializableTransformer : UsageRemoverTransformer
 	{

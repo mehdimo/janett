@@ -4,11 +4,11 @@ namespace Janett.Tools
 	using System.Collections;
 	using System.IO;
 
+	using Commons;
+
 	using ICSharpCode.NRefactory.Ast;
 	using ICSharpCode.NRefactory.PrettyPrinter;
 	using ICSharpCode.SharpZipLib.Zip;
-
-	using Janett.Commons;
 
 	[Named("jar2code")]
 	public class JavaArchiveToCodeSkeleton : Commandlet

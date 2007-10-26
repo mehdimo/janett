@@ -1,12 +1,12 @@
 namespace Janett.Translator
 {
 	using System.Collections;
-	using System.Collections.Specialized;
 	using System.Collections.Generic;
+	using System.Collections.Specialized;
+
+	using Framework;
 
 	using ICSharpCode.NRefactory.Ast;
-
-	using Janett.Framework;
 
 	public class AnonymousClassTransformer : Transformer
 	{

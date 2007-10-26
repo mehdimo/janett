@@ -2,8 +2,9 @@ namespace Janett.Translator
 {
 	using System.IO;
 
-	using Janett.Commons;
-	using Janett.Framework;
+	using Commons;
+
+	using Framework;
 
 	using NUnit.Framework;
 

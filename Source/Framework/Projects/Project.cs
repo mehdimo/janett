@@ -4,7 +4,7 @@ namespace Janett.Framework
 	using System.IO;
 	using System.Xml;
 
-	using Janett.Commons;
+	using Commons;
 
 	public class Project
 	{

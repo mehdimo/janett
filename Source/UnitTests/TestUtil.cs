@@ -4,12 +4,13 @@ namespace Janett
 	using System.IO;
 	using System.Reflection;
 
+	using Commons;
+
+	using Framework;
+
 	using ICSharpCode.NRefactory;
 	using ICSharpCode.NRefactory.Ast;
 	using ICSharpCode.NRefactory.PrettyPrinter;
-
-	using Janett.Commons;
-	using Janett.Framework;
 
 	using NUnit.Framework;
 

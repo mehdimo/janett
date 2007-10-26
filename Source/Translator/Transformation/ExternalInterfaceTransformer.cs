@@ -1,6 +1,6 @@
 namespace Janett.Translator
 {
-	using Janett.Framework;
+	using Framework;
 
 	[Explicit]
 	[Mode("IKVM")]

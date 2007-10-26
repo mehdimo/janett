@@ -5,7 +5,7 @@ namespace Janett.Framework
 	using System.IO;
 	using System.Text.RegularExpressions;
 
-	using Janett.Commons;
+	using Commons;
 
 	public class Mappings : Hashtable
 	{

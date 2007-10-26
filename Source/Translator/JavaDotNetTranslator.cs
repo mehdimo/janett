@@ -2,10 +2,11 @@ namespace Janett.Translator
 {
 	using System;
 
-	using ICSharpCode.NRefactory;
+	using Commons;
 
-	using Janett.Commons;
-	using Janett.Framework;
+	using Framework;
+
+	using ICSharpCode.NRefactory;
 
 	[Named("janett")]
 	public class JavaDotNetTranslator : Translator
