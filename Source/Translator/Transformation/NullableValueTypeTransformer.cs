@@ -142,7 +142,7 @@ namespace Janett.Translator
 			if (conditionalExpression.TrueExpression is PrimitiveExpression && ((PrimitiveExpression) conditionalExpression.TrueExpression).Value == null)
 			{
 				TypeReference typeReference = GetExpressionType(conditionalExpression.FalseExpression);
-				if (typeReference.RankSpecifier == null || typeReference.RankSpecifier.Length == 0)
+				if (typeReference != null && (typeReference.RankSpecifier == null || typeReference.RankSpecifier.Length == 0))
 				{
 					string fullName = GetFullName(typeReference);
 					if (types.Contains(fullName))
@@ -155,8 +155,7 @@ namespace Janett.Translator
 			else if (conditionalExpression.FalseExpression is PrimitiveExpression && ((PrimitiveExpression) conditionalExpression.FalseExpression).Value == null)
 			{
 				TypeReference typeReference = GetExpressionType(conditionalExpression.TrueExpression);
-
-				if (typeReference.RankSpecifier == null || typeReference.RankSpecifier.Length == 0)
+				if (typeReference != null && (typeReference.RankSpecifier == null || typeReference.RankSpecifier.Length == 0))
 				{
 					string fullName = GetFullName(typeReference);
 					if (types.Contains(fullName))
