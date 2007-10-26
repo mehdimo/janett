@@ -123,6 +123,12 @@
 	</target>
 	
 	<target name="copy-bin">
+		<delete>
+			<fileset basedir="Bin">
+				<include name="**"/>
+				<exclude name="Translated/**"/>
+			</fileset>
+		</delete>
 		<property name="project" value="Translator"/>
 		<call target="copy-project-bin"/>
 		<property name="project" value="Emulator"/>
