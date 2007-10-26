@@ -263,7 +263,7 @@ namespace Janett.Framework
 						return st;
 				}
 			}
-			else if (CodeBase.Types.Contains(key))
+			else if (IsPascalStyle(identifier.Identifier) && CodeBase.Types.Contains(key))
 			{
 				return GetProperIdentifier(idParent, key);
 			}
@@ -297,7 +297,7 @@ namespace Janett.Framework
 						key = usi.Alias.Type;
 					if (CodeBase.References.Contains(key))
 						return (string) CodeBase.References[key];
-					else if (CodeBase.Types.Contains(key))
+					else if (IsPascalStyle(identifier.Identifier) && CodeBase.Types.Contains(key))
 					{
 						return GetProperIdentifier(idParent, key);
 					}
@@ -364,6 +364,11 @@ namespace Janett.Framework
 			foreach (FieldDeclaration fieldDeclaration in fieldDeclarations)
 				fields.Add(((VariableDeclaration) fieldDeclaration.Fields[0]).Name);
 			return fields;
+		}
+
+		private bool IsPascalStyle(string identifier)
+		{
+			return char.IsUpper(identifier[0]);
 		}
 	}
 }

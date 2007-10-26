@@ -12,10 +12,21 @@ namespace Janett.Framework
 
 		public override object TrackedVisitMethodDeclaration(MethodDeclaration methodDeclaration, object data)
 		{
+			Clear();
+			return base.TrackedVisitMethodDeclaration(methodDeclaration, data);
+		}
+
+		private void Clear()
+		{
 			localVariables.Clear();
 			renamedVariables.Clear();
 			renamer.Reset();
-			return base.TrackedVisitMethodDeclaration(methodDeclaration, data);
+		}
+
+		public override object TrackedVisitTypeDeclaration(TypeDeclaration typeDeclaration, object data)
+		{
+			Clear();
+			return base.TrackedVisitTypeDeclaration(typeDeclaration, data);
 		}
 
 		public override object TrackedVisitVariableDeclaration(VariableDeclaration variableDeclaration, object data)
