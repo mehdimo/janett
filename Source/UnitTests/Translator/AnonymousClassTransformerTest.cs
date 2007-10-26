@@ -1,5 +1,7 @@
 namespace Janett.Translator
 {
+	using Framework;
+
 	using ICSharpCode.NRefactory.Ast;
 
 	using NUnit.Framework;
@@ -162,6 +164,90 @@ namespace Janett.Translator
 			string expected = TestUtil.GetExpected();
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
+			VisitCompilationUnit(cu, null);
+			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
+		}
+
+		[Test]
+		public void NestedAnonymousClass()
+		{
+			string program = TestUtil.PackageMemberParse(@"
+								public class NestedAnon
+								{
+									public void exec(){}
+									public void firstLevel()
+									{
+										String arg = null;
+										Weight w = new Weight()
+										{
+											public void secondLevel()
+											{
+												exec();
+												Score s = new Score(arg)
+												{
+													public void thirdLevel()
+													{
+													}
+												};
+											}
+										};
+									}
+								}
+								public class Score
+								{
+									public Score(String arg){}
+								}");
+			string expected = TestUtil.NamespaceMemberParse(@"
+								public class NestedAnon
+								{
+									public void exec(){}
+									public void firstLevel()
+									{
+										String arg = null;
+										Weight w = new AnonymousClassWeight1(this, arg);
+									}
+									private class AnonymousClassWeight1 : Weight
+									{
+										public AnonymousClassWeight1(NestedAnon enclosingInstance, String arg)
+										{
+											this.enclosingInstance = enclosingInstance;
+											this.arg = arg;
+										}
+										public void secondLevel()
+										{
+											enclosingInstance.exec();
+											Score s = new AnonymousClassScore2(arg, this);
+										}
+										private NestedAnon enclosingInstance;
+										private String arg;
+										public NestedAnon Enclosing_Instance {
+											get { return enclosingInstance; }
+										}
+
+										private class AnonymousClassScore2 : Score
+										{
+											public AnonymousClassScore2(String arg, AnonymousClassWeight1 enclosingInstance) : base(arg)
+											{
+												this.enclosingInstance = enclosingInstance;
+											}
+											public void thirdLevel()
+											{
+											}
+											private AnonymousClassWeight1 enclosingInstance;
+											public AnonymousClassWeight1 Enclosing_Instance {
+												get { return enclosingInstance; }
+											}
+										}
+									}
+								}
+								public class Score
+								{
+									public Score(String arg){}
+								}");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			TypesVisitor typesVisitor = new TypesVisitor();
+			typesVisitor.CodeBase = this.CodeBase;
+			typesVisitor.VisitCompilationUnit(cu, null);
 			VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}

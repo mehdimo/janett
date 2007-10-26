@@ -36,6 +36,8 @@ namespace Janett.Translator
 
 		public override object TrackedVisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression, object data)
 		{
+			if (data != null)
+				return base.TrackedVisitObjectCreateExpression(objectCreateExpression, data);
 			if (!objectCreateExpression.AnonymousClass.IsNull)
 			{
 				count ++;
@@ -106,6 +108,7 @@ namespace Janett.Translator
 				string anonymousFullName = GetFullName(parentClass) + "." + anonymousTypeDeclaration.Name;
 				CodeBase.Types.Add(anonymousFullName, anonymousTypeDeclaration);
 				objectCreateExpression.AnonymousClass = null;
+				data = null;
 				return base.TrackedVisitObjectCreateExpression(objectCreateExpression, data);
 			}
 			return base.TrackedVisitObjectCreateExpression(objectCreateExpression, data);
@@ -118,7 +121,7 @@ namespace Janett.Translator
 				string identifier = identifierExpression.Identifier;
 				DataObject dataObject = (DataObject) data;
 
-				if (!IsInvocation(identifierExpression) && ! dataObject.list.Contains(identifier))
+				if (identifier != "enclosingInstance" && !IsInvocation(identifierExpression) && !dataObject.list.Contains(identifier))
 				{
 					string staticFullName = GetStaticFullName(identifier, identifierExpression.Parent);
 					if (staticFullName == null || !CodeBase.Types.Contains(staticFullName))
