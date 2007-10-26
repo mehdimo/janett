@@ -40,7 +40,7 @@ namespace Janett.Framework
 				{
 					string fullName = TypeResolver.GetFullName(targetType);
 					if (targetType.RankSpecifier != null && targetType.RankSpecifier.Length > 0 && !(ex.Parent is IndexerExpression))
-						fullName = "Array";
+						fullName = "JavaArray";
 					if (CodeBase.Types.Contains(fullName))
 					{
 						TypeDeclaration typeDeclaration = (TypeDeclaration) CodeBase.Types[fullName];

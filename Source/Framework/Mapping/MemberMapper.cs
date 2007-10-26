@@ -138,7 +138,7 @@ namespace Janett.Framework
 				string returnType = GetFullName(invokerType);
 				if (invokerType.RankSpecifier != null && invokerType.RankSpecifier.Length > 0)
 				{
-					returnType = "Array";
+					returnType = "JavaArray";
 				}
 
 				TypeMapping mapping = CodeBase.Mappings[returnType];
@@ -188,7 +188,7 @@ namespace Janett.Framework
 			Expression[] replacedExpression;
 			string returnType = GetFullName(invokerType);
 			if (invokerType.RankSpecifier != null && invokerType.RankSpecifier.Length > 0)
-				returnType = "Array";
+				returnType = "JavaArray";
 
 			TypeMapping mapping = CodeBase.Mappings[returnType];
 			string methodKey;
