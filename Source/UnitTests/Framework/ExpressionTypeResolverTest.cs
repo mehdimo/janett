@@ -559,5 +559,16 @@ namespace Janett.Framework
 			Assert.IsNotNull(type);
 			Assert.AreEqual(TypeReference.Null, type);
 		}
+
+		[Test]
+		public void Unsigned()
+		{
+			string program = TestUtil.StatementParse("long l; l = 0xefffdfffffffffffL;");
+			CompilationUnit cu = TestUtil.ParseProgram(program);
+			AssignmentExpression ass = (AssignmentExpression) TestUtil.GetStatementNodeOf(cu, 1);
+			PrimitiveExpression nl = (PrimitiveExpression) ass.Right;
+			TypeReference type = GetType(nl);
+			Assert.AreEqual("java.lang.Long", type.Type);
+		}
 	}
 }

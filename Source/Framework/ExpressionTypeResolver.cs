@@ -318,7 +318,11 @@ namespace Janett.Framework
 					else if (csharpType == "string")
 						javaType = "java.lang.String";
 					else
+					{
+						if (csharpType.ToLower().StartsWith("u"))
+							csharpType = csharpType.Remove(0, 1);
 						javaType = (string) TypeReference.PrimitiveTypesJava[csharpType];
+					}
 					TypeReference typeReference = new TypeReference(javaType, javaType);
 					typeReference.Parent = expression.Parent;
 					return typeReference;
