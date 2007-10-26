@@ -215,6 +215,7 @@ namespace Janett.Translator
 		{
 			FieldDeclaration newField = new FieldDeclaration(null);
 			newField.TypeReference = new TypeReference(parentTypeName);
+			newField.TypeReference.RankSpecifier = new int[0];
 			newField.Fields.Add(new VariableDeclaration(parentTypeName));
 			return newField;
 		}

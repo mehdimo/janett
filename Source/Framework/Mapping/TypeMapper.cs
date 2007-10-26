@@ -45,6 +45,8 @@ namespace Janett.Framework
 
 		public override object TrackedVisitIdentifierExpression(IdentifierExpression identifierExpression, object data)
 		{
+			if (identifierExpression.Parent is InvocationExpression)
+				return null;
 			IList staticTypes = new ArrayList();
 
 			staticTypes.Add("java.lang.String");
