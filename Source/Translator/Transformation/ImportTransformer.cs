@@ -10,9 +10,12 @@ namespace Janett.Translator
 
 		public override object TrackedVisitUsing(Using usi, object data)
 		{
-			string key = ContainsKey(usi.Name);
-			if (key != null)
-				usi.Name = usi.Name.Replace(key, "@" + key);
+			if (Mode == "IKVM")
+			{
+				string key = ContainsKey(usi.Name);
+				if (key != null)
+					usi.Name = usi.Name.Replace(key, "@" + key);
+			}
 
 			if (usi.Name.EndsWith(".*"))
 			{

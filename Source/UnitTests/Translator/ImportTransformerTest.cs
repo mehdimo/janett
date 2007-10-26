@@ -27,12 +27,13 @@ namespace Janett.Translator
 		}
 
 		[Test]
-		public void DotNetKeywordInUsing()
+		public void CSharpKeywordInUsing()
 		{
 			string program = "package Test; import java.lang.ref.SoftReference; import javax.print.event.*; public class A {}";
 			string expected = "namespace Test { using SoftReference = java.lang.@ref.SoftReference; using javax.print.@event; public class A {} }";
 
 			CompilationUnit cu = TestUtil.ParseProgram(program);
+			importTransformer.Mode = "IKVM";
 			importTransformer.VisitCompilationUnit(cu, null);
 			TestUtil.CodeEqual(expected, TestUtil.GenerateCode(cu));
 		}
