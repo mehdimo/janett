@@ -491,7 +491,7 @@ namespace Janett.Framework
 
 		private void ReplaceCurrentNode(INode oldNode, INode[] newNodes)
 		{
-			BlockStatement blockStatement = (BlockStatement) AstUtil.GetParentOfType(oldNode, typeof(BlockStatement));
+			BlockStatement blockStatement = GetAppropriateBlock(oldNode);
 
 			ArrayList beforeCurrentNodes = new ArrayList();
 			ArrayList afterCurrentNodes = new ArrayList();
@@ -503,11 +503,82 @@ namespace Janett.Framework
 
 			ReplaceCurrentNode(newCurrentNode);
 
-			if (afterCurrentNodes.Count > 0)
-				InsertSidesOfCurrentNode(afterCurrentNodes, blockStatement, index, Position.After);
+			if (blockStatement != null)
+			{
+				if (blockStatement.Parent is IfElseStatement || blockStatement.Parent is ElseIfSection)
+				{
+					beforeCurrentNodes.AddRange(afterCurrentNodes);
+					afterCurrentNodes.Clear();
+				}
+				if (afterCurrentNodes.Count > 0)
+					InsertSidesOfCurrentNode(afterCurrentNodes, blockStatement, index, Position.After);
 
-			if (beforeCurrentNodes.Count > 0)
-				InsertSidesOfCurrentNode(beforeCurrentNodes, blockStatement, index, Position.Before);
+				if (beforeCurrentNodes.Count > 0)
+					InsertSidesOfCurrentNode(beforeCurrentNodes, blockStatement, index, Position.Before);
+			}
+		}
+
+		private BlockStatement GetAppropriateBlock(INode node)
+		{
+			if (IsInIfCondition(node))
+			{
+				IfElseStatement ifElse = (IfElseStatement) AstUtil.GetParentOfType(node, typeof(IfElseStatement));
+				if (ifElse.TrueStatement[0] is BlockStatement)
+					return (BlockStatement) ifElse.TrueStatement[0];
+			}
+			else if (IsInElseIfCondition(node))
+			{
+				ElseIfSection elseIf = (ElseIfSection) AstUtil.GetParentOfType(node, typeof(ElseIfSection));
+				if (elseIf.EmbeddedStatement is BlockStatement)
+					return (BlockStatement) elseIf.EmbeddedStatement;
+			}
+			return (BlockStatement) AstUtil.GetParentOfType(node, typeof(BlockStatement));
+		}
+
+		private bool IsInIfCondition(INode node)
+		{
+			return IsInCondition(node, typeof(IfElseStatement), GetIfConditionHashCode);
+		}
+
+		private bool IsInElseIfCondition(INode node)
+		{
+			return IsInCondition(node, typeof(ElseIfSection), GetElseIfConditionHashCode);
+		}
+
+		private bool IsInCondition(INode node, System.Type conditionType, GetConditionHashCode GetConditionHashCode)
+		{
+			INode lastNode = node;
+			INode currentNode = node.Parent;
+			while (currentNode != null && !(currentNode is BlockStatement))
+			{
+				if (currentNode.GetType() == conditionType)
+				{
+					if (GetConditionHashCode(currentNode) == lastNode.GetHashCode())
+						return true;
+					else
+						return false;
+				}
+				else
+				{
+					lastNode = currentNode;
+					currentNode = currentNode.Parent;
+				}
+			}
+			return false;
+		}
+
+		private delegate int GetConditionHashCode(INode node);
+
+		private int GetIfConditionHashCode(INode node)
+		{
+			IfElseStatement ifElse = (IfElseStatement) node;
+			return ifElse.Condition.GetHashCode();
+		}
+
+		private int GetElseIfConditionHashCode(INode node)
+		{
+			ElseIfSection elseIf = (ElseIfSection) node;
+			return elseIf.Condition.GetHashCode();
 		}
 
 		private INode Partition(INode[] nodes, ArrayList beforeCurrentNodes, ArrayList afterCurrentNodes)
@@ -573,7 +644,7 @@ namespace Janett.Framework
 					index++;
 				}
 			}
-			return index;
+			return 0;
 		}
 
 		protected bool MatchArguments(List<ParameterDeclarationExpression> parameters, List<Expression> arguments)
