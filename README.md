@@ -6,7 +6,7 @@ Java to C#.Net Translator
 Usage
 -----
 
--   [UsersGuide](UsersGuide), [TranslateXml](TranslateXml),
+-   [UsersGuide](https://github.com/mehdimo/janett/wiki/UsersGuide), [TranslateXml](TranslateXml),
     [JanettOptions](JanettOptions)
 
 -   [KnownIssues](KnownIssues), [JavaParser](JavaParser)
