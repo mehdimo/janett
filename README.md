@@ -9,7 +9,7 @@ Janett takes a different way compared to [JLCA](https://github.com/mehdimo/janet
 - It aims to translate libraries and frameworks rather than applications (Swing, JSP, EJB, ...) , however it caries out this task right.
 - It released as open source (under LGPL license), and to support open source projects.
 
-Currently, Janett can translate [Classifier4J](Classifier4J) and a lot of infrastructures are in place. Version number shows that Janett has beta quality and that there are [KnownIssues](KnownIssues), but we recommend [trying](https://github.com/mehdimo/janett/releases/tag/v0.7.0) Janett.
+Currently, Janett can translate [Classifier4J](https://github.com/mehdimo/janett/wiki/Classifier4J) and a lot of infrastructures are in place. Version number shows that Janett has beta quality and that there are [KnownIssues](https://github.com/mehdimo/janett/wiki/KnownIssues), but we recommend [trying](https://github.com/mehdimo/janett/releases/tag/v0.7.0) Janett.
 
 While supporting Janett, we try to translate some projects as a case. For the next release, we are going to work on some parts of [Spring framework](http://projects.spring.io/spring-framework).
 
